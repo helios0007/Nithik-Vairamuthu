@@ -8,6 +8,8 @@ export type Project = {
   year?: string
   status?: string
   link?: string
+    downloadFile?: string
+  downloadLabel?: string
 }
 
 export const projects: Project[] = [
