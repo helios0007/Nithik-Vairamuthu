@@ -180,11 +180,11 @@ export default function Home() {
                     Tutor
                   </p>
                   <h3 className="mt-2 text-xl font-medium text-white">
-                    Parametric Workshop 
+                    Parametric Workshop
                   </h3>
                   <p className="mt-2 text-zinc-300">
-                    Mysore School of Architecture — assisted in organizing and conducting a
-                    3-day parametric workshop.
+                    Mysore School of Architecture — assisted in organizing and
+                    conducting a 3-day parametric workshop.
                   </p>
                 </div>
                 <p className="shrink-0 font-mono text-sm text-cyan-300">
@@ -251,23 +251,31 @@ export default function Home() {
           />
           <div className="grid gap-6 md:grid-cols-3">
             <div className="rounded-3xl border border-cyan-500/10 bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">AI / Vision</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">
+                AI / Vision
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Python","PyTorch","OpenCV","SAM","Image Segmentation","Regression Models","Stable Diffusion"].map((item) => (
                   <span key={item} className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">{item}</span>
                 ))}
               </div>
             </div>
+
             <div className="rounded-3xl border border-cyan-500/10 bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">Design / Spatial</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">
+                Design / Spatial
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Grasshopper","Rhino","Computational Design","Parametric Design","Architecture","Adaptive Environments"].map((item) => (
                   <span key={item} className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">{item}</span>
                 ))}
               </div>
             </div>
+
             <div className="rounded-3xl border border-cyan-500/10 bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">Hardware / Systems</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">
+                Hardware / Systems
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Arduino","ESP32","Sensor Integration","Strategic Thinking","Systems Design"].map((item) => (
                   <span key={item} className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">{item}</span>
@@ -282,7 +290,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Publication"
             title="Selected publication"
-            description="A published exploration connecting computation, geometry, and habitat systems."
+            description="Academic research and conference presentations on computational design and spatial systems."
           />
           <div className="rounded-3xl border border-cyan-500/10 bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
             <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">Nov 2025</p>
@@ -293,7 +301,7 @@ export default function Home() {
           </div>
         </section>
 
-    {/* ── CONTACT ──────────────────────────────────────────── */}
+        {/* ── CONTACT ──────────────────────────────────────────── */}
         <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
           <SectionHeading
             eyebrow="Contact"
@@ -336,12 +344,13 @@ export default function Home() {
             </a>
 
             <a
-              href="/Nithik-Portfolio.pdf"
-              download
+              href="https://heyzine.com/flip-book/ee227fe631.html"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm text-cyan-200 transition hover:bg-cyan-400/20"
-            >
-              ↓ Portfolio
-            </a>
+>
+  Portfolio →
+</a>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-6">

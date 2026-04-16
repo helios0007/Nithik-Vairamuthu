@@ -67,11 +67,12 @@ export default function Navbar() {
 
 {/* Portfolio */}
 <a
-  href="/Nithik-Portfolio.pdf"
-  download
+  href="https://heyzine.com/flip-book/ee227fe631.html"
+  target="_blank"
+  rel="noopener noreferrer"
   className="flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-cyan-200 transition hover:bg-cyan-400/20"
 >
-  ↓ Portfolio
+  Portfolio →
 </a>
         </div>
       </nav>
