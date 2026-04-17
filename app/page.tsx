@@ -305,7 +305,7 @@ export default function Home() {
         <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
           <SectionHeading
             eyebrow="Contact"
-            title="Let's connect"
+            title="To infinity and beyond"
             description="For collaborations, research conversations, and future-focused design work, feel free to reach out."
           />
 
