@@ -86,8 +86,7 @@ function handleMouseEnter() {
             borderRadius: '28px',
           }}
         >
-          <source src="/hero-animation.webm" type="video/webm" />
-          <source src="/hero-animation.mp4" type="video/mp4" />
+            <source src="/hero-animation.mp4" type="video/mp4" />
         </video>
       </div>
     </div>

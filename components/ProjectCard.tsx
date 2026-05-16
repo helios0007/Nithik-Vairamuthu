@@ -2,20 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-
-type Project = {
-  slug: string
-  title: string
-  description: string
-  tags: string[]
-  cover?: string
-  spreads?: string[]
-  year?: string
-  status?: string
-  link?: string
-  downloadFile?: string
-  downloadLabel?: string
-}
+import Image from 'next/image'
+import type { Project } from '../data/projects'
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false)
@@ -24,10 +12,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   const images = project.spreads ?? (project.cover ? [project.cover] : [])
 
-  // needed for portal — only runs client side
   useEffect(() => { setMounted(true) }, [])
 
-  // keyboard navigation
   useEffect(() => {
     if (!open) return
     const handler = (e: KeyboardEvent) => {
@@ -39,7 +25,6 @@ export default function ProjectCard({ project }: { project: Project }) {
     return () => window.removeEventListener('keydown', handler)
   }, [open, images.length])
 
-  // lock body scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -50,14 +35,14 @@ export default function ProjectCard({ project }: { project: Project }) {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 2147483647, // max possible z-index
+        zIndex: 2147483647,
         backgroundColor: '#000000',
         display: 'flex',
         flexDirection: 'column',
         isolation: 'isolate',
       }}
     >
-      {/* ── Top bar ── */}
+      {/* Top bar */}
       <div
         style={{
           backgroundColor: '#000000',
@@ -77,7 +62,6 @@ export default function ProjectCard({ project }: { project: Project }) {
             {activeIndex + 1} / {images.length}
           </p>
         </div>
-
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <span style={{ fontFamily: 'monospace', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(100,100,100,0.6)' }}>
             ← → navigate · esc close
@@ -91,7 +75,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      {/* ── Image area ── */}
+      {/* Image area */}
       <div
         style={{
           flex: 1,
@@ -103,7 +87,6 @@ export default function ProjectCard({ project }: { project: Project }) {
           overflow: 'hidden',
         }}
       >
-        {/* Prev */}
         {images.length > 1 && (
           <button
             onClick={() => setActiveIndex((i) => (i - 1 + images.length) % images.length)}
@@ -121,6 +104,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           </button>
         )}
 
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           key={activeIndex}
           src={images[activeIndex]}
@@ -134,7 +118,6 @@ export default function ProjectCard({ project }: { project: Project }) {
           }}
         />
 
-        {/* Next */}
         {images.length > 1 && (
           <button
             onClick={() => setActiveIndex((i) => (i + 1) % images.length)}
@@ -153,7 +136,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         )}
       </div>
 
-      {/* ── Thumbnail strip ── */}
+      {/* Thumbnail strip */}
       {images.length > 1 && (
         <div
           style={{
@@ -168,6 +151,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           }}
         >
           {images.map((img, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               key={i}
               src={img}
@@ -193,62 +177,79 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <>
-      {/* ── Card ─────────────────────────────────────────────── */}
-      <div className="group flex flex-col rounded-3xl border border-cyan-500/10 bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
+      {/* Card */}
+      <div className="group flex flex-col overflow-hidden rounded-3xl border border-cyan-500/10 bg-white/[0.03] backdrop-blur-sm transition hover:border-cyan-500/20 hover:bg-white/[0.05]">
 
-        <div className="mb-3 flex items-center justify-between">
-          {project.year && (
-            <span className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">
-              {project.year}
-            </span>
-          )}
-          {project.status && (
-            <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-cyan-300">
-              {project.status}
-            </span>
-          )}
-        </div>
+        {/* Image preview */}
+        {images.length > 0 && (
+          <div className="relative h-44 overflow-hidden">
+            <Image
+              src={images[0]}
+              alt={project.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover opacity-50 transition-all duration-500 group-hover:opacity-75 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080810]" />
+          </div>
+        )}
 
-        <h3 className="text-lg font-medium text-white">{project.title}</h3>
+        {/* Content */}
+        <div className="flex flex-1 flex-col p-6">
+          <div className="mb-3 flex items-center justify-between">
+            {project.year && (
+              <span className="font-mono text-[10px] uppercase tracking-widest text-cyan-500/50">
+                {project.year}
+              </span>
+            )}
+            {project.status && (
+              <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-cyan-300">
+                {project.status}
+              </span>
+            )}
+          </div>
 
-        <p className="mt-2 flex-1 text-sm leading-7 text-zinc-400">
-          {project.description}
-        </p>
+          <h3 className="text-lg font-medium text-white">{project.title}</h3>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-zinc-400"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+          <p className="mt-2 flex-1 text-sm leading-7 text-zinc-400">
+            {project.description}
+          </p>
 
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          {images.length > 0 && (
-            <button
-              onClick={() => { setActiveIndex(0); setOpen(true) }}
-              className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-widest text-cyan-400 transition hover:text-cyan-300"
-            >
-              View Spreads ({images.length}) →
-            </button>
-          )}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-zinc-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
 
-          {project.downloadFile && (
-            <a
-              href={project.downloadFile}
-              download
-              className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-widest text-cyan-400 transition hover:text-cyan-300"
-            >
-              ↓ {project.downloadLabel ?? 'Download'}
-            </a>
-          )}
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            {images.length > 0 && (
+              <button
+                onClick={() => { setActiveIndex(0); setOpen(true) }}
+                className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-widest text-cyan-400 transition hover:text-cyan-300"
+              >
+                View Spreads ({images.length}) →
+              </button>
+            )}
+
+            {project.downloadFile && (
+              <a
+                href={project.downloadFile}
+                download
+                className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-widest text-cyan-400 transition hover:text-cyan-300"
+              >
+                ↓ {project.downloadLabel ?? 'Download'}
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* ── Portal lightbox — renders directly into document.body ── */}
+      {/* Portal lightbox */}
       {open && mounted && images.length > 0 &&
         createPortal(lightbox, document.body)
       }

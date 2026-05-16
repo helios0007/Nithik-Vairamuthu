@@ -330,9 +330,19 @@ function drawNebula() {
 
     animate()
 
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId)
+      } else {
+        animate()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+
     return () => {
       cancelAnimationFrame(animationId)
       window.removeEventListener('resize', resize)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
    return (
