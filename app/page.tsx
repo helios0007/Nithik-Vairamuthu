@@ -373,7 +373,7 @@ export default function Home() {
               </a>
 
               <a
-                href="https://heyzine.com/flip-book/ee227fe631.html"
+                href="https://heyzine.com/flip-book/0bcd06bf33.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm text-cyan-200 transition hover:bg-cyan-400/20"
