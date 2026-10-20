@@ -1,9 +1,9 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-// Fullscreen image viewer. Rendered into document.body so it sits above the background canvas.
+// Fullscreen image viewer, rendered into document.body above everything else.
 export default function Lightbox({
   images,
   title,
@@ -35,7 +35,7 @@ export default function Lightbox({
   }, [count, onClose])
 
   const arrowClass =
-    'absolute z-10 flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/20 bg-black font-mono text-cyan-300 hover:border-cyan-400/50'
+    'absolute z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black text-white hover:border-white/60'
 
   return createPortal(
     <div
@@ -45,21 +45,16 @@ export default function Lightbox({
       className="fixed inset-0 flex flex-col bg-black"
       style={{ zIndex: 2147483647, isolation: 'isolate' }}
     >
-      <div className="flex shrink-0 items-center justify-between border-b border-cyan-400/10 px-6 py-4">
-        <div className="font-mono text-[10px] uppercase tracking-widest">
-          <p className="text-cyan-400/60">{title}</p>
-          <p className="mt-1 text-cyan-400/30">
+      <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-6 py-4">
+        <div className="text-sm">
+          <p className="font-medium text-white">{title}</p>
+          <p className="mt-1 text-white/50">
             {activeIndex + 1} / {count}
           </p>
         </div>
         <div className="flex items-center gap-6">
-          <span className="hidden font-mono text-[9px] uppercase tracking-widest text-zinc-600 sm:inline">
-            ← → navigate · esc close
-          </span>
-          <button
-            onClick={onClose}
-            className="font-mono text-[11px] uppercase tracking-widest text-cyan-300 hover:text-white"
-          >
+          <span className="hidden text-sm text-white/40 sm:inline">← → navigate · esc close</span>
+          <button onClick={onClose} className="text-sm font-medium text-white hover:text-white/70">
             Close ✕
           </button>
         </div>

@@ -1,96 +1,107 @@
+import Image from "next/image";
 import Link from "next/link";
 import ProjectCard from "../components/ProjectCard";
-import SectionHeading from "../components/SectionHeading";
-import HeroPortrait from "../components/HeroPortrait";
-import Reveal from "../components/Reveal";
 import Contact from "../components/Contact";
 import { featuredProjects } from "../data/projects";
+import { links, publications } from "../data/site";
 
 export default function Home() {
   return (
-    <main className="relative z-10 min-h-screen text-white">
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section id="home" className="relative mx-auto min-h-screen max-w-6xl px-4 py-24 pt-32 sm:px-6">
-        <div className="grid min-h-[80vh] items-center gap-16 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <p className="mb-4 text-lg text-cyan-300 sm:text-xl">Hi, I&apos;m</p>
-
-            <h1 className="font-[family:var(--font-display)] text-6xl font-light leading-none tracking-tighter sm:text-8xl lg:text-[6.5rem]">
-              <span className="block">Nithik</span>
-              <span className="block text-zinc-500">Vairamuthu</span>
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-xl leading-9 text-zinc-200 sm:text-2xl sm:leading-10">
-              I keep asking how we&apos;ll live tomorrow, on Earth and maybe beyond it. Then I build the tools to
-              help find out.
-            </p>
-
-            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-zinc-500">
-              Architect · Computational Designer · AI for the Built Environment
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="#work"
-                className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm text-cyan-200 transition hover:bg-cyan-400/20"
-              >
-                View work
-              </a>
-              <a
-                href="#contact"
-                className="rounded-full border border-white/15 px-5 py-3 text-sm text-white transition hover:border-white/30 hover:bg-white/5"
-              >
-                Contact
-              </a>
-            </div>
-
-            <div className="mt-12 flex flex-wrap gap-6 font-mono text-[10px] uppercase tracking-widest text-cyan-500/40">
-              <span>41.38°N 2.17°E</span>
-              <span>IAAC // MaAI</span>
-              <span>2025 — 2027</span>
-            </div>
+    <main id="main">
+      {/* ── HERO ── */}
+      <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 pt-12 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:pt-20">
+        <div>
+          <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl">
+            Hi, I&apos;m <span className="text-accent">Nithik</span>.
+          </h1>
+          <p className="mt-6 max-w-xl text-xl leading-9 sm:text-2xl sm:leading-10">
+            I keep asking how we&apos;ll live tomorrow, on Earth and maybe beyond it. Then I build the tools to help
+            find out.
+          </p>
+          <p className="mt-4 text-muted">
+            Architect · Computational designer · AI for the built environment at IAAC Barcelona
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#work" className="rounded-full bg-ink px-6 py-3 font-medium text-white transition hover:bg-accent">
+              See my work
+            </a>
+            <a href={links.resume} download className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
+              Download CV ↓
+            </a>
           </div>
+        </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <HeroPortrait />
+        <div className="relative mx-auto aspect-square w-full max-w-md">
+          <Image
+            src="/PP.png"
+            alt="Portrait of Nithik Vairamuthu"
+            fill
+            loading="eager"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 90vw, 448px"
+            className="object-contain"
+          />
+        </div>
+      </section>
+
+      {/* ── WHO IS THIS GUY ── */}
+      <section id="about" className="border-t border-line">
+        <div className="mx-auto grid max-w-5xl gap-6 px-4 py-20 sm:px-6 sm:py-24 md:grid-cols-[1fr_1.4fr] md:gap-12">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Who is this guy?</h2>
+          <div className="space-y-5 text-lg leading-8 text-muted">
+            <p>
+              An architect who never really left architecture. I just started asking it bigger questions, and AI is
+              how I chase them.
+            </p>
+            <p>
+              Right now that&apos;s at IAAC Barcelona, in a Master&apos;s in AI for Architecture and the Built
+              Environment.
+            </p>
+            <Link href="/about" className="inline-block font-medium text-accent hover:underline hover:underline-offset-4">
+              The longer story →
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── SELECTED WORK ────────────────────────────────────── */}
-      <section id="work" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Selected work"
-            title="Research and case studies"
-            description="Each project covers the problem, what I built, the decisions along the way, and how it turned out."
-          />
-        </Reveal>
+      {/* ── WORK ── */}
+      <section id="work" className="scroll-mt-20 border-t border-line">
+        <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
+          <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
+            I ask questions
+            <span className="block text-muted">and</span>
+            build tools
+            <span className="block text-muted">to answer them.</span>
+          </h2>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {featuredProjects.map((project, i) => (
-            <Reveal key={project.slug} delay={(i % 2) * 120}>
-              <ProjectCard project={project} priority={i < 2} />
-            </Reveal>
+          <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2">
+            {featuredProjects.map((project, i) => (
+              <ProjectCard key={project.slug} project={project} priority={i < 2} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PUBLICATION ── */}
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Published</h2>
+          {publications.map((pub) => (
+            <div key={pub.title} className="mt-8 rounded-xl bg-paper-2 p-6 sm:p-8">
+              <p className="text-sm text-muted">{pub.when}</p>
+              <h3 className="mt-2 text-xl font-bold leading-snug sm:text-2xl">{pub.title}</h3>
+              <p className="mt-2 text-muted">{pub.venue}</p>
+              <div className="mt-5 flex flex-wrap gap-6 font-medium text-accent">
+                <a href={pub.href} download className="hover:underline hover:underline-offset-4">
+                  Read the paper ↓
+                </a>
+                <Link href={`/projects/${pub.projectSlug}`} className="hover:underline hover:underline-offset-4">
+                  The project →
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
-      </section>
-
-      {/* ── SHORT ABOUT ──────────────────────────────────────── */}
-      <section id="about" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-        <Reveal>
-          <SectionHeading
-            eyebrow="About"
-            title="Who is this guy?"
-            description="An architect who never really left architecture. I just started asking it bigger questions, and AI is how I chase them. Right now that's at IAAC Barcelona, in a Master's in AI for Architecture and the Built Environment."
-          />
-          <Link
-            href="/about"
-            className="font-mono text-[11px] uppercase tracking-widest text-cyan-300 transition hover:text-white"
-          >
-            The longer story →
-          </Link>
-        </Reveal>
       </section>
 
       <Contact />

@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import Cursor from "../components/Cursor";
-import JarvisBg from "../components/JarvisBg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s — Nithik Vairamuthu",
   },
   description:
-    "Portfolio of Nithik Vairamuthu — AI for Architecture, computational design, and urban research.",
+    "Nithik Vairamuthu — architect and computational designer building AI tools for architects, engineers and urban planners.",
 };
 
 export default function RootLayout({
@@ -32,10 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={dmSans.variable}>
       <body>
-        <Cursor />
-        <JarvisBg />
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+        >
+          Skip to content
+        </a>
         <Navbar />
         {children}
         <Footer />

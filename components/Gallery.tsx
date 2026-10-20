@@ -16,7 +16,7 @@ export default function Gallery({ images, title }: { images: string[]; title: st
           <button
             key={src}
             onClick={() => setOpenAt(i)}
-            className="group relative aspect-[3/2] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] text-left"
+            className="group relative aspect-[3/2] overflow-hidden rounded-xl bg-paper-2"
             aria-label={`Open ${title} image ${i + 1} fullscreen`}
           >
             <Image
@@ -26,7 +26,7 @@ export default function Gallery({ images, title }: { images: string[]; title: st
               sizes="(max-width: 640px) 100vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-[1.03]"
             />
-            <span className="absolute bottom-3 right-3 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-cyan-200 opacity-0 transition group-hover:opacity-100">
+            <span className="absolute bottom-3 right-3 rounded-full bg-white px-3 py-1 text-sm font-medium opacity-0 shadow transition group-hover:opacity-100">
               View full ↗
             </span>
           </button>

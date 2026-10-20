@@ -22,21 +22,19 @@ Next.js App Router portfolio site, being redesigned per `../website-redesign-bri
 
 **Routes**
 - `app/layout.tsx` — global metadata (title template), fonts (`--font-body` Inter, `--font-display` Space Grotesk), and the shared shell: `Cursor`, `JarvisBg`, `Navbar`, `Footer`.
-- `app/page.tsx` — home: hero, selected work (`featuredProjects`), short about, contact.
+- `app/page.tsx` — home, one long page (Kantwon-style): hero with photo, "Who is this guy?", work, published, contact.
 - `app/projects/[slug]/page.tsx` — case-study page, statically generated from `data/projects.ts` (`dynamicParams = false`).
-- `app/about/page.tsx` — bio, experience, education, skills, publication (content from `data/site.ts`).
+- `app/about/page.tsx` — full bio, experience, education, toolbox (content from `data/site.ts`).
 
 **Content rules**
 - Never invent project facts. Empty case-study fields render a `Placeholder` (dev only) and are hidden in production.
 - Projects with `draft: true` appear only in `npm run dev`.
 
 **Components**
-- `JarvisBg` — `'use client'` canvas animation (stars, orbits, HUD labels) fixed at `z-index: 0` behind all content.
-- `HeroPortrait` — `'use client'` video card with mouse-tilt 3D transform and autoplay-on-hover logic.
 - `ProjectCard` — server component; links to `/projects/<slug>`, first spread is the cover.
-- `Gallery` + `Lightbox` — `'use client'`; lightbox portals into `document.body` at `z-index: 2147483647` to sit above the canvas.
+- `Gallery` + `Lightbox` — `'use client'`; lightbox portals into `document.body`.
 - `Placeholder` — dashed "To fill in" box shown only when `NODE_ENV === 'development'`.
-- `Navbar`, `Footer`, `Contact`, `SectionHeading` — server components.
+- `Navbar`, `Footer`, `Contact` — server components.
 
 **Data**
 - `data/projects.ts` — `Project` type (hook, year, status, tags, spreads, plus case-study fields: context, role, team, stack, problems[{problem, decision}], outcome, links) and helpers `visibleProjects`, `featuredProjects`, `getProject`.
@@ -45,6 +43,7 @@ Next.js App Router portfolio site, being redesigned per `../website-redesign-bri
 
 **Styling**
 - Tailwind 4 — imported via `@import "tailwindcss"` in `globals.css` (not the legacy `@tailwind` directives).
-- Design tokens live in `globals.css` `:root`: `--background: #080810`, `--cyan`, `--cyan-dim`, `--cyan-mid`.
-- Portrait card layout (glow, grid overlay, tilt animation) is implemented as named CSS classes in `globals.css` (`portrait-wrap`, `portrait-card`, `portrait-glow`, `portrait-grid`) rather than Tailwind utilities, because they require pseudo-elements and complex layering.
-- Maintain the cyan HUD aesthetic: `cyan-500/10` borders, `white/[0.03]` backgrounds, `font-mono text-[10px] uppercase tracking-widest` labels.
+- Simple, light, Kantwon-inspired look: white page, black text, one blue accent, big bold headings, thin dividers. No background animations.
+- Design tokens in `globals.css` `@theme`: `paper`, `paper-2`, `ink`, `muted`, `line`, `accent` → use as `bg-paper`, `text-muted`, `border-line`, `text-accent`, etc.
+- Font: DM Sans via `next/font` (`--font-body`). Hero photo: `public/PP.png`.
+- Git: work on the `redesign` branch and push there; `main` is the live site.

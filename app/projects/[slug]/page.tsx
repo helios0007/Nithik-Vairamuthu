@@ -30,9 +30,9 @@ const has = (list?: unknown[]) => !!list && list.length > 0;
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="grid gap-4 border-t border-white/10 py-12 md:grid-cols-[200px_1fr] md:gap-10">
-      <h2 className="font-mono text-[11px] uppercase tracking-widest text-cyan-400/70">{title}</h2>
-      <div className="max-w-2xl space-y-5 text-lg leading-8 text-zinc-300">{children}</div>
+    <section className="grid gap-4 border-t border-line py-12 md:grid-cols-[1fr_2fr] md:gap-12">
+      <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
+      <div className="space-y-5 text-lg leading-8">{children}</div>
     </section>
   );
 }
@@ -47,6 +47,14 @@ function Paragraphs({ items }: { items: string[] }) {
   );
 }
 
+function Todo({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="py-3">
+      <Placeholder>{children}</Placeholder>
+    </div>
+  );
+}
+
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
@@ -55,58 +63,54 @@ export default async function ProjectPage({ params }: Props) {
   const index = visibleProjects.findIndex((p) => p.slug === project.slug);
   const nextProject = visibleProjects[(index + 1) % visibleProjects.length];
   const cover = project.spreads[0];
+  const isDev = process.env.NODE_ENV === "development";
 
   return (
-    <main className="relative z-10 min-h-screen pt-28 text-white">
-      <article className="mx-auto max-w-6xl px-4 sm:px-6">
+    <main id="main">
+      <article className="mx-auto max-w-5xl px-4 sm:px-6">
         {/* ── Header ── */}
-        <header className="py-10">
-          <Link
-            href="/#work"
-            className="font-mono text-[11px] uppercase tracking-widest text-zinc-500 transition hover:text-cyan-300"
-          >
+        <header className="pb-10 pt-10 md:pt-16">
+          <Link href="/#work" className="text-muted transition hover:text-ink">
             ← All work
           </Link>
-          <p className="mt-10 font-mono text-[11px] uppercase tracking-widest text-cyan-400/70">
+          <p className="mt-10 text-muted">
             {project.year} · {project.status}
           </p>
-          <h1 className="mt-4 text-5xl font-light leading-none tracking-tighter sm:text-7xl">{project.title}</h1>
-          <p className="mt-6 max-w-3xl text-xl leading-9 text-zinc-300">{project.hook}</p>
+          <h1 className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl">{project.title}</h1>
+          <p className="mt-6 max-w-3xl text-xl leading-9 sm:text-2xl sm:leading-10">{project.hook}</p>
 
           {/* Quick facts — what a reviewer scans first */}
-          <dl className="mt-10 grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-3">
+          <dl className="mt-10 grid gap-6 rounded-xl bg-paper-2 p-6 sm:grid-cols-3">
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Focus</dt>
-              <dd className="mt-2 text-zinc-200">{project.tags.join(" · ")}</dd>
+              <dt className="text-sm font-bold">Focus</dt>
+              <dd className="mt-1 text-muted">{project.tags.join(" · ")}</dd>
             </div>
-            {(has(project.stack) || process.env.NODE_ENV === "development") && (
+            {(has(project.stack) || isDev) && (
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Stack</dt>
-                <dd className="mt-2 text-zinc-200">
+                <dt className="text-sm font-bold">Stack</dt>
+                <dd className="mt-1 text-muted">
                   {has(project.stack) ? project.stack!.join(" · ") : <Placeholder>Tools used.</Placeholder>}
                 </dd>
               </div>
             )}
             {project.team && (
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Team</dt>
-                <dd className="mt-2 text-zinc-200">{project.team}</dd>
+                <dt className="text-sm font-bold">Team</dt>
+                <dd className="mt-1 text-muted">{project.team}</dd>
               </div>
             )}
           </dl>
 
           {has(project.links) && (
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-wrap gap-3">
               {project.links!.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   {...(link.download ? { download: true } : { target: "_blank", rel: "noopener noreferrer" })}
-                  className="inline-flex rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm text-cyan-200 transition hover:bg-cyan-400/20"
+                  className="rounded-full bg-ink px-6 py-3 font-medium text-white transition hover:bg-accent"
                 >
-                  {link.download ? "↓ " : ""}
-                  {link.label}
-                  {link.download ? "" : " ↗"}
+                  {link.label} {link.download ? "↓" : "↗"}
                 </a>
               ))}
             </div>
@@ -114,8 +118,16 @@ export default async function ProjectPage({ params }: Props) {
         </header>
 
         {cover && (
-          <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-3xl border border-white/10">
-            <Image src={cover} alt={`${project.title} — cover`} fill loading="eager" fetchPriority="high" sizes="(max-width: 1152px) 100vw, 1152px" className="object-cover" />
+          <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-xl bg-paper-2">
+            <Image
+              src={cover}
+              alt={`${project.title} — cover`}
+              fill
+              loading="eager"
+              fetchPriority="high"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+            />
           </div>
         )}
 
@@ -125,9 +137,9 @@ export default async function ProjectPage({ params }: Props) {
             <Paragraphs items={project.context!} />
           </Section>
         ) : (
-          <Placeholder>
+          <Todo>
             <strong>Context</strong> — the problem and why it matters. Who has this problem, and what happens today?
-          </Placeholder>
+          </Todo>
         )}
 
         {has(project.role) ? (
@@ -135,12 +147,10 @@ export default async function ProjectPage({ params }: Props) {
             <Paragraphs items={project.role!} />
           </Section>
         ) : (
-          <div className="mt-4">
-            <Placeholder>
-              <strong>My role</strong> — exactly what you built yourself vs. what the team did. Also set{" "}
-              <code>team</code> (e.g. &quot;Team of 3 — IAAC studio&quot;).
-            </Placeholder>
-          </div>
+          <Todo>
+            <strong>My role</strong> — exactly what you built yourself vs. what the team did. Also set <code>team</code>{" "}
+            (e.g. &quot;Team of 3 — IAAC studio&quot;).
+          </Todo>
         )}
 
         {has(project.problems) ? (
@@ -148,12 +158,10 @@ export default async function ProjectPage({ params }: Props) {
             <ol className="space-y-8">
               {project.problems!.map((item, i) => (
                 <li key={item.problem}>
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-                    Problem {String(i + 1).padStart(2, "0")}
-                  </p>
-                  <p className="mt-2 text-white">{item.problem}</p>
+                  <p className="text-sm font-bold text-muted">Problem {i + 1}</p>
+                  <p className="mt-1 font-medium">{item.problem}</p>
                   <p className="mt-3">
-                    <span className="text-cyan-300">Decision → </span>
+                    <span className="font-bold text-accent">Decision → </span>
                     {item.decision}
                   </p>
                 </li>
@@ -161,12 +169,10 @@ export default async function ProjectPage({ params }: Props) {
             </ol>
           </Section>
         ) : (
-          <div className="mt-4">
-            <Placeholder>
-              <strong>Key decisions</strong> — two concrete technical problems you hit and what you decided (e.g.
-              choice of model, dataset, how you handled bad data, how output fed into design).
-            </Placeholder>
-          </div>
+          <Todo>
+            <strong>Key decisions</strong> — two concrete technical problems you hit and what you decided (e.g. choice
+            of model, dataset, how you handled bad data, how output fed into design).
+          </Todo>
         )}
 
         {has(project.outcome) ? (
@@ -174,29 +180,24 @@ export default async function ProjectPage({ params }: Props) {
             <Paragraphs items={project.outcome!} />
           </Section>
         ) : (
-          <div className="mt-4">
-            <Placeholder>
-              <strong>Outcome</strong> — results, metrics (accuracy, speed, error), what changed, what you&apos;d do next.
-            </Placeholder>
-          </div>
+          <Todo>
+            <strong>Outcome</strong> — results, metrics (accuracy, speed, error), what changed, what you&apos;d do next.
+          </Todo>
         )}
 
         {/* ── Gallery ── */}
         {project.spreads.length > 0 && (
-          <section className="border-t border-white/10 py-12">
-            <h2 className="mb-6 font-mono text-[11px] uppercase tracking-widest text-cyan-400/70">Portfolio spreads</h2>
+          <section className="border-t border-line py-12">
+            <h2 className="mb-6 text-2xl font-bold tracking-tight">From the portfolio</h2>
             <Gallery images={project.spreads} title={project.title} />
           </section>
         )}
 
         {/* ── Next project ── */}
         {nextProject && nextProject.slug !== project.slug && (
-          <Link
-            href={`/projects/${nextProject.slug}`}
-            className="group my-16 block rounded-3xl border border-white/10 bg-white/[0.03] p-8 transition hover:border-cyan-400/30"
-          >
-            <p className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Next project</p>
-            <p className="mt-3 text-3xl font-light tracking-tight transition group-hover:text-cyan-200 sm:text-4xl">
+          <Link href={`/projects/${nextProject.slug}`} className="group block border-t border-line py-16">
+            <p className="text-muted">Next project</p>
+            <p className="mt-2 text-4xl font-bold tracking-tight transition group-hover:text-accent sm:text-5xl">
               {nextProject.title} →
             </p>
           </Link>
