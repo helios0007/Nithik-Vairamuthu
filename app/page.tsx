@@ -13,20 +13,20 @@ export default function Home() {
       <section id="home" className="relative mx-auto min-h-screen max-w-6xl px-4 py-24 pt-32 sm:px-6">
         <div className="grid min-h-[80vh] items-center gap-16 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
-            <p className="mb-4 text-sm uppercase tracking-[0.28em] text-cyan-300">
-              AI Researcher · Architect · Computational Designer
-            </p>
+            <p className="mb-4 text-lg text-cyan-300 sm:text-xl">Hi, I&apos;m</p>
 
             <h1 className="font-[family:var(--font-display)] text-6xl font-light leading-none tracking-tighter sm:text-8xl lg:text-[6.5rem]">
               <span className="block">Nithik</span>
               <span className="block text-zinc-500">Vairamuthu</span>
             </h1>
 
-            {/* Phase 2: rewrite this in Nithik's own voice. */}
-            <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg">
-              Architect and computational designer working at the intersection of AI, generative systems, and
-              spatial intelligence. I build AI-driven design workflows, computer vision pipelines, and adaptive
-              spatial systems for architecture and future habitat environments.
+            <p className="mt-8 max-w-2xl text-xl leading-9 text-zinc-200 sm:text-2xl sm:leading-10">
+              I keep asking how we&apos;ll live tomorrow, on Earth and maybe beyond it. Then I build the tools to
+              help find out.
+            </p>
+
+            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-zinc-500">
+              Architect · Computational Designer · AI for the Built Environment
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
@@ -81,14 +81,14 @@ export default function Home() {
         <Reveal>
           <SectionHeading
             eyebrow="About"
-            title="AI, computation, and future spatial systems"
-            description="My work connects architecture, machine learning, and computational design through image segmentation, generative workflows, and adaptive spatial intelligence. I'm currently doing a Master's in AI for Architecture and the Built Environment at IAAC Barcelona."
+            title="Who is this guy?"
+            description="An architect who never really left architecture. I just started asking it bigger questions, and AI is how I chase them. Right now that's at IAAC Barcelona, in a Master's in AI for Architecture and the Built Environment."
           />
           <Link
             href="/about"
             className="font-mono text-[11px] uppercase tracking-widest text-cyan-300 transition hover:text-white"
           >
-            Experience, education &amp; skills →
+            The longer story →
           </Link>
         </Reveal>
       </section>

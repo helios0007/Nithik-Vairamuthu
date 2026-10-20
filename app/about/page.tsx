@@ -20,20 +20,26 @@ export default function AboutPage() {
       {/* ── INTRO ── */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <p className="mb-4 text-sm uppercase tracking-[0.28em] text-cyan-300">About</p>
-        <h1 className="max-w-3xl text-4xl font-light leading-tight tracking-tight sm:text-6xl">
-          Architect working on AI for the built environment.
-        </h1>
-        {/* Phase 2: replace with a first-person bio in Nithik's own voice. */}
-        <div className="mt-8 max-w-2xl space-y-5 text-lg leading-8 text-zinc-300">
+        <h1 className="max-w-3xl text-5xl font-light leading-tight tracking-tight sm:text-7xl">Who is this guy?</h1>
+        <div className="mt-10 max-w-2xl space-y-6 text-lg leading-8 text-zinc-300 sm:text-xl sm:leading-9">
           <p>
-            I&apos;m an architect and computational designer currently developing AI-driven design workflows at the
-            Institute for Advanced Architecture of Catalonia, focusing on programming, image segmentation pipelines,
-            and computer vision systems.
+            I&apos;m an architect who never really left architecture. I just started asking it bigger questions.
+            What if a building could tell us whether it&apos;s worth saving? What if a city could remember what it used
+            to be? What if we could see a crack before it becomes a problem?
           </p>
           <p>
-            I combine parametric tools with machine learning and hardware experimentation to build adaptive,
-            data-driven spatial systems. I&apos;m especially interested in intelligent environments and the future of
-            habitats in extreme and extraterrestrial contexts.
+            AI is how I chase those questions. I don&apos;t see it as a replacement for designers. I see it as a
+            collaborator. When people and machines work together, we move faster, explore further, and arrive at
+            answers that can genuinely help the future of humanity.
+          </p>
+          <p>
+            And then there&apos;s space. As a kid I was hooked on its mysteries: black holes, distant worlds, the
+            sheer scale of it all. <em>Interstellar</em> took that curiosity and made it impossible to ignore.
+            It&apos;s why the Moon keeps sneaking into my work.
+          </p>
+          <p>
+            Outside of work? Ask me about life, purpose, or where humanity is headed. Fair warning: I won&apos;t stop
+            at one question.
           </p>
         </div>
         <div className="mt-10 flex flex-wrap gap-4">
