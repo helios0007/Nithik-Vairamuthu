@@ -3,12 +3,20 @@ import type { Project } from '../data/projects'
 import ThumbIcon from './ThumbIcon'
 import DrawOnView from './DrawOnView'
 
-export default function ProjectCard({ project, index }: { project: Project; index?: number }) {
+export default function ProjectCard({
+  project,
+  index,
+  thumb,
+}: {
+  project: Project
+  index?: number
+  thumb?: React.ReactNode // optional custom thumbnail (used by the dev preview page)
+}) {
   return (
     <Link href={`/projects/${project.slug}`} className="group block">
       {/* Minimal line-drawing thumbnail; real images live on the project page */}
       <DrawOnView className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2 transition group-hover:border-accent/50">
-        <ThumbIcon slug={project.slug} index={index} />
+        {thumb ?? <ThumbIcon slug={project.slug} index={index} />}
       </DrawOnView>
       <p className="mt-4 text-sm text-muted">
         {project.year} · {project.status}
