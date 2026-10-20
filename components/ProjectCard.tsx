@@ -2,13 +2,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Project } from '../data/projects'
 
-export default function ProjectCard({ project, priority = false }: { project: Project; priority?: boolean }) {
+export default function ProjectCard({
+  project,
+  priority = false,
+  thumb,
+}: {
+  project: Project
+  priority?: boolean
+  thumb?: React.ReactNode // custom thumbnail; defaults to the first portfolio spread
+}) {
   const cover = project.spreads[0]
 
   return (
     <Link href={`/projects/${project.slug}`} className="group block">
       <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-paper-2">
-        {cover ? (
+        {thumb ? (
+          thumb
+        ) : cover ? (
           <Image
             src={cover}
             alt=""
