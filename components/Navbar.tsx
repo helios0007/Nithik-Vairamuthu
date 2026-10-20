@@ -32,7 +32,7 @@ export default function Navbar() {
           <a
             href={links.resume}
             download
-            className="hidden rounded-full bg-ink px-4 py-1.5 text-sm font-medium text-white transition hover:bg-accent sm:inline-block"
+            className="hidden rounded-full bg-ink px-4 py-1.5 text-sm font-medium text-paper transition hover:bg-accent sm:inline-block"
           >
             CV ↓
           </a>

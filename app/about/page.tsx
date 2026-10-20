@@ -40,7 +40,7 @@ export default function AboutPage() {
             </p>
             <p>
               And then there&apos;s space. As a kid I was hooked on its mysteries: black holes, distant worlds, the
-              sheer scale of it all. <em>Interstellar</em> took that curiosity and made it impossible to ignore.
+              sheer scale of it all. <em className="pr-1">Interstellar</em> took that curiosity and made it impossible to ignore.
               It&apos;s why the Moon keeps sneaking into my work.
             </p>
             <p>
@@ -49,7 +49,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a href={links.resume} download className="rounded-full bg-ink px-6 py-3 font-medium text-white transition hover:bg-accent">
+            <a href={links.resume} download className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent">
               Download CV ↓
             </a>
             <a href={links.flipbook} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
@@ -57,8 +57,8 @@ export default function AboutPage() {
             </a>
           </div>
         </div>
-        <div className="relative hidden aspect-[4/5] md:block">
-          <Image src="/PP.webp" alt="Portrait of Nithik Vairamuthu" fill sizes="360px" className="object-contain object-top mix-blend-multiply" />
+        <div className="relative hidden aspect-square self-start [mask-image:linear-gradient(to_bottom,black_75%,transparent)] md:block">
+          <Image src="/portrait-cutout.webp" alt="Photo of Nithik Vairamuthu" fill sizes="400px" className="object-contain" />
         </div>
       </section>
 

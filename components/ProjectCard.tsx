@@ -23,7 +23,7 @@ export default function ProjectCard({ project, priority = false }: { project: Pr
       </div>
       <p className="mt-4 text-sm text-muted">
         {project.year} · {project.status}
-        {project.draft && <span className="ml-2 font-medium text-amber-600">· Draft (dev only)</span>}
+        {project.draft && <span className="ml-2 font-medium text-amber-300">· Draft (dev only)</span>}
       </p>
       <h3 className="mt-1 text-2xl font-bold tracking-tight">{project.title}</h3>
       <p className="mt-2 leading-7 text-muted">{project.hook}</p>

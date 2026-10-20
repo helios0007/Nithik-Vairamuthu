@@ -2,17 +2,18 @@
 
 /* Design tokens — used as Tailwind classes, e.g. text-ink, bg-paper, border-line, text-accent */
 @theme inline {
-  /* pale blueprint grey-blue */
-  --color-paper: #eef1f5;
-  --color-paper-2: #e3e8ef;
-  --color-ink: #15181d;
-  --color-muted: #4f5866;
-  --color-line: #d3dae4;
-  --color-accent: #2448e8;
+  /* dark charcoal */
+  --color-paper: #111214;
+  --color-paper-2: #1a1b1f;
+  --color-ink: #ededed;
+  --color-muted: #a1a6b0;
+  --color-line: #2a2c31;
+  --color-accent: #6e8bff;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
   /* keep focused/linked elements clear of the sticky header */
   scroll-padding-top: 5rem;
@@ -29,7 +30,7 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: white;
+  color: var(--color-paper);
 }
 
 a:focus-visible,

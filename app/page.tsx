@@ -45,7 +45,7 @@ export default function Home() {
             Architect · Computational designer · AI for the built environment at IAAC Barcelona
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#work" className="rounded-full bg-ink px-6 py-3 font-medium text-white transition hover:bg-accent">
+            <a href="#work" className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent">
               See my work
             </a>
             <a href={links.resume} download className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
@@ -57,14 +57,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-md">
+        <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-3xl border border-line">
           <Image
-            src="/PP.webp"
+            src="/portrait-pixel.webp"
             preload
-            alt="Portrait of Nithik Vairamuthu"
+            alt="Pixel-art portrait of Nithik Vairamuthu over a network of connected points"
             fill
             sizes="(max-width: 768px) 90vw, 448px"
-            className="object-contain mix-blend-multiply"
+            className="object-cover"
           />
         </div>
       </section>

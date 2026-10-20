@@ -197,7 +197,7 @@ export default async function ProjectPage({ params }: Props) {
                   key={link.href}
                   href={link.href}
                   {...(link.download ? { download: true } : { target: "_blank", rel: "noopener noreferrer" })}
-                  className="rounded-full bg-ink px-6 py-3 font-medium text-white transition hover:bg-accent"
+                  className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent"
                 >
                   {link.label} {link.download ? "↓" : "↗"}
                 </a>

@@ -27,7 +27,7 @@ export default function Gallery({ images, title }: { images: string[]; title: st
               sizes="(max-width: 640px) 100vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-[1.03]"
             />
-            <span className="absolute bottom-3 right-3 rounded-full bg-white px-3 py-1 text-sm font-medium opacity-0 shadow transition group-hover:opacity-100">
+            <span className="absolute bottom-3 right-3 rounded-full bg-paper px-3 py-1 text-ink text-sm font-medium opacity-0 shadow transition group-hover:opacity-100">
               View full ↗
             </span>
           </button>
