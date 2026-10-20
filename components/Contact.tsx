@@ -1,4 +1,5 @@
 import { links } from '../data/site'
+import Availability from './Availability'
 
 export default function Contact() {
   return (
@@ -24,6 +25,9 @@ export default function Contact() {
           <a href={links.resume} download className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink">
             Download CV ↓
           </a>
+        </div>
+        <div className="mt-10 max-w-xl">
+          <Availability />
         </div>
       </div>
     </section>

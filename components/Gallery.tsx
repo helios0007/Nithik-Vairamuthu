@@ -23,6 +23,7 @@ export default function Gallery({ images, title }: { images: string[]; title: st
               src={src}
               alt={`${title} — portfolio spread ${i + 1}`}
               fill
+              quality={90}
               sizes="(max-width: 640px) 100vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-[1.03]"
             />

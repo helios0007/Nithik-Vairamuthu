@@ -24,14 +24,31 @@ export type Project = {
   featured?: boolean // shown in "Selected work" on the home page
   draft?: boolean // only visible in local dev until it has content
 
+  // ── Summary box (top of the page, what reviewers scan first) ──
+  team?: string // e.g. "Team of 3 — IAAC MaAI studio"
+  duration?: string // e.g. "10 weeks"
+  keyResult?: string // one line, e.g. "Segments façades into 6 classes at 0.81 mIoU"
+  stack?: string[] // tools: Python, PyTorch, YOLOv8, Grasshopper…
+
   // ── Case study ──
   context?: string[] // the problem and why it matters (one string per paragraph)
   role?: string[] // exactly what Nithik built vs. the team
-  team?: string // e.g. "Team of 3 — IAAC MaAI studio"
-  stack?: string[] // tools: Python, PyTorch, YOLOv8, Grasshopper…
-  problems?: ProblemDecision[] // two concrete technical problems and the decisions made
-  outcome?: string[] // results, metrics, what changed
+  process?: string[] // how it was made: sketches, iterations, one thing that failed
+  problems?: ProblemDecision[] // 2–3 "I chose X over Y because…" decisions
+  outcome?: string[] // results, what changed
+  modelCard?: ModelCard // for AI / ML projects
+  reflection?: string[] // what you'd do differently / next
   links?: ProjectLink[]
+}
+
+// A short, honest summary of an AI model's results.
+export type ModelCard = {
+  data?: string // e.g. "2,400 façade photos from Barcelona, hand-labelled"
+  model?: string // e.g. "YOLOv8-seg, fine-tuned from COCO weights"
+  baseline?: string // what you compared against
+  metrics?: { label: string; value: string }[] // e.g. { label: "mAP50", value: "0.78" }
+  limitations?: string[] // where it fails
+  codeUrl?: string // GitHub repo
 }
 
 export const projects: Project[] = [
@@ -43,8 +60,8 @@ export const projects: Project[] = [
     status: "Completed",
     tags: ["Image Segmentation", "Regression Model", "Feasibility Analysis"],
     spreads: [
-      "/projects/retrograde/RETROGRADE_SPREAD_1.png",
-      "/projects/retrograde/RETROGRADE_SPREAD_2.png",
+      "/projects/retrograde/RETROGRADE_SPREAD_1.webp",
+      "/projects/retrograde/RETROGRADE_SPREAD_2.webp",
     ],
     featured: true,
     context: [],
@@ -52,6 +69,7 @@ export const projects: Project[] = [
     stack: [],
     problems: [],
     outcome: [],
+    modelCard: {},
   },
   {
     slug: "crack-detection",
@@ -60,13 +78,14 @@ export const projects: Project[] = [
     year: "2026",
     status: "Completed",
     tags: ["Computer Vision", "Segmentation", "Robotics"],
-    spreads: ["/projects/crack-detection/REPAIR_SPREAD.png"],
+    spreads: ["/projects/crack-detection/REPAIR_SPREAD.webp"],
     featured: true,
     context: [],
     role: [],
     stack: ["YOLOv8", "Python", "ROS2"],
     problems: [],
     outcome: [],
+    modelCard: {},
   },
   {
     slug: "chronoscape",
@@ -75,7 +94,7 @@ export const projects: Project[] = [
     year: "2025",
     status: "Completed",
     tags: ["Image Generation", "Generative AI", "Urban Regeneration"],
-    spreads: ["/projects/chronoscape/CHRONOSCAPE_SPREAD.png"],
+    spreads: ["/projects/chronoscape/CHRONOSCAPE_SPREAD.webp"],
     featured: true,
     context: [],
     role: [],
@@ -90,7 +109,7 @@ export const projects: Project[] = [
     year: "2025",
     status: "Published",
     tags: ["Computational Geometry", "Lunar Architecture"],
-    spreads: ["/projects/lunar/lunar.png"],
+    spreads: ["/projects/lunar/lunar.webp"],
     featured: true,
     context: [],
     role: [],

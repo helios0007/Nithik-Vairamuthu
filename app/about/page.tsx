@@ -6,6 +6,7 @@ import { education, experience, links, skills } from "../../data/site";
 export const metadata: Metadata = {
   title: "About",
   description: "Who is Nithik Vairamuthu? Background, experience, education, and skills.",
+  alternates: { canonical: "/about" },
 };
 
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
@@ -57,7 +58,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="relative hidden aspect-[4/5] md:block">
-          <Image src="/PP.png" alt="Portrait of Nithik Vairamuthu" fill sizes="360px" className="object-contain object-top" />
+          <Image src="/PP.webp" alt="Portrait of Nithik Vairamuthu" fill sizes="360px" className="object-contain object-top" />
         </div>
       </section>
 

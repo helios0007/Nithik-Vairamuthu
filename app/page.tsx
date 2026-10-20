@@ -2,12 +2,35 @@ import Image from "next/image";
 import Link from "next/link";
 import ProjectCard from "../components/ProjectCard";
 import Contact from "../components/Contact";
+import Availability from "../components/Availability";
 import { featuredProjects } from "../data/projects";
-import { links, publications } from "../data/site";
+import { links, publications, siteUrl } from "../data/site";
+
+// Structured data so search engines understand who this site is about.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Nithik Vairamuthu",
+  url: siteUrl,
+  image: `${siteUrl}/PP.webp`,
+  jobTitle: "Architect and Computational Designer",
+  email: `mailto:${links.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Barcelona", addressCountry: "ES" },
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Vellore Institute of Technology" },
+    { "@type": "CollegeOrUniversity", name: "Institute for Advanced Architecture of Catalonia (IAAC)" },
+  ],
+  knowsAbout: ["Computational design", "Machine learning", "Computer vision", "Grasshopper", "Architecture"],
+  sameAs: [links.linkedin, links.github],
+};
 
 export default function Home() {
   return (
     <main id="main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+      />
       {/* ── HERO ── */}
       <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 pt-12 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:pt-20">
         <div>
@@ -29,15 +52,17 @@ export default function Home() {
               Download CV ↓
             </a>
           </div>
+          <div className="mt-8 max-w-xl">
+            <Availability />
+          </div>
         </div>
 
         <div className="relative mx-auto aspect-square w-full max-w-md">
           <Image
-            src="/PP.png"
+            src="/PP.webp"
+            preload
             alt="Portrait of Nithik Vairamuthu"
             fill
-            loading="eager"
-            fetchPriority="high"
             sizes="(max-width: 768px) 90vw, 448px"
             className="object-contain"
           />

@@ -1,11 +1,27 @@
 // Personal links and CV content used across the site.
 
+// Change this when a custom domain is connected.
+export const siteUrl = 'https://nithik-vairamuthu.vercel.app'
+
 export const links = {
   email: 'v.nitik@gmail.com',
   linkedin: 'https://www.linkedin.com/in/nithik-vairamuthu-ba019543',
   github: 'https://github.com/helios0007',
-  resume: '/Nithik-Resume.pdf',
-  flipbook: 'https://heyzine.com/flip-book/0bcd06bf33.html',
+  resume: '/Nithik-Resume.pdf', // also reachable at the short link /cv
+  flipbook: 'https://heyzine.com/flip-book/0bcd06bf33.html', // also at /portfolio
+}
+
+// Shown in the hero and the contact section. Leave a field empty ('') to hide it;
+// empty fields show as "To fill in" boxes in `npm run dev`.
+export const availability = {
+  lookingFor: 'Internships in computational design and AI for the built environment',
+  start: '', // e.g. 'From February 2027'
+  duration: '', // e.g. '6 months'
+  location: 'Based in Barcelona',
+  relocation: '', // e.g. 'Open to relocating within Europe'
+  languages: 'English (fluent) · Tamil (native)', // consider adding CEFR levels, e.g. Spanish A2
+  permit: '', // only after confirming with IAAC — e.g. 'Student permit (Spain); can work as an intern'
+  updated: 'October 2026',
 }
 
 export type CvItem = {

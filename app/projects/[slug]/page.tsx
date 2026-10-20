@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Gallery from "../../../components/Gallery";
 import Placeholder from "../../../components/Placeholder";
-import { getProject, visibleProjects } from "../../../data/projects";
+import { getProject, visibleProjects, type ModelCard } from "../../../data/projects";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,11 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: project.title,
     description: project.hook,
-    openGraph: project.spreads[0] ? { images: [project.spreads[0]] } : undefined,
+    alternates: { canonical: `/projects/${project.slug}` },
   };
 }
 
 const has = (list?: unknown[]) => !!list && list.length > 0;
+const isDev = process.env.NODE_ENV === "development";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -55,6 +56,101 @@ function Todo({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** A text section that shows its content, or a dev-only reminder if it's empty. */
+function TextSection({ title, items, hint }: { title: string; items?: string[]; hint: React.ReactNode }) {
+  if (has(items)) {
+    return (
+      <Section title={title}>
+        <Paragraphs items={items!} />
+      </Section>
+    );
+  }
+  return (
+    <Todo>
+      <strong>{title}</strong> — {hint}
+    </Todo>
+  );
+}
+
+function Fact({ label, value, hint }: { label: string; value?: string; hint: string }) {
+  if (!value && !isDev) return null;
+  return (
+    <div>
+      <dt className="text-sm font-bold">{label}</dt>
+      <dd className="mt-1 text-muted">{value || <Placeholder>{hint}</Placeholder>}</dd>
+    </div>
+  );
+}
+
+function ModelCardBox({ card }: { card: ModelCard }) {
+  const filled = card.data || card.model || has(card.metrics) || has(card.limitations);
+  if (!filled) {
+    return (
+      <Todo>
+        <strong>AI results box</strong> — fill <code>modelCard</code>: the data (how many images, from where, how
+        labelled), the model, what you compared it against, 2–3 metrics (e.g. mAP, IoU, error), where it fails, and a
+        GitHub link. Add one image of a failure case to the gallery.
+      </Todo>
+    );
+  }
+  return (
+    <Section title="The model, honestly">
+      <div className="rounded-xl border border-line p-6 text-base leading-7">
+        <dl className="grid gap-5 sm:grid-cols-2">
+          {card.data && (
+            <div>
+              <dt className="font-bold">Data</dt>
+              <dd className="text-muted">{card.data}</dd>
+            </div>
+          )}
+          {card.model && (
+            <div>
+              <dt className="font-bold">Model</dt>
+              <dd className="text-muted">{card.model}</dd>
+            </div>
+          )}
+          {card.baseline && (
+            <div className="sm:col-span-2">
+              <dt className="font-bold">Compared against</dt>
+              <dd className="text-muted">{card.baseline}</dd>
+            </div>
+          )}
+        </dl>
+        {has(card.metrics) && (
+          <div className="mt-6 flex flex-wrap gap-8 border-t border-line pt-6">
+            {card.metrics!.map((m) => (
+              <div key={m.label}>
+                <p className="text-3xl font-bold tracking-tight text-accent">{m.value}</p>
+                <p className="text-sm text-muted">{m.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {has(card.limitations) && (
+          <div className="mt-6 border-t border-line pt-6">
+            <p className="font-bold">Where it fails</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
+              {card.limitations!.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {card.codeUrl && (
+          <a
+            href={card.codeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-block font-medium text-accent hover:underline hover:underline-offset-4"
+          >
+            View the code on GitHub ↗
+          </a>
+        )}
+      </div>
+    </Section>
+  );
+}
+
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
@@ -63,7 +159,6 @@ export default async function ProjectPage({ params }: Props) {
   const index = visibleProjects.findIndex((p) => p.slug === project.slug);
   const nextProject = visibleProjects[(index + 1) % visibleProjects.length];
   const cover = project.spreads[0];
-  const isDev = process.env.NODE_ENV === "development";
 
   return (
     <main id="main">
@@ -79,26 +174,20 @@ export default async function ProjectPage({ params }: Props) {
           <h1 className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl">{project.title}</h1>
           <p className="mt-6 max-w-3xl text-xl leading-9 sm:text-2xl sm:leading-10">{project.hook}</p>
 
-          {/* Quick facts — what a reviewer scans first */}
-          <dl className="mt-10 grid gap-6 rounded-xl bg-paper-2 p-6 sm:grid-cols-3">
+          {/* Summary box — what a reviewer scans in the first 30 seconds */}
+          <dl className="mt-10 grid gap-6 rounded-xl bg-paper-2 p-6 sm:grid-cols-2 lg:grid-cols-3">
+            <Fact label="My role · team" value={project.team} hint="e.g. Lead ML developer · team of 3" />
+            <Fact label="Duration" value={project.duration} hint="e.g. 10 weeks, IAAC studio" />
+            <Fact label="Key result" value={project.keyResult} hint="One line with a number if possible." />
+            <Fact
+              label="Tools"
+              value={has(project.stack) ? project.stack!.join(" · ") : undefined}
+              hint="Python, PyTorch, Grasshopper…"
+            />
             <div>
               <dt className="text-sm font-bold">Focus</dt>
               <dd className="mt-1 text-muted">{project.tags.join(" · ")}</dd>
             </div>
-            {(has(project.stack) || isDev) && (
-              <div>
-                <dt className="text-sm font-bold">Stack</dt>
-                <dd className="mt-1 text-muted">
-                  {has(project.stack) ? project.stack!.join(" · ") : <Placeholder>Tools used.</Placeholder>}
-                </dd>
-              </div>
-            )}
-            {project.team && (
-              <div>
-                <dt className="text-sm font-bold">Team</dt>
-                <dd className="mt-1 text-muted">{project.team}</dd>
-              </div>
-            )}
           </dl>
 
           {has(project.links) && (
@@ -118,13 +207,13 @@ export default async function ProjectPage({ params }: Props) {
         </header>
 
         {cover && (
-          <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-xl bg-paper-2">
+          <div className="relative mb-6 aspect-[2/1] overflow-hidden rounded-xl bg-paper-2">
             <Image
               src={cover}
-              alt={`${project.title} — cover`}
+              alt={`${project.title} — portfolio spread`}
               fill
-              loading="eager"
-              fetchPriority="high"
+              preload
+              quality={90}
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover"
             />
@@ -132,26 +221,21 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {/* ── Case study ── */}
-        {has(project.context) ? (
-          <Section title="Context">
-            <Paragraphs items={project.context!} />
-          </Section>
-        ) : (
-          <Todo>
-            <strong>Context</strong> — the problem and why it matters. Who has this problem, and what happens today?
-          </Todo>
-        )}
-
-        {has(project.role) ? (
-          <Section title="My role">
-            <Paragraphs items={project.role!} />
-          </Section>
-        ) : (
-          <Todo>
-            <strong>My role</strong> — exactly what you built yourself vs. what the team did. Also set <code>team</code>{" "}
-            (e.g. &quot;Team of 3 — IAAC studio&quot;).
-          </Todo>
-        )}
+        <TextSection
+          title="Context"
+          items={project.context}
+          hint="the problem and why it matters. Who has this problem, and what happens today?"
+        />
+        <TextSection
+          title="My role"
+          items={project.role}
+          hint="exactly what you built yourself vs. what the team did. Name collaborators and tutors."
+        />
+        <TextSection
+          title="Process"
+          items={project.process}
+          hint="how it was made — sketches, Grasshopper screenshots, iterations, and one thing you tried that didn't work."
+        />
 
         {has(project.problems) ? (
           <Section title="Key decisions">
@@ -170,20 +254,24 @@ export default async function ProjectPage({ params }: Props) {
           </Section>
         ) : (
           <Todo>
-            <strong>Key decisions</strong> — two concrete technical problems you hit and what you decided (e.g. choice
-            of model, dataset, how you handled bad data, how output fed into design).
+            <strong>Key decisions</strong> — 2–3 &quot;I chose X over Y because…&quot; moments (model, dataset, how you
+            handled bad data, how the output fed into design).
           </Todo>
         )}
 
-        {has(project.outcome) ? (
-          <Section title="Outcome">
-            <Paragraphs items={project.outcome!} />
-          </Section>
-        ) : (
-          <Todo>
-            <strong>Outcome</strong> — results, metrics (accuracy, speed, error), what changed, what you&apos;d do next.
-          </Todo>
-        )}
+        <TextSection
+          title="Outcome"
+          items={project.outcome}
+          hint="results, what changed, who used it or what it fed into."
+        />
+
+        {project.modelCard && <ModelCardBox card={project.modelCard} />}
+
+        <TextSection
+          title="Looking back"
+          items={project.reflection}
+          hint="what you'd do differently, or what you'd build next. Two or three sentences."
+        />
 
         {/* ── Gallery ── */}
         {project.spreads.length > 0 && (
