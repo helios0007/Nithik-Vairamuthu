@@ -58,7 +58,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="relative hidden aspect-[4/5] md:block">
-          <Image src="/PP.webp" alt="Portrait of Nithik Vairamuthu" fill sizes="360px" className="object-contain object-top" />
+          <Image src="/PP.webp" alt="Portrait of Nithik Vairamuthu" fill sizes="360px" className="object-contain object-top mix-blend-multiply" />
         </div>
       </section>
 

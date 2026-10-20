@@ -64,7 +64,7 @@ export default function Home() {
             alt="Portrait of Nithik Vairamuthu"
             fill
             sizes="(max-width: 768px) 90vw, 448px"
-            className="object-contain"
+            className="object-contain mix-blend-multiply"
           />
         </div>
       </section>

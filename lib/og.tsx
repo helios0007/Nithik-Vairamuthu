@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-// Shared look for link-preview images (LinkedIn, email, WhatsApp…): white card, big bold title, blue accent.
+// Shared look for link-preview images (LinkedIn, email, WhatsApp…): grey-blue card, big title, blue accent.
 export const ogSize = { width: 1200, height: 630 }
 
 // Trim long text at a word boundary so previews never end mid-word.
@@ -21,8 +21,8 @@ export function ogImage({ eyebrow, title, subtitle }: { eyebrow: string; title: 
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '72px 80px',
-          background: '#ffffff',
-          color: '#111111',
+          background: '#eef1f5',
+          color: '#15181d',
           borderBottom: '16px solid #2448e8',
         }}
       >

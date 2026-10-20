@@ -2,11 +2,12 @@
 
 /* Design tokens — used as Tailwind classes, e.g. text-ink, bg-paper, border-line, text-accent */
 @theme inline {
-  --color-paper: #ffffff;
-  --color-paper-2: #f5f4f0;
-  --color-ink: #111111;
-  --color-muted: #5c5c5c;
-  --color-line: #e6e4de;
+  /* pale blueprint grey-blue */
+  --color-paper: #eef1f5;
+  --color-paper-2: #e3e8ef;
+  --color-ink: #15181d;
+  --color-muted: #4f5866;
+  --color-line: #d3dae4;
   --color-accent: #2448e8;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
