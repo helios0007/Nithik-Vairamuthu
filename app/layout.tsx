@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
     description,
   },
   twitter: { card: "summary_large_image" },
+};
+
+// Colours the browser UI (e.g. the mobile address bar) to match the charcoal background
+export const viewport: Viewport = {
+  themeColor: "#111214",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
