@@ -40,35 +40,81 @@ button:focus-visible {
   border-radius: 4px;
 }
 
-/* ── Project thumbnail hover motion (components/ThumbIcon.tsx) ── */
-.thumb-scan,
-.thumb-rise,
-.thumb-spread-1,
-.thumb-spread-2 {
-  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+/* ── Project thumbnail animations (components/ThumbIcon.tsx) ──
+   Slow ambient loops; transforms on SVG use the element's own box. */
+[class*="thumb-"] {
+  transform-box: fill-box;
 }
-.thumb-fade {
-  opacity: 0.55;
-  transition: opacity 0.6s ease;
+
+/* RetroGrade: scan line sweeps down, windows light up as it passes */
+.thumb-scan { animation: thumb-scan 6s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes thumb-scan {
+  0% { transform: translateY(0); opacity: 0; }
+  6% { opacity: 1; }
+  80% { transform: translateY(170px); opacity: 1; }
+  92%, 100% { transform: translateY(170px); opacity: 0; }
 }
-.thumb-march {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.2s linear;
+.thumb-detect { animation: thumb-detect 6s ease-out infinite; opacity: 0.15; }
+@keyframes thumb-detect {
+  0% { opacity: 0.15; }
+  6% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0.15; }
 }
-.group:hover .thumb-scan,
-.group:focus-visible .thumb-scan { transform: translateY(84px); }
-.group:hover .thumb-fade,
-.group:focus-visible .thumb-fade { opacity: 1; }
-.group:hover .thumb-march,
-.group:focus-visible .thumb-march { stroke-dashoffset: -48; }
-.group:hover .thumb-rise,
-.group:focus-visible .thumb-rise { transform: translateY(-8px); }
-.group:hover .thumb-spread-1,
-.group:focus-visible .thumb-spread-1 { transform: translate(8px, -6px); }
-.group:hover .thumb-spread-2,
-.group:focus-visible .thumb-spread-2 { transform: translate(18px, -14px); }
+
+/* Crack: repair path flows along the crack, waypoints pulse in turn */
+.thumb-march { animation: thumb-march 1.6s linear infinite; }
+@keyframes thumb-march { to { stroke-dashoffset: -48; } }
+.thumb-pulse { transform-origin: center; animation: thumb-pulse 2.4s ease-in-out infinite; }
+@keyframes thumb-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1.25); }
+}
+.thumb-bob { animation: thumb-bob 2.4s ease-in-out infinite; }
+@keyframes thumb-bob { 50% { transform: translate(-3px, -4px); } }
+
+/* Chronoscape: memory layers drift in and out */
+.thumb-drift-1 { animation: thumb-drift-1 5s ease-in-out infinite; }
+.thumb-drift-2 { animation: thumb-drift-2 7s ease-in-out infinite; }
+@keyframes thumb-drift-1 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.8; }
+  50% { transform: translate(6px, -5px); opacity: 1; }
+}
+@keyframes thumb-drift-2 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+  50% { transform: translate(12px, -10px); opacity: 1; }
+}
+
+/* Lunar: shell flexes like a fold, Earth drifts, stars twinkle */
+.thumb-fold { transform-origin: 50% 100%; animation: thumb-fold 4s ease-in-out infinite; }
+@keyframes thumb-fold { 50% { transform: scale(1.04, 0.9); } }
+.thumb-orbit { animation: thumb-orbit 12s linear infinite; }
+@keyframes thumb-orbit {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(6px, -4px); }
+  50% { transform: translate(0, -8px); }
+  75% { transform: translate(-6px, -4px); }
+}
+.thumb-twinkle { animation: thumb-twinkle 3s ease-in-out infinite; }
+@keyframes thumb-twinkle { 50% { opacity: 0.15; } }
+
+/* Heat: waves rise off the hot building */
+.thumb-rise { animation: thumb-rise 2.4s ease-out infinite; }
+@keyframes thumb-rise {
+  0% { transform: translateY(6px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-14px); opacity: 0; }
+}
+
+/* THEIA: site marker pulses */
+.thumb-target { transform-origin: center; animation: thumb-target 2.8s ease-in-out infinite; }
+@keyframes thumb-target {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .thumb-detect { opacity: 1; }
 }

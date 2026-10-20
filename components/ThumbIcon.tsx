@@ -1,12 +1,13 @@
 import { useId } from 'react'
 
 // Minimal line-drawing thumbnails, one per project, drawn like a sheet from an architectural set.
-// Grey = context, blue = what the project's tool adds. Hover motion lives in globals.css (.thumb-*).
+// Grey = context, blue = what the project's tool adds. Looping animations live in globals.css (.thumb-*).
 
 const ACCENT = 'var(--color-accent)'
 const INK = 'var(--color-ink)'
 const MUTED = 'var(--color-muted)'
 const BASE = 236 // shared ground line so every drawing sits the same way
+const SCAN_Y = 62 // where the RetroGrade scan line starts
 
 type IconDef = { caption: string; draw: () => React.ReactElement; plan?: boolean } // plan = top-down view, no ground line
 
@@ -25,19 +26,29 @@ function Retrograde() {
           ))
         )}
       </g>
-      <g className="thumb-fade" fill={ACCENT} stroke={ACCENT} strokeWidth="1.25">
+      <g fill={ACCENT} stroke={ACCENT} strokeWidth="1.25">
         {rows.map((y, r) =>
           cols.map((x, c) =>
             detected.has(`${c}-${r}`) ? (
-              <rect key={`d-${r}-${c}`} x={x} y={y} width="16" height="18" fillOpacity="0.35" />
+              <rect
+                key={`d-${r}-${c}`}
+                className="thumb-detect"
+                // light up when the scan line (6s loop, 62→232) reaches this row
+                style={{ animationDelay: `${(((y + 9 - SCAN_Y) / 170) * 0.8 * 6).toFixed(2)}s` }}
+                x={x}
+                y={y}
+                width="16"
+                height="18"
+                fillOpacity="0.35"
+              />
             ) : null
           )
         )}
       </g>
       <g className="thumb-scan" stroke={ACCENT} strokeWidth="1.25">
-        <line x1="112" y1="112" x2="290" y2="112" strokeDasharray="4 5" />
-        <circle cx="112" cy="112" r="3" fill={ACCENT} />
-        <path d="M 290 106 l 8 6 l -8 6" fill="none" />
+        <line x1="112" y1={SCAN_Y} x2="290" y2={SCAN_Y} strokeDasharray="4 5" />
+        <circle cx="112" cy={SCAN_Y} r="3" fill={ACCENT} />
+        <path d={`M 290 ${SCAN_Y - 6} l 8 6 l -8 6`} fill="none" />
       </g>
     </>
   )
@@ -62,10 +73,18 @@ function Crack() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {path.filter((_, i) => i % 2 === 1).map(([x, y]) => (
-        <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" fill={ACCENT} />
+      {path.filter((_, i) => i % 2 === 1).map(([x, y], i) => (
+        <circle
+          key={`${x}-${y}`}
+          className="thumb-pulse"
+          style={{ animationDelay: `${i * 0.6}s` }}
+          cx={x}
+          cy={y}
+          r="3.5"
+          fill={ACCENT}
+        />
       ))}
-      <g className="thumb-rise">
+      <g className="thumb-bob">
         <path d="M 312 238 l 12 -26 l 11 6 Z" fill={ACCENT} fillOpacity="0.35" stroke={ACCENT} strokeWidth="1.25" />
       </g>
     </>
@@ -80,10 +99,10 @@ function Chronoscape() {
   const y0 = BASE - 72
   return (
     <g fill="none" strokeLinejoin="round">
-      <g className="thumb-spread-2">
+      <g className="thumb-drift-2">
         <path d={house(x0 + 44, y0 - 52)} stroke={ACCENT} strokeOpacity="0.35" strokeWidth="1.25" strokeDasharray="3 4" />
       </g>
-      <g className="thumb-spread-1">
+      <g className="thumb-drift-1">
         <path d={house(x0 + 22, y0 - 26)} stroke={ACCENT} strokeOpacity="0.7" strokeWidth="1.25" />
       </g>
       <path d={house(x0, y0)} stroke={INK} strokeOpacity="0.85" strokeWidth="1.75" />
@@ -105,11 +124,24 @@ function Lunar() {
   const pts = (p: number[][]) => p.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ')
   return (
     <>
-      <circle cx="312" cy="74" r="9" fill="none" stroke={INK} strokeOpacity="0.55" strokeWidth="1.25" />
-      <circle cx="96" cy="62" r="1.5" fill={INK} fillOpacity="0.6" />
-      <circle cx="146" cy="96" r="1.2" fill={INK} fillOpacity="0.6" />
-      <circle cx="262" cy="50" r="1.2" fill={INK} fillOpacity="0.6" />
-      <g className="thumb-rise" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinejoin="round">
+      <circle className="thumb-orbit" cx="312" cy="74" r="9" fill="none" stroke={INK} strokeOpacity="0.55" strokeWidth="1.25" />
+      {[
+        [96, 62, 1.5, 0],
+        [146, 96, 1.2, 1],
+        [262, 50, 1.2, 2],
+      ].map(([x, y, r, d]) => (
+        <circle
+          key={`${x}-${y}`}
+          className="thumb-twinkle"
+          style={{ animationDelay: `${d}s` }}
+          cx={x}
+          cy={y}
+          r={r}
+          fill={INK}
+          fillOpacity="0.6"
+        />
+      ))}
+      <g className="thumb-fold" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinejoin="round">
         <polyline points={pts(outer)} />
         <polyline points={pts(zig)} strokeOpacity="0.75" />
         {outer.map(([x, y], i) => (
@@ -131,9 +163,14 @@ function Heat() {
         ))}
       </g>
       <rect x="160" y={BASE - 96} width="36" height="96" fill={ACCENT} fillOpacity="0.3" stroke={ACCENT} strokeWidth="1.25" />
-      <g className="thumb-rise" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round">
-        {[166, 178, 190].map((x) => (
-          <path key={x} d={`M ${x} 128 q 6 -8 0 -16 q -6 -8 0 -16`} />
+      <g fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round">
+        {[166, 178, 190].map((x, i) => (
+          <path
+            key={x}
+            className="thumb-rise"
+            style={{ animationDelay: `${i * 0.4}s` }}
+            d={`M ${x} 128 q 6 -8 0 -16 q -6 -8 0 -16`}
+          />
         ))}
       </g>
     </>
@@ -149,7 +186,7 @@ function Contours() {
           <ellipse key={i} cx={200 + i * 4} cy={150 + i * 2} rx={130 - i * 24} ry={74 - i * 13} />
         ))}
       </g>
-      <g className="thumb-fade" stroke={ACCENT} strokeWidth="1.5" fill="none">
+      <g className="thumb-target" stroke={ACCENT} strokeWidth="1.5" fill="none">
         <circle cx="236" cy="168" r="10" />
         <path d="M 236 152 v -10 M 236 184 v 10 M 220 168 h -10 M 252 168 h 10" />
       </g>
