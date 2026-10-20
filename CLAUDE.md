@@ -31,7 +31,7 @@ Next.js App Router portfolio site, being redesigned per `../website-redesign-bri
 - Projects with `draft: true` appear only in `npm run dev`.
 
 **Components**
-- `ProjectCard` — server component; links to `/projects/<slug>`, first spread is the cover.
+- `ProjectCard` — server component; links to `/projects/<slug>`. Thumbnail is a minimal line drawing from `ThumbIcon` (one SVG per project slug: grey = context, blue = what the tool adds, "FIG. 0n" caption, crop marks, scale bar). Hover motion is in `globals.css` (`.thumb-*`). New projects need a drawing added to the `icons` map, otherwise they get a generic circle.
 - `Gallery` + `Lightbox` — `'use client'`; lightbox portals into `document.body`.
 - `Placeholder` — dashed "To fill in" box shown only when `NODE_ENV === 'development'`.
 - `Navbar`, `Footer`, `Contact` — server components.

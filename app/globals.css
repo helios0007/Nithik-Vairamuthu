@@ -40,6 +40,34 @@ button:focus-visible {
   border-radius: 4px;
 }
 
+/* ── Project thumbnail hover motion (components/ThumbIcon.tsx) ── */
+.thumb-scan,
+.thumb-rise,
+.thumb-spread-1,
+.thumb-spread-2 {
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.thumb-fade {
+  opacity: 0.55;
+  transition: opacity 0.6s ease;
+}
+.thumb-march {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.2s linear;
+}
+.group:hover .thumb-scan,
+.group:focus-visible .thumb-scan { transform: translateY(84px); }
+.group:hover .thumb-fade,
+.group:focus-visible .thumb-fade { opacity: 1; }
+.group:hover .thumb-march,
+.group:focus-visible .thumb-march { stroke-dashoffset: -48; }
+.group:hover .thumb-rise,
+.group:focus-visible .thumb-rise { transform: translateY(-8px); }
+.group:hover .thumb-spread-1,
+.group:focus-visible .thumb-spread-1 { transform: translate(8px, -6px); }
+.group:hover .thumb-spread-2,
+.group:focus-visible .thumb-spread-2 { transform: translate(18px, -14px); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }

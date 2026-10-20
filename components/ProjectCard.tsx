@@ -1,35 +1,13 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { Project } from '../data/projects'
+import ThumbIcon from './ThumbIcon'
 
-export default function ProjectCard({
-  project,
-  priority = false,
-  thumb,
-}: {
-  project: Project
-  priority?: boolean
-  thumb?: React.ReactNode // custom thumbnail; defaults to the first portfolio spread
-}) {
-  const cover = project.spreads[0]
-
+export default function ProjectCard({ project, index }: { project: Project; index?: number }) {
   return (
     <Link href={`/projects/${project.slug}`} className="group block">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-paper-2">
-        {thumb ? (
-          thumb
-        ) : cover ? (
-          <Image
-            src={cover}
-            alt=""
-            fill
-            loading={priority ? 'eager' : 'lazy'}
-            sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-muted">Images coming soon</div>
-        )}
+      {/* Minimal line-drawing thumbnail; real images live on the project page */}
+      <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2 transition group-hover:border-accent/50">
+        <ThumbIcon slug={project.slug} index={index} />
       </div>
       <p className="mt-4 text-sm text-muted">
         {project.year} · {project.status}

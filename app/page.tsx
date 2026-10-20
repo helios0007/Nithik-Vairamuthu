@@ -101,7 +101,7 @@ export default function Home() {
 
           <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2">
             {featuredProjects.map((project, i) => (
-              <ProjectCard key={project.slug} project={project} priority={i < 2} />
+              <ProjectCard key={project.slug} project={project} index={i} />
             ))}
           </div>
         </div>
