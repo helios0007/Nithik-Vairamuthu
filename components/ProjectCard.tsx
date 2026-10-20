@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import type { Project } from '../data/projects'
 import ThumbIcon from './ThumbIcon'
+import DrawOnView from './DrawOnView'
 
 export default function ProjectCard({ project, index }: { project: Project; index?: number }) {
   return (
     <Link href={`/projects/${project.slug}`} className="group block">
       {/* Minimal line-drawing thumbnail; real images live on the project page */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2 transition group-hover:border-accent/50">
+      <DrawOnView className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2 transition group-hover:border-accent/50">
         <ThumbIcon slug={project.slug} index={index} />
-      </div>
+      </DrawOnView>
       <p className="mt-4 text-sm text-muted">
         {project.year} · {project.status}
         {project.draft && <span className="ml-2 font-medium text-amber-300">· Draft (dev only)</span>}

@@ -38,7 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={dmSans.variable}>
+    <html lang="en" className={dmSans.variable} suppressHydrationWarning>
+      <head>
+        {/* lets CSS know JS is on, so draw-in animations can start hidden without hiding them for no-JS visitors */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a
           href="#main"
