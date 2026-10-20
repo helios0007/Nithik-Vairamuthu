@@ -57,8 +57,14 @@ export default function AboutPage() {
             </a>
           </div>
         </div>
-        <div className="relative hidden aspect-square self-start [mask-image:linear-gradient(to_bottom,black_75%,transparent)] md:block">
-          <Image src="/portrait-cutout.webp" alt="Photo of Nithik Vairamuthu" fill sizes="400px" className="object-contain" />
+        <div className="relative hidden aspect-square self-start overflow-hidden rounded-3xl border border-line md:block">
+          <Image
+            src="/portrait-pixel.webp"
+            alt="Pixel-art portrait of Nithik Vairamuthu over a network of connected points"
+            fill
+            sizes="400px"
+            className="object-cover"
+          />
         </div>
       </section>
 

@@ -57,14 +57,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-3xl border border-line">
+        <div className="relative mx-auto aspect-[1000/1117] w-full max-w-md [mask-image:linear-gradient(to_bottom,black_80%,transparent)]">
           <Image
-            src="/portrait-pixel.webp"
+            src="/portrait-hero.webp"
             preload
-            alt="Pixel-art portrait of Nithik Vairamuthu over a network of connected points"
+            alt="Portrait of Nithik Vairamuthu"
             fill
             sizes="(max-width: 768px) 90vw, 448px"
-            className="object-cover"
+            className="object-contain"
           />
         </div>
       </section>

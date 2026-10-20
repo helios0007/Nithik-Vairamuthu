@@ -46,7 +46,7 @@ Next.js App Router portfolio site, being redesigned per `../website-redesign-bri
 - Simple Kantwon-inspired layout on a dark charcoal theme (#111214): light text, one blue accent (#6e8bff), big bold headings, thin dividers. No background animations.
 - Design tokens in `globals.css` `@theme`: `paper` (background), `paper-2` (cards), `ink` (text), `muted`, `line`, `accent` → use as `bg-paper`, `text-muted`, `border-line`, `text-accent`, etc. Filled buttons are `bg-ink text-paper`. Never hard-code white/black.
 - Font: DM Sans via `next/font` (`--font-body`).
-- Images: hero = `public/portrait-pixel.webp` (pixel art, framed); About = `public/portrait-cutout.webp` (photo with background removed); `PP.webp` is the original photo (used for structured data).
+- Images: hero = `public/portrait-hero.webp` (Nithik's photo with the white background removed, faded at the bottom); About = `public/portrait-pixel.webp` (pixel art, framed); `PP.webp` is the original photo (used for structured data).
 - Git: work on the `redesign` branch and push there; `main` is the live site.
 
 **SEO, sharing, analytics**
