@@ -18,21 +18,30 @@ No test runner is configured.
 
 ## Architecture
 
-Single-page Next.js App Router portfolio site. All page content lives in `app/page.tsx`, which assembles every section (hero, about, projects, experience, education, skills, publication, contact, footer) inline.
+Next.js App Router portfolio site, being redesigned per `../website-redesign-brief.md` (Phase 1 done: case-study structure).
 
-**Entry points**
-- `app/layout.tsx` — global metadata, loads Google Fonts via `next/font` and exposes `--font-body` (Inter) and `--font-display` (Space Grotesk) as CSS variables used throughout.
-- `app/page.tsx` — sole composition root; imports all components and `data/projects.ts`.
+**Routes**
+- `app/layout.tsx` — global metadata (title template), fonts (`--font-body` Inter, `--font-display` Space Grotesk), and the shared shell: `Cursor`, `JarvisBg`, `Navbar`, `Footer`.
+- `app/page.tsx` — home: hero, selected work (`featuredProjects`), short about, contact.
+- `app/projects/[slug]/page.tsx` — case-study page, statically generated from `data/projects.ts` (`dynamicParams = false`).
+- `app/about/page.tsx` — bio, experience, education, skills, publication (content from `data/site.ts`).
+
+**Content rules**
+- Never invent project facts. Empty case-study fields render a `Placeholder` (dev only) and are hidden in production.
+- Projects with `draft: true` appear only in `npm run dev`.
 
 **Components**
 - `JarvisBg` — `'use client'` canvas animation (stars, orbits, HUD labels) fixed at `z-index: 0` behind all content.
 - `HeroPortrait` — `'use client'` video card with mouse-tilt 3D transform and autoplay-on-hover logic.
-- `ProjectCard` — `'use client'` card that opens a fullscreen lightbox via `createPortal` into `document.body` at `z-index: 2147483647`, bypassing any stacking-context issues with the canvas.
-- `Navbar`, `SectionHeading` — server components (no browser APIs needed).
+- `ProjectCard` — server component; links to `/projects/<slug>`, first spread is the cover.
+- `Gallery` + `Lightbox` — `'use client'`; lightbox portals into `document.body` at `z-index: 2147483647` to sit above the canvas.
+- `Placeholder` — dashed "To fill in" box shown only when `NODE_ENV === 'development'`.
+- `Navbar`, `Footer`, `Contact`, `SectionHeading` — server components.
 
 **Data**
-- `data/projects.ts` exports the `Project` type and the `projects` array. To add or update a project, edit only this file. The `Project` type fields: `slug`, `title`, `description`, `tags` (required); `cover`, `spreads`, `year`, `status`, `link`, `downloadFile`, `downloadLabel` (optional).
-- Project spread images go in `public/projects/<slug>/`. The lightbox prefers `spreads` over `cover`.
+- `data/projects.ts` — `Project` type (hook, year, status, tags, spreads, plus case-study fields: context, role, team, stack, problems[{problem, decision}], outcome, links) and helpers `visibleProjects`, `featuredProjects`, `getProject`.
+- `data/site.ts` — personal links, experience, education, skills, publications.
+- Project images go in `public/projects/<folder>/` (no spaces in names).
 
 **Styling**
 - Tailwind 4 — imported via `@import "tailwindcss"` in `globals.css` (not the legacy `@tailwind` directives).

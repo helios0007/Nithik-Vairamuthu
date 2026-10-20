@@ -226,6 +226,12 @@ footer {
   transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal-anim { opacity: 1; transform: none; transition: none; }
+  .portrait-card-interactive { animation: none; }
+}
+
 /* ─── Custom Cursor ──────────────────────────────────────────── */
 @media (pointer: fine) {
   * { cursor: none !important; }

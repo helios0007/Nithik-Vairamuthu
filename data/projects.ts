@@ -1,71 +1,143 @@
+// Every project and its case study lives here.
+// Empty or missing case-study fields show as "To fill in" boxes during `npm run dev`
+// and are hidden on the live site, so it is safe to fill them in gradually.
+
+export type ProblemDecision = {
+  problem: string
+  decision: string
+}
+
+export type ProjectLink = {
+  label: string
+  href: string
+  download?: boolean
+}
+
 export type Project = {
-  slug: string
+  slug: string // used in the URL: /projects/<slug>
   title: string
-  description: string
-  tags: string[]
-  cover?: string
-  spreads?: string[]
-  year?: string
-  status?: string
-  link?: string
-  downloadFile?: string
-  downloadLabel?: string
+  hook: string // one line on what it does
+  year: string
+  status: string
+  tags: string[] // themes / methods
+  spreads: string[] // portfolio images, shown in the gallery; the first is the cover
+  featured?: boolean // shown in "Selected work" on the home page
+  draft?: boolean // only visible in local dev until it has content
+
+  // ── Case study ──
+  context?: string[] // the problem and why it matters (one string per paragraph)
+  role?: string[] // exactly what Nithik built vs. the team
+  team?: string // e.g. "Team of 3 — IAAC MaAI studio"
+  stack?: string[] // tools: Python, PyTorch, YOLOv8, Grasshopper…
+  problems?: ProblemDecision[] // two concrete technical problems and the decisions made
+  outcome?: string[] // results, metrics, what changed
+  links?: ProjectLink[]
 }
 
 export const projects: Project[] = [
   {
     slug: "retrograde",
-    title: "Retrograde",
-    description:
-      "RetroGrade is a tool that rapidly evaluates the early feasibility of sustainable building retrofits, enabling informed retrofit-or-rebuild decisions before significant time and resources are invested.",
-    tags: ["Image Segmentation", "Regression Model", "Feasibility Analysis", "Report"],
-    cover: "/projects/retrograde/cover.jpg",
+    title: "RetroGrade",
+    hook: "A tool that rapidly evaluates the early feasibility of sustainable building retrofits, enabling informed retrofit-or-rebuild decisions before significant time and resources are invested.",
+    year: "2026",
+    status: "Completed",
+    tags: ["Image Segmentation", "Regression Model", "Feasibility Analysis"],
     spreads: [
       "/projects/retrograde/RETROGRADE_SPREAD_1.png",
       "/projects/retrograde/RETROGRADE_SPREAD_2.png",
     ],
+    featured: true,
+    context: [],
+    role: [],
+    stack: [],
+    problems: [],
+    outcome: [],
+  },
+  {
+    slug: "crack-detection",
+    title: "Crack Detection & Robotic Repair",
+    hook: "A computer vision pipeline using YOLOv8 segmentation to detect structural cracks and generate robotic repair paths.",
     year: "2026",
     status: "Completed",
+    tags: ["Computer Vision", "Segmentation", "Robotics"],
+    spreads: ["/projects/crack-detection/REPAIR_SPREAD.png"],
+    featured: true,
+    context: [],
+    role: [],
+    stack: ["YOLOv8", "Python", "ROS2"],
+    problems: [],
+    outcome: [],
   },
   {
     slug: "chronoscape",
     title: "Chronoscape",
-    description:
-      "Incorporating memory into 3D reconstruction results in environments that exhibit greater contextual richness and spatial coherence compared to image-only and text-only models",
-    tags: ["Image Generation", "Generative AI", "Urban Regeneration", "Memory"],
-    cover: "/projects/chronoscape/cover.jpg",
-    spreads: [
-      "/projects/chronoscape/CHRONOSCAPE_SPREAD.png",
-    ],
+    hook: "Memory-informed 3D reconstruction for urban regeneration — adding memory as an input produces environments with more contextual richness and spatial coherence than image-only or text-only models.",
     year: "2025",
     status: "Completed",
-  },
-  {
-    slug: "crack detection",
-    title: "Crack Detection & Robotic Repair",
-    description:
-      "Computer vision pipeline using YOLOv8 segmentation to detect structural cracks and generate robotic repair pathways.",
-    tags: ["YOLOv8", "Computer Vision", "ROS2", "Python"],
-    cover: "/projects/crack detection/cover.jpg",
-    spreads: [
-      "/projects/crack detection/REPAIR_SPREAD.png",
-    ],
-    year: "2026",
-    status: "Completed",
+    tags: ["Image Generation", "Generative AI", "Urban Regeneration"],
+    spreads: ["/projects/chronoscape/CHRONOSCAPE_SPREAD.png"],
+    featured: true,
+    context: [],
+    role: [],
+    stack: [],
+    problems: [],
+    outcome: [],
   },
   {
     slug: "lunar-habitations",
     title: "Origami Lunar Habitations",
-    description:
-      "Computational study of origami-inspired geometries applied to lunar habitat design. Published at ZMECH Conference, VIT Vellore.",
-    tags: ["Extra terrestrial", "Grasshopper", "Rhino", "Lunar Architecture"],
-    cover: "/projects/lunar/cover.jpg",
-    spreads: [
-      "/projects/lunar/lunar.png",
-    ],
+    hook: "A computational study of origami-inspired geometries applied to lunar habitat design.",
     year: "2025",
     status: "Published",
-    downloadFile: "/projects/lunar/origami-lunar-habitations.pdf",
-    downloadLabel: "Download Paper",
+    tags: ["Computational Geometry", "Lunar Architecture"],
+    spreads: ["/projects/lunar/lunar.png"],
+    featured: true,
+    context: [],
+    role: [],
+    stack: ["Grasshopper", "Rhino"],
+    problems: [],
+    outcome: [
+      "Presented at the ZMECH Conference, VIT Vellore (November 2025).",
+    ],
+    links: [
+      {
+        label: "Download paper",
+        href: "/projects/lunar/origami-lunar-habitations.pdf",
+        download: true,
+      },
+    ],
+  },
+
+  // ── Drafts: hidden on the live site until they have content and images ──
+  {
+    slug: "hvra-oasis",
+    title: "HVRA / OASIS",
+    hook: "A heat-vulnerability and overheating assessment tool — IAAC studio project.",
+    year: "2026",
+    status: "In progress",
+    tags: ["Climate Risk", "Urban Heat"],
+    spreads: [],
+    draft: true,
+  },
+  {
+    slug: "theia",
+    title: "THEIA",
+    hook: "A lunar environment and site-intelligence platform.",
+    year: "2026",
+    status: "In progress",
+    tags: ["Lunar", "Site Intelligence"],
+    spreads: [],
+    draft: true,
   },
 ]
+
+const isDev = process.env.NODE_ENV === "development"
+
+/** Projects that should appear on the site (drafts only show in local dev). */
+export const visibleProjects = projects.filter((p) => isDev || !p.draft)
+
+export const featuredProjects = visibleProjects.filter((p) => p.featured || (isDev && p.draft))
+
+export function getProject(slug: string) {
+  return visibleProjects.find((p) => p.slug === slug)
+}
