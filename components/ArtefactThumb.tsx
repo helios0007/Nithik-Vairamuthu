@@ -378,12 +378,68 @@ function Dog() {
   )
 }
 
+// ── Guided Comparative Assembly: ten tracked pucks slide into a footprint, the projection draws
+//    between them, and three method ranges compare (loop in globals.css, .thumb-puck / -outline / -range) ──
+function AssemblyTable() {
+  const pucks: [number, number][] = [
+    [90, 92], [150, 92], [210, 92], [210, 150], [250, 150], [250, 180], [250, 210], [170, 210], [90, 210], [90, 150],
+  ]
+  const rand = rng(9)
+  const outline = toPath([...pucks, pucks[0]])
+  const ranges = [
+    { y: 112, lo: 0.15, hi: 0.55, accent: true },
+    { y: 150, lo: 0.3, hi: 0.85 },
+    { y: 188, lo: 0.1, hi: 0.4 },
+  ]
+  const X0 = 290
+  const X1 = 372
+  return (
+    <>
+      {/* projected footprint */}
+      <g className="ink-fade" style={d(0.3)}>
+        <path className="thumb-outline" d={outline} fill={ACCENT} fillOpacity="0.08" stroke={ACCENT} strokeWidth="1" pathLength={1} />
+      </g>
+      {/* pucks: a circle with an ArUco-like square */}
+      {pucks.map(([x, y], i) => (
+        <g key={i} className="ink-fade" style={d(0.15 + i * 0.05)}>
+          <g
+            className="thumb-puck"
+            style={{ '--px': `${((rand() - 0.5) * 120).toFixed(0)}px`, '--py': `${((rand() - 0.5) * 70).toFixed(0)}px`, animationDelay: `${(i * 0.06).toFixed(2)}s` } as React.CSSProperties}
+          >
+            <circle cx={x} cy={y} r="9" fill="var(--color-paper-2)" stroke={INK} strokeWidth="1" />
+            <rect x={x - 4.5} y={y - 4.5} width="9" height="9" fill={INK} fillOpacity="0.55" />
+            <rect x={x - 1.5} y={y - 3} width="3" height="3" fill="var(--color-paper-2)" />
+            <rect x={x - 3} y={y + 0.5} width="2.5" height="2.5" fill="var(--color-paper-2)" />
+          </g>
+        </g>
+      ))}
+      {/* three methods as low–high ranges */}
+      {ranges.map((r, i) => {
+        const a = X0 + (X1 - X0) * r.lo
+        const b = X0 + (X1 - X0) * r.hi
+        const c = r.accent ? ACCENT : INK
+        return (
+          <g key={i} className="ink-fade" style={d(0.9 + i * 0.12)}>
+            <line x1={X0} y1={r.y} x2={X1} y2={r.y} stroke={INK} strokeOpacity="0.15" strokeWidth="0.75" />
+            <g className="thumb-range" style={{ animationDelay: `${(i * 0.15).toFixed(2)}s` }}>
+              <line x1={a} y1={r.y} x2={b} y2={r.y} stroke={c} strokeWidth="2.5" strokeLinecap="round" />
+              <line x1={a} y1={r.y - 5} x2={a} y2={r.y + 5} stroke={c} strokeWidth="1" />
+              <line x1={b} y1={r.y - 5} x2={b} y2={r.y + 5} stroke={c} strokeWidth="1" />
+            </g>
+          </g>
+        )
+      })}
+    </>
+  )
+}
+
 const artefacts: Record<string, () => React.ReactElement> = {
   retrograde: Segmentation,
   'crack-detection': Toolpaths,
   chronoscape: Palisades,
   pawlytics: Dog,
   'pressure-chamber': Globe,
+  'comparative-assembly': AssemblyTable,
   'lunar-habitations': CreasePattern,
   oasis: EixampleHeatArt,
   theia: Topography,

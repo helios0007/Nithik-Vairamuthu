@@ -88,6 +88,27 @@ button:focus-visible {
   75% { transform: rotate(-10deg); }
 }
 
+/* Guided Comparative Assembly (9s loop): pucks slide into the footprint, the projected outline
+   draws between them, then the three method ranges grow. Base state = the finished table. */
+.thumb-puck { animation: thumb-puck 9s cubic-bezier(0.45, 0, 0.25, 1) infinite both; }
+@keyframes thumb-puck {
+  0%, 6% { transform: translate(var(--px), var(--py)); opacity: 0.35; }
+  26%, 88% { transform: none; opacity: 1; }
+  100% { transform: translate(var(--px), var(--py)); opacity: 0.35; }
+}
+.thumb-outline { stroke-dasharray: 1; animation: thumb-outline 9s ease-in-out infinite; }
+@keyframes thumb-outline {
+  0%, 28% { stroke-dashoffset: 1; fill-opacity: 0; }
+  46%, 86% { stroke-dashoffset: 0; fill-opacity: 0.08; }
+  96%, 100% { stroke-dashoffset: 1; fill-opacity: 0; }
+}
+.thumb-range { transform-origin: 0% 50%; animation: thumb-range 9s ease-out infinite both; }
+@keyframes thumb-range {
+  0%, 44% { transform: scaleX(0); opacity: 0; }
+  58%, 88% { transform: scaleX(1); opacity: 1; }
+  96%, 100% { transform: scaleX(0); opacity: 0; }
+}
+
 /* Crease pattern: gently flexes, as if starting to fold */
 .thumb-crease { transform-origin: center; animation: thumb-crease 5s ease-in-out infinite; }
 @keyframes thumb-crease { 50% { transform: scale(1.015, 0.94); } }

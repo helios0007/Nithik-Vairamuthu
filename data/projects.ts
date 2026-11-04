@@ -489,6 +489,71 @@ export const projects: Project[] = [
     links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/PRESSURE-CHAMBER" }],
   },
   {
+    slug: "comparative-assembly",
+    title: "Guided Comparative Assembly",
+    hook: "An interactive tabletop installation: visitors build a small building scenario with tracked pucks and see its carbon, labour, time and cost projected back onto the table.",
+    year: "2026",
+    status: "Completed",
+    tags: ["Installation", "Human-in-the-loop", "Construction LCA"],
+    spreads: [],
+    featured: true,
+
+    team: "Data, UI & workflows · team of 6, IAAC MRAC + MaAI",
+    duration: "6 weeks",
+    keyResult: "Three construction methods compared live at a table, every number a sourced range",
+    stack: ["TouchDesigner", "Python", "OpenCV ArUco", "ESP32 + RFID", "Projection mapping", "Rhino + Grasshopper"],
+
+    contextStats: [
+      { value: "3", label: "construction methods: masonry, 3D-printed, prefab" },
+      { value: "5", label: "construction phases, foundation to finishing" },
+      { value: "10", label: "tracked pucks to draw the footprint" },
+      { value: "47", label: "cited data sources behind the numbers" },
+    ],
+    context: [
+      "A construction method's consequences (carbon, labour, time and cost) are usually locked in long before anyone sees them, and then only in expert reports.",
+      "This installation makes them legible in the moment of choosing, at a physical table, for non-experts, with the data shown as honest ranges rather than falsely precise single figures.",
+    ],
+    role: [
+      "I worked on data gathering, the projected UI, the presentation, and the workflows that connect the system.",
+      "Team: Leo, Elias, Rafik, Seid, Onur, Nithik. Course: Hardware III, Human in the Loop: Interactive Systems.",
+    ],
+    pipeline: [
+      { label: "Method", nodes: [{ id: "rfid", title: "Place a method model" }] },
+      { label: "Footprint", nodes: [{ id: "pucks", title: "Arrange the pucks" }] },
+      { label: "Configure", nodes: [{ id: "height", title: "Height & material" }] },
+      { label: "Phases", nodes: [{ id: "phases", title: "Five construction phases" }] },
+      { label: "Compare", nodes: [{ id: "compare", title: "Methods side by side" }] },
+    ],
+    process: [
+      "Visitors place an RFID-tagged model of a method on the pedestal: masonry, 3D-printed or prefab.",
+      "They arrange ten ArUco pucks into a footprint; an overhead camera and OpenCV track them.",
+      "A slider sets the building height, the material logic is chosen, and the scenario is validated.",
+      "The table steps through foundation, structure, roof, openings and finishing, projecting each phase's carbon, labour, time and cost.",
+      "A comparison view sets the chosen method against the others.",
+    ],
+    problems: [
+      {
+        title: "Honest ranges, not single numbers",
+        problem: "Construction data varies widely between sources and contexts.",
+        decision: "Every metric is a low–high range with its source and confidence tier, drawn from EPDs, the BEDEC Catalonia cost database and peer-reviewed studies.",
+      },
+      {
+        title: "Hands on the table, not a screen",
+        problem: "Non-experts rarely engage with life-cycle spreadsheets.",
+        decision: "Visitors configure the building with their hands, using method models, tracked pucks and a height slider, and the feedback is projected straight onto the table.",
+      },
+      {
+        title: "A state model that survives a live room",
+        problem: "An installation can break in many ways: a lost camera, a misplaced puck, an operator reset.",
+        decision: "A layered state machine in TouchDesigner wraps the visitor flow in calibration, error, reset and manual-override states, with colour-coded feedback.",
+      },
+    ],
+    outcome: [
+      "Presented at the IAAC final critique on 22 May 2026, comparing masonry, 3D-printed and prefab construction in a Catalan context.",
+    ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/Leonardboeker/Hardware_III" }],
+  },
+  {
     slug: "pawlytics",
     title: "Pawlytics",
     hook: "A pet health monitoring app that learns each pet's baseline, adds breed risk, and tells owners clearly when a change is worth a vet visit.",
