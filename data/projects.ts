@@ -431,6 +431,67 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "pawlytics",
+    title: "Pawlytics",
+    hook: "A pet health monitoring app that learns each pet's baseline, adds breed risk, and tells owners clearly when a change is worth a vet visit.",
+    year: "2026",
+    status: "MVP",
+    tags: ["Full-stack App", "Health Monitoring", "3D Web"],
+    spreads: [],
+    featured: true,
+
+    team: "Solo developer · personal project",
+    duration: "",
+    keyResult: "Daily logs turned into a 0–100 health score with clear Monitor / Vet soon / Urgent guidance",
+    stack: ["React", "TypeScript", "Three.js", "Recharts", "FastAPI", "PostgreSQL", "SQLAlchemy"],
+
+    context: [
+      "Changes in a pet's eating, sleep or activity are gradual and easy to miss, and owners rarely know when a change is worth a vet visit.",
+      "Pawlytics is built for monitoring, not diagnosis: it compares each pet with its own baseline and gives clear, explainable guidance on when to act.",
+    ],
+    role: [
+      "I did the complete development: the FastAPI backend and PostgreSQL data model, the rules-based health engine, and the React front end with its 3D pet avatar.",
+    ],
+    pipeline: [
+      { label: "Log", nodes: [{ id: "log", title: "Daily health log" }] },
+      { label: "Baseline", nodes: [{ id: "base", title: "Compare with own average" }] },
+      { label: "Breed risk", nodes: [{ id: "breed", title: "Known breed conditions" }] },
+      { label: "Triage", nodes: [{ id: "triage", title: "Score & urgency" }] },
+      { label: "Explain", nodes: [{ id: "explain", title: "Plain-language guidance" }] },
+    ],
+    process: [
+      "Owners log food, sleep, activity, weight and symptoms each day.",
+      "Today is compared with the pet's 30-day average; an activity drop over 30% or a weight change over 5% is flagged.",
+      "Breed prevalence data from VetCompass and OFA adds context for known conditions.",
+      "A rule tree sorts symptoms into Monitor, Vet soon or Urgent, and a weighted score from 0 to 100 sums it up.",
+      "A plain-language explanation, a 30-day trend, and a 3D avatar that reflects the pet's health state.",
+    ],
+    problems: [
+      {
+        title: "Monitoring, not diagnosis",
+        problem: "An app that claims to diagnose is risky and hard to trust.",
+        decision: "Focus on early warning and escalation: compare each pet with its own baseline and say clearly when to contact a vet.",
+      },
+      {
+        title: "Rules before machine learning",
+        problem: "There is no training data at launch, and owners need to see why a warning appears.",
+        decision: "A transparent rules engine with template-based explanations first; lightweight ML once enough logs exist.",
+      },
+      {
+        title: "Health you can see",
+        problem: "Numbers alone don't keep owners engaged day to day.",
+        decision: "A 3D avatar of the pet, built with Three.js, reflects its health state next to the score and trend.",
+      },
+    ],
+    outcome: [
+      "A working full-stack MVP: accounts, a 3-step pet onboarding, daily logging, health score and triage, a breed-risk panel and 30-day trends, behind a documented REST API.",
+    ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/PAWLYTICS" }],
+    reflection: [
+      "Next: wearable integration, lightweight anomaly detection once logs accumulate, and vet clinic integrations.",
+    ],
+  },
+  {
     slug: "lunar-habitations",
     title: "Origami Lunar Habitations",
     hook: "A computational study of origami-inspired geometries applied to lunar habitat design.",

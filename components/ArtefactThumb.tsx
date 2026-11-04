@@ -331,10 +331,58 @@ function Topography() {
   )
 }
 
+// ── Pawlytics: a pet's 30-day health score against its own baseline; one dip gets flagged ──
+function HealthTrend() {
+  const X0 = 40
+  const X1 = 362
+  const Y = (v: number) => 236 - v * 1.7 // score 0–100 → y
+  const days = 30
+  const rand = rng(5)
+  const score = Array.from({ length: days }, (_, i) => {
+    const dip = i >= 19 && i <= 22 ? [0, 14, 22, 12][i - 19] : 0
+    return 78 + Math.sin(i * 0.7) * 3 + (rand() - 0.5) * 5 - dip
+  })
+  const pts = score.map((v, i) => [X0 + ((X1 - X0) * i) / (days - 1), Y(v)])
+  const flag = pts[21]
+  return (
+    <>
+      {/* baseline band: the pet's own 30-day average ± normal range */}
+      <rect className="ink-fade" style={d(0.1)} x={X0} y={Y(85)} width={X1 - X0} height={Y(71) - Y(85)} fill={INK} fillOpacity="0.06" />
+      <line className="ink-draw" style={d(0.1)} pathLength={1} x1={X0} y1={Y(78)} x2={X1} y2={Y(78)} stroke={MUTED} strokeWidth="0.75" strokeDasharray="3 3" />
+      {/* score axis ticks */}
+      <g className="ink-fade" style={d(0.2)} fill={MUTED} fontSize="8" fontFamily={MONO}>
+        {[100, 50, 0].map((v) => (
+          <text key={v} x={X0 - 8} y={Y(v) + 3} textAnchor="end">
+            {v}
+          </text>
+        ))}
+      </g>
+      <path className="ink-draw" style={d(0.3)} pathLength={1} d={toPath(pts)} fill="none" stroke={INK} strokeWidth="1.4" strokeLinejoin="round" />
+      <g className="ink-fade" style={d(0.9)}>
+        {pts.map(([x, y], i) => (
+          <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r={i >= 19 && i <= 22 ? 2.2 : 1.6} fill={i >= 19 && i <= 22 ? ACCENT : INK} />
+        ))}
+      </g>
+      {/* the flagged dip */}
+      <g className="ink-fade" style={d(1.3)}>
+        <g className="thumb-target">
+          <circle cx={flag[0]} cy={flag[1]} r="9" fill="none" stroke={ACCENT} strokeWidth="1" />
+        </g>
+        <line x1={flag[0]} y1={flag[1] + 10} x2={flag[0]} y2={Y(14)} stroke={ACCENT} strokeWidth="0.75" strokeDasharray="2 2" />
+        <text x={flag[0]} y={Y(14) + 12} fill={ACCENT} fontSize="8" letterSpacing="1.2" fontFamily={MONO} textAnchor="middle">
+          VET SOON
+        </text>
+      </g>
+      <Legend items={[{ label: 'HEALTH SCORE', line: 'ink' }, { label: 'OWN BASELINE', line: 'dashed' }]} />
+    </>
+  )
+}
+
 const artefacts: Record<string, () => React.ReactElement> = {
   retrograde: Segmentation,
   'crack-detection': Toolpaths,
   chronoscape: Palisades,
+  pawlytics: HealthTrend,
   'lunar-habitations': CreasePattern,
   oasis: EixampleHeatArt,
   theia: Topography,
