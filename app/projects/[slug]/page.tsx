@@ -236,9 +236,12 @@ export default async function ProjectPage({ params }: Props) {
           <section className="border-t border-line py-12">
             <h2 className="text-2xl font-bold tracking-tight">Process</h2>
             <div className="mt-8">
-              <Pipeline stages={project.pipeline!} />
+              <Pipeline
+                stages={project.pipeline!}
+                notes={project.process?.length === project.pipeline!.length ? project.process : undefined}
+              />
             </div>
-            {has(project.process) && (
+            {has(project.process) && project.process!.length !== project.pipeline!.length && (
               <div className="mt-12 grid gap-4 md:grid-cols-[1fr_2fr] md:gap-12">
                 <div />
                 <div className="space-y-5 text-lg leading-8">

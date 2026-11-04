@@ -48,7 +48,7 @@ export type Project = {
   context?: string[] // the problem and why it matters (one string per paragraph)
   role?: string[] // exactly what Nithik built vs. the team
   pipeline?: PipelineStage[] // flowchart shown at the top of Process
-  process?: string[] // how it was made: sketches, iterations, one thing that failed
+  process?: string[] // how it was made; with a pipeline, give one short line per stage and it sits under each block
   problems?: ProblemDecision[] // 2–3 "I chose X over Y because…" decisions
   outcome?: string[] // results, what changed
   modelCard?: ModelCard // for AI / ML projects
@@ -124,10 +124,11 @@ export const projects: Project[] = [
       },
     ],
     process: [
-      "Step 1a, image processing: SAM extracts the building mask from the façade photo. SegFormer trained on the CMP façade dataset detects façade elements to calculate window-to-wall ratio and shading. SegFormer trained on ADE20K finds vegetation and its coverage. CLIP classifies materials and vegetation types.",
-      "Step 1b, climate data: the building's address is geocoded with Nominatim, then Open-Meteo provides temperatures, solar radiation and wind. From these the tool derives the Köppen climate class, heating and cooling degree days (HDD/CDD), and daylight and ventilation indices.",
-      "Step 2, prediction: a random forest regression model, trained on 40,000 building records across Europe, predicts energy consumption and carbon emissions from the façade results, building information and building systems.",
-      "Step 3, scoring: a rule-based algorithm with 135 rules in 5 categories combines everything into a score out of 100. Above 50, a retrofit is feasible; below 50, demolition is suggested. The result is delivered as a 7-section PDF report.",
+      "A façade photo, a short questionnaire about the building, and its location.",
+      "SAM, SegFormer and CLIP read windows, shading, vegetation and materials. Open-Meteo adds the climate.",
+      "A random forest trained on 40,000 European buildings predicts energy use and carbon emissions.",
+      "135 rules in 5 weighted categories give a score out of 100: above 50, retrofit; below, demolish.",
+      "A 7-section PDF report, in about 60 seconds.",
     ],
     problems: [
       {
