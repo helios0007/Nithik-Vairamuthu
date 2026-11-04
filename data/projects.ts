@@ -37,6 +37,7 @@ export type Project = {
   tags: string[] // themes / methods
   spreads: string[] // portfolio images, shown in the gallery; the first is the cover
   featured?: boolean // shown in "Selected work" on the home page
+  award?: string // e.g. "Best Thesis Award", shown as a badge on the card and page
   draft?: boolean // only visible in local dev until it has content
 
   // ── Summary box (top of the page, what reviewers scan first) ──
@@ -73,6 +74,75 @@ export type ModelCard = {
 export const SHOW_SPREADS = false
 
 export const projects: Project[] = [
+  {
+    slug: "oasis",
+    title: "OASIS",
+    hook: "An AI-assisted retrofit tool that maps heat vulnerability from city to apartment and ranks passive interventions using climate, building and health data, helping Barcelona adapt to extreme heat.",
+    year: "2026",
+    status: "Completed",
+    tags: ["Urban Heat", "Heat Vulnerability", "AI Retrofit"],
+    spreads: [],
+    featured: true,
+    award: "Best Thesis Award",
+
+    team: "Main tool developer · team of 4, IAAC MaAI",
+    duration: "",
+    keyResult: "Heat vulnerability scored for every building in a drawn zone, then traced down to room-level retrofits",
+    stack: ["Infrared SDK", "UTCI", "Ollama · Qwen2.5", "IFC", "OpenStreetMap", "Gemini API"],
+
+    contextStats: [
+      { value: "546k", label: "heat-related deaths a year worldwide (2012–2021)" },
+      { value: "50–85%", label: "of deaths in extreme heat linked to indoor exposure" },
+      { value: "28%", label: "of Barcelona homes vulnerable to extreme heat" },
+      { value: "591,211", label: "Barcelona homes without enough cross-ventilation" },
+    ],
+    context: [
+      "Barcelona faces longer heatwaves, made worse by dense streets, ageing housing and unequal access to cooling.",
+      "An architect, a public health officer and a housing operator each hold part of the picture, in separate tools. The 82-year-old sleeping at 32°C in apartment 4B stays invisible to all three.",
+    ],
+    role: [
+      "I did the major part of the tool development. I built the complete urban-scale tool, integrated my teammates' workflows into one system, and prepared the presentations.",
+      "Team: Gaelle Habib, Chun-Chun Chang, Vimal TN, Nithik Vairamuthu. Tutor: Prof. Emanuele Naboni.",
+    ],
+    pipeline: [
+      { label: "Zone", nodes: [{ id: "zone", title: "Draw the zone", mine: true }] },
+      { label: "Simulate", nodes: [{ id: "sim", title: "Site context & microclimate", mine: true }] },
+      { label: "Score", nodes: [{ id: "hvi", title: "Heat vulnerability per building", mine: true }] },
+      { label: "Intervene", nodes: [{ id: "urban", title: "Urban measures & what-ifs", mine: true }] },
+      { label: "Retrofit", nodes: [{ id: "room", title: "Room-level retrofit" }] },
+    ],
+    process: [
+      "Draw a polygon on the map of Barcelona, or search a location.",
+      "Buildings, vegetation, ground materials and weather are fetched, and a UTCI microclimate simulation runs. Satellite surface temperature is the fallback.",
+      "Every building gets a heat vulnerability index from 0 to 10, with its main drivers: heat island, missing vegetation, poor ventilation, density.",
+      "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what-if scenarios.",
+      "High-risk buildings pass to the building scale: upload an IFC model, see overheating risk per room, and get ranked passive retrofits in 3D.",
+    ],
+    problems: [
+      {
+        title: "One system across three scales",
+        problem: "The data to protect vulnerable residents exists, but in different tools, for different professionals.",
+        decision: "Connect city, building and apartment in one tool. The urban layer finds high-risk buildings and hands their urban context to the building layer.",
+      },
+      {
+        title: "Health-weighted metrics, not just temperature",
+        problem: "Air temperature alone doesn't show who is actually at risk.",
+        decision: "Four health-weighted KPIs: operative temperature, wet bulb globe temperature, nocturnal recovery and age-weighted overheating hours.",
+      },
+      {
+        title: "Rules first, then AI",
+        problem: "An LLM on its own can recommend retrofits that don't fit the room.",
+        decision: "Rules filter out strategies that don't apply, then the LLM writes a plain-language diagnosis and the top three retrofits for each room.",
+      },
+    ],
+    outcome: [
+      "A working tool with urban and building layers, demonstrated on a real Barcelona scenario, plus a unit-scale layer planned for residents using a single panorama photo.",
+      "Built for municipalities, the Barcelona Housing Consortium, public health agencies, architects, retrofit agencies and residents. The project received the Best Thesis Award.",
+    ],
+    reflection: [
+      "Next: finish integrating the unit-scale layer, so residents' own homes feed real conditions back into the city's vulnerability model.",
+    ],
+  },
   {
     slug: "retrograde",
     title: "RetroGrade",
@@ -284,16 +354,6 @@ export const projects: Project[] = [
   },
 
   // ── Drafts: hidden on the live site until they have content and images ──
-  {
-    slug: "hvra-oasis",
-    title: "HVRA / OASIS",
-    hook: "A heat-vulnerability and overheating assessment tool — IAAC studio project.",
-    year: "2026",
-    status: "In progress",
-    tags: ["Climate Risk", "Urban Heat"],
-    spreads: [],
-    draft: true,
-  },
   {
     slug: "theia",
     title: "THEIA",

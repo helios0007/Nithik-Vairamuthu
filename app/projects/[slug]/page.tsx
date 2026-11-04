@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArtefactThumb from "../../../components/ArtefactThumb";
+import AwardBadge from "../../../components/AwardBadge";
 import DrawOnView from "../../../components/DrawOnView";
 import Gallery from "../../../components/Gallery";
 import Pipeline from "../../../components/Pipeline";
@@ -171,8 +172,9 @@ export default async function ProjectPage({ params }: Props) {
           <Link href="/#work" className="text-muted transition hover:text-ink">
             ← All work
           </Link>
-          <p className="mt-10 text-muted">
+          <p className="mt-10 flex flex-wrap items-center gap-3 text-muted">
             {project.year} · {project.status}
+            {project.award && <AwardBadge award={project.award} />}
           </p>
           <h1 className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl">{project.title}</h1>
           <p className="mt-6 max-w-3xl text-xl leading-9 sm:text-2xl sm:leading-10">{project.hook}</p>

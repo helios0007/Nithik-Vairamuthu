@@ -431,7 +431,7 @@ const artefacts: Record<string, () => React.ReactElement> = {
   'crack-detection': Toolpaths,
   chronoscape: PointCloud,
   'lunar-habitations': CreasePattern,
-  'hvra-oasis': HeatRaster,
+  oasis: HeatRaster,
   theia: Topography,
 }
 

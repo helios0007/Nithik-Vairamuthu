@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Project } from '../data/projects'
 import ArtefactThumb from './ArtefactThumb'
+import AwardBadge from './AwardBadge'
 import DrawOnView from './DrawOnView'
 
 export default function ProjectCard({ project, index }: { project: Project; index?: number }) {
@@ -14,7 +15,10 @@ export default function ProjectCard({ project, index }: { project: Project; inde
         {project.year} · {project.status}
         {project.draft && <span className="ml-2 font-medium text-amber-300">· Draft (dev only)</span>}
       </p>
-      <h3 className="mt-1 text-2xl font-bold tracking-tight">{project.title}</h3>
+      <h3 className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-2xl font-bold tracking-tight">
+        {project.title}
+        {project.award && <AwardBadge award={project.award} />}
+      </h3>
       <p className="mt-2 leading-7 text-muted">{project.hook}</p>
       <span className="mt-3 inline-block font-medium text-accent group-hover:underline group-hover:underline-offset-4">
         Read more →
