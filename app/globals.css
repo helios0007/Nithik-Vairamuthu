@@ -79,34 +79,6 @@ button:focus-visible {
   48%, 100% { transform: translateY(0); opacity: 0; }
 }
 
-/* Chronoscape: memories converge and are reconstructed as Gaussian splats (11s loop).
-   Each .memory-points group is one resident's memory; --mx/--my/--mr place its fragment around the frame.
-   Group-level opacity/transform only, so it stays light. Base state = the finished house. */
-.memory-points {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: memory-points 11s cubic-bezier(0.45, 0, 0.25, 1) infinite both;
-}
-@keyframes memory-points {
-  0%, 8% { transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(0.32); opacity: 0.85; }
-  28%, 54% { transform: none; opacity: 0.3; }
-  66%, 86% { transform: none; opacity: 1; }
-  100% { transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(0.32); opacity: 0.85; }
-}
-.splat-coarse { opacity: 0; animation: splat-coarse 11s ease-in-out infinite; }
-@keyframes splat-coarse {
-  0%, 26% { opacity: 0; }
-  36%, 46% { opacity: 1; }
-  58%, 100% { opacity: 0; }
-}
-.splat-fine { opacity: 0; animation: splat-fine 11s ease-in-out infinite; }
-@keyframes splat-fine {
-  0%, 38% { opacity: 0; }
-  50%, 62% { opacity: 1; }
-  72%, 100% { opacity: 0; }
-}
-
-
 /* Crease pattern: gently flexes, as if starting to fold */
 .thumb-crease { transform-origin: center; animation: thumb-crease 5s ease-in-out infinite; }
 @keyframes thumb-crease { 50% { transform: scale(1.015, 0.94); } }

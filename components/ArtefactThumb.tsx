@@ -6,6 +6,7 @@
 //   .thumb-*              — slow ambient loops afterwards
 
 import EixampleHeat from './EixampleHeat'
+import PalisadesGather from './PalisadesGather'
 import RobotArm from './RobotArm'
 
 const ACCENT = 'var(--color-accent)'
@@ -211,151 +212,12 @@ function Toolpaths() {
   )
 }
 
-// ── Chronoscape: fragments of residents' memories converge and are reconstructed as Gaussian splats ──
-function PointCloud() {
-  const rand = rng(11)
-  // gabled house, ridge along x; viewer looks from +x/+z (isometric)
-  const W = 110
-  const D = 72
-  const H = 58
-  const R = 38
-  const cos = Math.cos(Math.PI / 6)
-  const sin = Math.sin(Math.PI / 6)
-  const cx = 200 - ((W - D) * cos) / 2
-  const project = (x: number, y: number, z: number) => [cx + (x - z) * cos, 156 + (x + z) * sin - y]
-  const gable = (z: number) => H + R * (1 - Math.abs(z - D / 2) / (D / 2))
-  const points: { p: number[]; front: boolean }[] = []
-  const add = (count: number, f: () => number[], front = false) => {
-    for (let i = 0; i < count; i++) points.push({ p: f(), front })
-  }
-  const jitter = () => (rand() - 0.5) * 1.6
-  add(520, () => [rand() * W, rand() * H, D + jitter()], true) // long wall facing us
-  add(300, () => {
-    const z = rand() * D
-    return [W + jitter(), rand() * gable(z), z]
-  }) // gable wall
-  add(380, () => {
-    const t = rand()
-    return [rand() * W, H + t * R + jitter(), D - (t * D) / 2]
-  }) // front roof
-  add(110, () => {
-    const t = rand()
-    return [rand() * W, H + t * R + jitter(), (t * D) / 2]
-  }) // back roof, seen past the ridge
-  const edge = (a: number[], b: number[], count: number, front = false) =>
-    add(count, () => {
-      const t = rand()
-      return a.map((v, i) => v + (b[i] - v) * t + jitter() * 0.4)
-    }, front)
-  edge([0, 0, D], [W, 0, D], 90, true)
-  edge([0, H, D], [W, H, D], 90, true)
-  edge([W, 0, D], [W, H, D], 50, true)
-  edge([0, 0, D], [0, H, D], 50, true)
-  edge([W, 0, 0], [W, 0, D], 60)
-  edge([W, H, 0], [W, H + R, D / 2], 50)
-  edge([W, H + R, D / 2], [W, H, D], 50)
-  edge([0, H + R, D / 2], [W, H + R, D / 2], 90)
-  edge([0, H, D], [0, H + R, D / 2], 40)
-  add(60, () => [rand() * W * 1.4 - 20, rand() * (H + R) * 1.3, rand() * D * 1.4 - 10]) // scan noise
-
-  // Splats: soft ellipses sampled from the same surfaces, coarse (big, few) then fine (small, many)
-  const splatRand = rng(23)
-  const projected = points.filter((pt) => pt.p[1] >= 0).map(({ p: [x, y, z], front }) => ({ xy: project(x, y, z), front }))
-  const makeSplats = (count: number, rx: [number, number], ry: [number, number]) =>
-    Array.from({ length: count }, () => {
-      const { xy, front } = projected[Math.floor(splatRand() * projected.length)]
-      return {
-        x: xy[0] + (splatRand() - 0.5) * 3,
-        y: xy[1] + (splatRand() - 0.5) * 3,
-        rx: rx[0] + splatRand() * (rx[1] - rx[0]),
-        ry: ry[0] + splatRand() * (ry[1] - ry[0]),
-        rot: Math.round(splatRand() * 180),
-        front,
-      }
-    })
-  const coarse = makeSplats(70, [8, 14], [4, 8])
-  const fine = makeSplats(420, [2.5, 4.5], [1.2, 2.4])
-  const groupsOf = <T,>(list: T[], n: number) => Array.from({ length: n }, (_, g) => list.filter((_, i) => i % n === g))
-  // Each batch of points is one resident's memory: it starts as a small, partial fragment of the house
-  // somewhere around the frame, then flies in and merges with the others.
-  const memories = [
-    { mx: -128, my: -62, mr: -28 },
-    { mx: 132, my: -72, mr: 22 },
-    { mx: 150, my: 58, mr: 34 },
-    { mx: -146, my: 52, mr: -40 },
-    { mx: 4, my: -104, mr: 12 },
-  ]
-
-  // Loop (globals.css, .memory-points / .splat-*): scattered memories → they converge into a faint house →
-  // coarse then fine Gaussian splats reconstruct it → the crisp house holds → it breaks back into memories.
-  // Off under reduced motion, which shows the finished house.
-  const batches = memories.length
+// ── Chronoscape: scattered points gather into Pacific Palisades (mountains, ocean, palms, houses) ──
+function Palisades() {
   return (
-    <>
-      <defs>
-        {(['ink', 'accent'] as const).map((c) => (
-          <radialGradient key={c} id={`splat-${c}`}>
-            <stop offset="0%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0.9" />
-            <stop offset="45%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0.45" />
-            <stop offset="100%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0" />
-          </radialGradient>
-        ))}
-      </defs>
-
-      {/* Gaussian splats, coarse then fine (hidden until the house has gone) */}
-      {[
-        { list: coarse, cls: 'splat-coarse', op: 0.45, groups: 3 },
-        { list: fine, cls: 'splat-fine', op: 0.8, groups: 4 },
-      ].map(({ list, cls, op, groups }) =>
-        groupsOf(list, groups).map((group, g) => (
-          <g key={`${cls}-${g}`} className={cls} style={{ animationDelay: `${(g * 0.18).toFixed(2)}s` }}>
-            {group.map((sp, i) => (
-              <ellipse
-                key={i}
-                rx={sp.rx.toFixed(1)}
-                ry={sp.ry.toFixed(1)}
-                transform={`translate(${sp.x.toFixed(1)} ${sp.y.toFixed(1)}) rotate(${sp.rot})`}
-                fill={`url(#splat-${sp.front ? 'accent' : 'ink'})`}
-                opacity={op}
-              />
-            ))}
-          </g>
-        ))
-      )}
-
-      {/* the point cloud, one batch per memory */}
-      {Array.from({ length: batches }, (_, b) => (
-        <g key={b} className="ink-fade" style={d(0.15 + b * 0.16)}>
-          <g
-            className="memory-points"
-            style={
-              {
-                '--mx': `${memories[b].mx}px`,
-                '--my': `${memories[b].my}px`,
-                '--mr': `${memories[b].mr}deg`,
-                animationDelay: `${(b * 0.12).toFixed(2)}s`,
-              } as React.CSSProperties
-            }
-          >
-            {points.map(({ p: [x, y, z], front }, i) => {
-              if (i % batches !== b) return null
-              const [px, py] = project(x, y, z)
-              return (
-                <circle
-                  key={i}
-                  cx={px.toFixed(1)}
-                  cy={py.toFixed(1)}
-                  r="0.9"
-                  fill={front ? ACCENT : INK}
-                  fillOpacity={front ? 0.9 : 0.4 + (i % 5) * 0.08}
-                />
-              )
-            })}
-          </g>
-        </g>
-      ))}
-
-    </>
+    <g className="ink-fade" style={d(0.15)}>
+      <PalisadesGather />
+    </g>
   )
 }
 
@@ -472,7 +334,7 @@ function Topography() {
 const artefacts: Record<string, () => React.ReactElement> = {
   retrograde: Segmentation,
   'crack-detection': Toolpaths,
-  chronoscape: PointCloud,
+  chronoscape: Palisades,
   'lunar-habitations': CreasePattern,
   oasis: EixampleHeatArt,
   theia: Topography,
