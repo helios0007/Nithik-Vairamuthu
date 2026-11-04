@@ -211,7 +211,7 @@ function Toolpaths() {
   )
 }
 
-// ── Chronoscape: a house that vanishes and is rebuilt from memory as Gaussian splats ──
+// ── Chronoscape: fragments of residents' memories converge and are reconstructed as Gaussian splats ──
 function PointCloud() {
   const rand = rng(11)
   // gabled house, ridge along x; viewer looks from +x/+z (isometric)
@@ -276,11 +276,20 @@ function PointCloud() {
   const coarse = makeSplats(70, [8, 14], [4, 8])
   const fine = makeSplats(420, [2.5, 4.5], [1.2, 2.4])
   const groupsOf = <T,>(list: T[], n: number) => Array.from({ length: n }, (_, g) => list.filter((_, i) => i % n === g))
-  const door = project(W * 0.62, 6, D) // the candle that stayed
+  // Each batch of points is one resident's memory: it starts as a small, partial fragment of the house
+  // somewhere around the frame, then flies in and merges with the others.
+  const memories = [
+    { mx: -128, my: -62, mr: -28 },
+    { mx: 132, my: -72, mr: 22 },
+    { mx: 150, my: 58, mr: 34 },
+    { mx: -146, my: 52, mr: -40 },
+    { mx: 4, my: -104, mr: 12 },
+  ]
 
-  // Loop (globals.css, .splat-*): house stands → points drift away like embers → a candle stays lit →
-  // coarse splats → fine splats → the crisp point cloud returns. Off under reduced motion.
-  const batches = 8
+  // Loop (globals.css, .memory-points / .splat-*): scattered memories → they converge into a faint house →
+  // coarse then fine Gaussian splats reconstruct it → the crisp house holds → it breaks back into memories.
+  // Off under reduced motion, which shows the finished house.
+  const batches = memories.length
   return (
     <>
       <defs>
@@ -314,16 +323,17 @@ function PointCloud() {
         ))
       )}
 
-      {/* the point-cloud house, in 8 batches that draw in, then drift away and return */}
+      {/* the point cloud, one batch per memory */}
       {Array.from({ length: batches }, (_, b) => (
         <g key={b} className="ink-fade" style={d(0.15 + b * 0.16)}>
           <g
-            className="splat-points"
+            className="memory-points"
             style={
               {
-                '--dx': `${((b % 4) - 1.5) * 7}px`,
-                '--dy': `${-16 - (b % 3) * 7}px`,
-                animationDelay: `${(b * 0.07).toFixed(2)}s`,
+                '--mx': `${memories[b].mx}px`,
+                '--my': `${memories[b].my}px`,
+                '--mr': `${memories[b].mr}deg`,
+                animationDelay: `${(b * 0.12).toFixed(2)}s`,
               } as React.CSSProperties
             }
           >
@@ -345,17 +355,6 @@ function PointCloud() {
         </g>
       ))}
 
-      {/* the candle that stayed */}
-      <g className="splat-candle">
-        <circle cx={door[0].toFixed(1)} cy={door[1].toFixed(1)} r="7" fill="url(#splat-accent)" />
-        <circle cx={door[0].toFixed(1)} cy={door[1].toFixed(1)} r="1.6" fill={ACCENT} />
-      </g>
-
-      <g className="ink-fade" style={d(1.6)}>
-        <text x="24" y="275" fill={MUTED} fontSize="8" letterSpacing="1.2" fontFamily={MONO}>
-          MEMORY → GAUSSIAN SPLATS · {points.length.toLocaleString('en')} PTS
-        </text>
-      </g>
     </>
   )
 }
