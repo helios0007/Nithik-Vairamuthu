@@ -194,6 +194,7 @@ export const projects: Project[] = [
     reflection: [
       "Next: finish integrating the unit-scale layer, so residents' own homes feed real conditions back into the city's vulnerability model.",
     ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/HVRA" }],
   },
   {
     slug: "retrograde",
@@ -285,6 +286,7 @@ export const projects: Project[] = [
       "Every building analysed is logged to a shared dataset. Over time this builds a record that can support neighbourhood- and city-scale analysis of retrofit and demolition needs, for urban planning and policy.",
     ],
     modelCard: {
+      codeUrl: "https://github.com/RashiD2801/RetroGrade",
       data: "1,000 façade images for segmentation; 40,000 building records across Europe for the regression model",
       model: "SAM + SegFormer (CMP and ADE20K) + CLIP for façade segmentation; random forest regression for energy and carbon",
       metrics: [
@@ -301,6 +303,7 @@ export const projects: Project[] = [
     reflection: [
       "Next steps: bring in building layouts for a stronger environmental analysis; add client budget, cost estimates and ROI for financial feasibility; integrate structural feasibility and local regulations for full retrofit decision support; and suggest retrofit design solutions with visualisations.",
     ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/RashiD2801/RetroGrade" }],
   },
   {
     slug: "crack-detection",
