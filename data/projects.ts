@@ -182,19 +182,66 @@ export const projects: Project[] = [
   },
   {
     slug: "crack-detection",
-    title: "Crack Detection & Robotic Repair",
-    hook: "A computer vision pipeline using YOLOv8 segmentation to detect structural cracks and generate robotic repair paths.",
+    title: "RE:PAIR",
+    hook: "A perception-driven, closed-loop robotic system that detects cracks, repairs them with robotic 3D printing, and verifies the result.",
     year: "2026",
     status: "Completed",
     tags: ["Computer Vision", "Segmentation", "Robotics"],
     spreads: ["/projects/crack-detection/REPAIR_SPREAD.webp"],
     featured: true,
-    context: [],
-    role: [],
-    stack: ["YOLOv8", "Python", "ROS2"],
-    problems: [],
-    outcome: [],
+
+    team: "Developer, crack detection · team of 5, IAAC MRAC/MaAI",
+    duration: "",
+    keyResult: "Detect, repair and verify in one closed loop, tested in simulation and on a UR10",
+    stack: ["Python", "YOLOv8", "ROS 2", "UR10", "RViz", "Flask", "Grasshopper"],
+
+    context: [
+      "Cracks in timber range from superficial, aesthetic damage to deep, structural failure, and each needs a different repair: filling, patching or reinforcement.",
+      "RE:PAIR asks whether a robot can find a crack, repair it, and check its own work, while showing every decision it makes.",
+    ],
+    role: [
+      "I did the programming and development for crack detection: the YOLO segmentation model and the code that turns its masks into centrelines and target points for the robot. The ROS 2 integration was built by a teammate.",
+      "Team: Onur Berk Doğrultucu, Vimal TN, Nithik Vairamuthu, Arthur Rotstein, Sam Holcombe.",
+    ],
+    pipeline: [
+      { label: "Capture", nodes: [{ id: "cam", title: "Camera image" }] },
+      { label: "Detect", nodes: [{ id: "seg", title: "Crack segmentation", mine: true }] },
+      { label: "Extract", nodes: [{ id: "line", title: "Centreline & points", mine: true }] },
+      { label: "Repair", nodes: [{ id: "print", title: "Robotic 3D printing" }] },
+      { label: "Verify", nodes: [{ id: "check", title: "Re-scan & check" }] },
+    ],
+    process: [
+      "A camera captures the cracked timber surface.",
+      "A custom-trained YOLO segmentation model masks each crack.",
+      "Each mask is reduced to a centreline, then to target points for the toolpath.",
+      "ROS 2 drives a UR10 that fills the crack by robotic 3D printing.",
+      "The robot checks the repair, closing the loop.",
+    ],
+    problems: [
+      {
+        title: "Decisions the operator can see",
+        problem: "The robot's perception and planning were invisible, so failures were hard to trace and trust was low.",
+        decision: "An observability interface in RViz shows what the robot sees and plans at every step.",
+      },
+      {
+        title: "A Flask bridge to Grasshopper",
+        problem: "The detection model had to work in the design tools too, not only inside ROS 2.",
+        decision: "A small Flask server exposes the YOLO model over HTTP, so Grasshopper can request crack masks and turn their centrelines into targets for the Robots plug-in.",
+      },
+      {
+        title: "A synthetic fallback for testing",
+        problem: "Losing the camera stopped the entire pipeline.",
+        decision: "A synthetic input lets each stage be tested in isolation.",
+      },
+    ],
+    outcome: [
+      "Repairman Stack v1.0: a decision-visible robotic repair system, tested in RViz simulation and on a real UR10.",
+      "The same crack detection also runs in Rhino/Grasshopper through the Flask bridge.",
+    ],
     modelCard: {},
+    reflection: [
+      "Integration is a system discipline. Code can be correct and the motion still wrong: a 180° base-yaw mismatch broke IK alignment, simulated arm kinematics differ from the real UR10, and corner calibration was mandatory before trusting the workspace.",
+    ],
   },
   {
     slug: "chronoscape",
