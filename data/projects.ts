@@ -191,7 +191,7 @@ export const projects: Project[] = [
     featured: true,
 
     team: "Developer, crack detection · team of 5, IAAC MRAC/MaAI",
-    duration: "",
+    duration: "6 weeks",
     keyResult: "Detect, repair and verify in one closed loop, tested in simulation and on a UR10",
     stack: ["Python", "YOLOv8", "ROS 2", "UR10", "RViz", "Flask", "Grasshopper"],
 
