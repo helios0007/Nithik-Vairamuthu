@@ -59,18 +59,25 @@ button:focus-visible {
   transform-box: fill-box;
 }
 
-/* Segmentation: a scan line passes over the mask */
-.thumb-scan { animation: thumb-scan 7s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
-@keyframes thumb-scan {
-  0% { transform: translateY(0); opacity: 0; }
-  6% { opacity: 1; }
-  80% { transform: translateY(200px); opacity: 1; }
-  92%, 100% { transform: translateY(200px); opacity: 0; }
+/* Segmentation: pixels arrange into the classified façade as the scan line rises.
+   Per-cell vars set in ArtefactThumb.tsx: --c/--o final colour, --dx/--dy/--rot scattered pose,
+   animation-delay = when the line reaches that row. Cycle (7s) must match SEG_CYCLE. */
+.thumb-cell {
+  transform-origin: center;
+  animation: thumb-cell 7s cubic-bezier(0.3, 0, 0.2, 1) infinite both;
 }
-
-/* Toolpaths: the active pass flows along the crack */
-.thumb-march { animation: thumb-march 1.8s linear infinite; }
-@keyframes thumb-march { to { stroke-dashoffset: -48; } }
+@keyframes thumb-cell {
+  0%, 2% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.55); fill: var(--color-muted); fill-opacity: 0.22; }
+  9%, 58% { transform: none; fill: var(--c); fill-opacity: var(--o); }
+  76%, 100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.55); fill: var(--color-muted); fill-opacity: 0.22; }
+}
+.thumb-rise { animation: thumb-rise 7s linear infinite; }
+@keyframes thumb-rise {
+  0% { transform: translateY(200px); opacity: 0; }
+  3% { opacity: 1; }
+  43% { transform: translateY(0); opacity: 1; }
+  48%, 100% { transform: translateY(0); opacity: 0; }
+}
 
 /* Point cloud / heat raster: a few cells or points flicker */
 .thumb-twinkle { animation: thumb-twinkle 3s ease-in-out infinite; }

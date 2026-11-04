@@ -5,6 +5,8 @@
 //   .ink-draw / .ink-fade — draws itself once when scrolled into view (DrawOnView sets data-drawn; --d = delay)
 //   .thumb-*              — slow ambient loops afterwards
 
+import RobotArm from './RobotArm'
+
 const ACCENT = 'var(--color-accent)'
 const INK = 'var(--color-ink)'
 const MUTED = 'var(--color-muted)'
@@ -61,12 +63,19 @@ function Legend({ items }: { items: { label: string; fill?: string; line?: 'soli
 }
 
 // ── RetroGrade: a façade as a segmentation mask (wall / window / vegetation) ──
+// Loop: pixels start scattered and unclassified; as the scan line rises, each row snaps into
+// place and takes its class colour, holds, then drifts apart again (.thumb-cell / .thumb-rise).
+const SEG_CYCLE = 7 // seconds, keep in sync with globals.css
+const SEG_SWEEP = 0.43 * SEG_CYCLE // time the scan line takes from bottom to top
+
 function Segmentation() {
   const cell = 8
   const cols = 20
   const rows = 25
   const x0 = 200 - (cols * cell) / 2
   const y0 = 36
+  const h = rows * cell
+  const rand = rng(11)
   return (
     <>
       {Array.from({ length: rows }, (_, r) => (
@@ -77,15 +86,29 @@ function Segmentation() {
             const veg =
               ((x - 150) / 62) ** 2 + ((y - 236) / 46) ** 2 < 1 || ((x - 262) / 30) ** 2 + ((y - 240) / 34) ** 2 < 1
             const win = c % 5 >= 1 && c % 5 <= 3 && r % 4 >= 1 && r % 4 <= 2 && r < 22
+            const fill = veg ? MUTED : win ? ACCENT : INK
+            const opacity = veg ? 0.55 : win ? 0.85 : 0.1
+            // when the rising scan line reaches this row's centre
+            const snapAt = ((h - r * cell - cell / 2) / h) * SEG_SWEEP
+            const motion = {
+              '--c': fill,
+              '--o': opacity,
+              '--dx': `${((rand() - 0.5) * 70).toFixed(1)}px`,
+              '--dy': `${((rand() - 0.5) * 50).toFixed(1)}px`,
+              '--rot': `${((rand() - 0.5) * 120).toFixed(0)}deg`,
+              animationDelay: `${snapAt.toFixed(2)}s`,
+            } as React.CSSProperties
             return (
               <rect
                 key={c}
+                className="thumb-cell"
+                style={motion}
                 x={x + 0.5}
                 y={y + 0.5}
                 width={cell - 1}
                 height={cell - 1}
-                fill={veg ? MUTED : win ? ACCENT : INK}
-                fillOpacity={veg ? 0.55 : win ? 0.85 : 0.1}
+                fill={fill}
+                fillOpacity={opacity}
               />
             )
           })}
@@ -95,14 +118,14 @@ function Segmentation() {
         className="ink-draw"
         style={d(0.1)}
         pathLength={1}
-        d={`M ${x0} ${y0} H ${x0 + cols * cell} V ${y0 + rows * cell} H ${x0} Z`}
+        d={`M ${x0} ${y0} H ${x0 + cols * cell} V ${y0 + h} H ${x0} Z`}
         fill="none"
         stroke={INK}
         strokeOpacity="0.35"
         strokeWidth="0.75"
       />
-      <g className="ink-fade" style={d(1.3)}>
-        <g className="thumb-scan">
+      <g className="ink-fade" style={d(0.6)}>
+        <g className="thumb-rise">
           <line x1={x0 - 14} y1={y0} x2={x0 + cols * cell + 14} y2={y0} stroke={ACCENT} strokeWidth="0.75" />
         </g>
       </g>
@@ -168,17 +191,6 @@ function Toolpaths() {
           strokeOpacity={1 - Math.abs(k) / 22}
         />
       ))}
-      <g className="ink-fade" style={d(1.5)}>
-        <path
-          className="thumb-march"
-          d={toPath(offset(5))}
-          fill="none"
-          stroke={ACCENT}
-          strokeWidth="1.25"
-          strokeDasharray="6 42"
-          strokeLinecap="round"
-        />
-      </g>
       <path
         className="ink-draw"
         style={d(0.15)}
@@ -189,6 +201,10 @@ function Toolpaths() {
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
+      {/* the robot arm traces the crack and lays the repair behind it */}
+      <g className="ink-fade" style={d(1.3)}>
+        <RobotArm crack={pts} />
+      </g>
       <Legend items={[{ label: 'CRACK', line: 'ink' }, { label: 'TOOLPATH OFFSETS', line: 'solid' }]} />
     </>
   )
