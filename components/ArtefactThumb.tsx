@@ -211,7 +211,7 @@ function Toolpaths() {
   )
 }
 
-// ── Chronoscape: a house reconstructed as a point cloud ──
+// ── Chronoscape: a house that vanishes and is rebuilt from memory as Gaussian splats ──
 function PointCloud() {
   const rand = rng(11)
   // gabled house, ridge along x; viewer looks from +x/+z (isometric)
@@ -258,33 +258,102 @@ function PointCloud() {
   edge([0, H, D], [0, H + R, D / 2], 40)
   add(60, () => [rand() * W * 1.4 - 20, rand() * (H + R) * 1.3, rand() * D * 1.4 - 10]) // scan noise
 
-  // points appear in 8 batches, like a scan accumulating
+  // Splats: soft ellipses sampled from the same surfaces, coarse (big, few) then fine (small, many)
+  const splatRand = rng(23)
+  const projected = points.filter((pt) => pt.p[1] >= 0).map(({ p: [x, y, z], front }) => ({ xy: project(x, y, z), front }))
+  const makeSplats = (count: number, rx: [number, number], ry: [number, number]) =>
+    Array.from({ length: count }, () => {
+      const { xy, front } = projected[Math.floor(splatRand() * projected.length)]
+      return {
+        x: xy[0] + (splatRand() - 0.5) * 3,
+        y: xy[1] + (splatRand() - 0.5) * 3,
+        rx: rx[0] + splatRand() * (rx[1] - rx[0]),
+        ry: ry[0] + splatRand() * (ry[1] - ry[0]),
+        rot: Math.round(splatRand() * 180),
+        front,
+      }
+    })
+  const coarse = makeSplats(70, [8, 14], [4, 8])
+  const fine = makeSplats(420, [2.5, 4.5], [1.2, 2.4])
+  const groupsOf = <T,>(list: T[], n: number) => Array.from({ length: n }, (_, g) => list.filter((_, i) => i % n === g))
+  const door = project(W * 0.62, 6, D) // the candle that stayed
+
+  // Loop (globals.css, .splat-*): house stands → points drift away like embers → a candle stays lit →
+  // coarse splats → fine splats → the crisp point cloud returns. Off under reduced motion.
   const batches = 8
   return (
     <>
+      <defs>
+        {(['ink', 'accent'] as const).map((c) => (
+          <radialGradient key={c} id={`splat-${c}`}>
+            <stop offset="0%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0.9" />
+            <stop offset="45%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0.45" />
+            <stop offset="100%" stopColor={c === 'accent' ? ACCENT : INK} stopOpacity="0" />
+          </radialGradient>
+        ))}
+      </defs>
+
+      {/* Gaussian splats, coarse then fine (hidden until the house has gone) */}
+      {[
+        { list: coarse, cls: 'splat-coarse', op: 0.45, groups: 3 },
+        { list: fine, cls: 'splat-fine', op: 0.8, groups: 4 },
+      ].map(({ list, cls, op, groups }) =>
+        groupsOf(list, groups).map((group, g) => (
+          <g key={`${cls}-${g}`} className={cls} style={{ animationDelay: `${(g * 0.18).toFixed(2)}s` }}>
+            {group.map((sp, i) => (
+              <ellipse
+                key={i}
+                rx={sp.rx.toFixed(1)}
+                ry={sp.ry.toFixed(1)}
+                transform={`translate(${sp.x.toFixed(1)} ${sp.y.toFixed(1)}) rotate(${sp.rot})`}
+                fill={`url(#splat-${sp.front ? 'accent' : 'ink'})`}
+                opacity={op}
+              />
+            ))}
+          </g>
+        ))
+      )}
+
+      {/* the point-cloud house, in 8 batches that draw in, then drift away and return */}
       {Array.from({ length: batches }, (_, b) => (
         <g key={b} className="ink-fade" style={d(0.15 + b * 0.16)}>
-          {points.map(({ p: [x, y, z], front }, i) => {
-            if (i % batches !== b) return null
-            const [px, py] = project(x, y, z)
-            return (
-              <circle
-                key={i}
-                cx={px.toFixed(1)}
-                cy={py.toFixed(1)}
-                r="0.9"
-                fill={front ? ACCENT : INK}
-                fillOpacity={front ? 0.9 : 0.4 + (i % 5) * 0.08}
-                className={i % 41 === 0 ? 'thumb-twinkle' : undefined}
-                style={i % 41 === 0 ? { animationDelay: `${(i % 7) * 0.4}s` } : undefined}
-              />
-            )
-          })}
+          <g
+            className="splat-points"
+            style={
+              {
+                '--dx': `${((b % 4) - 1.5) * 7}px`,
+                '--dy': `${-16 - (b % 3) * 7}px`,
+                animationDelay: `${(b * 0.07).toFixed(2)}s`,
+              } as React.CSSProperties
+            }
+          >
+            {points.map(({ p: [x, y, z], front }, i) => {
+              if (i % batches !== b) return null
+              const [px, py] = project(x, y, z)
+              return (
+                <circle
+                  key={i}
+                  cx={px.toFixed(1)}
+                  cy={py.toFixed(1)}
+                  r="0.9"
+                  fill={front ? ACCENT : INK}
+                  fillOpacity={front ? 0.9 : 0.4 + (i % 5) * 0.08}
+                />
+              )
+            })}
+          </g>
         </g>
       ))}
+
+      {/* the candle that stayed */}
+      <g className="splat-candle">
+        <circle cx={door[0].toFixed(1)} cy={door[1].toFixed(1)} r="7" fill="url(#splat-accent)" />
+        <circle cx={door[0].toFixed(1)} cy={door[1].toFixed(1)} r="1.6" fill={ACCENT} />
+      </g>
+
       <g className="ink-fade" style={d(1.6)}>
         <text x="24" y="275" fill={MUTED} fontSize="8" letterSpacing="1.2" fontFamily={MONO}>
-          RECONSTRUCTION · {points.length.toLocaleString('en')} PTS
+          MEMORY → GAUSSIAN SPLATS · {points.length.toLocaleString('en')} PTS
         </text>
       </g>
     </>

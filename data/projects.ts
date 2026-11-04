@@ -375,28 +375,30 @@ export const projects: Project[] = [
     spreads: ["/projects/chronoscape/CHRONOSCAPE_SPREAD.webp"],
     featured: true,
 
-    team: "",
-    duration: "",
+    team: "Lead developer · IAAC Research Studio",
+    duration: "8 weeks",
     keyResult: "Residents' memories turned into weighted prompts that rebuild a lost home and a shared street",
-    stack: [],
+    stack: ["Python", "Custom parser", "pypdf", "Emotion analysis", "Location enhancer", "Gemini (Nano Banana)"],
 
     context: [
       "When a neighbourhood is lost, as in the Pacific Palisades fire, AI reconstruction fills the gaps with generic street patterns and idealised, Western-centric styles. Planners end up deciding on false geometry, and neighbourhoods lose their identity.",
       "Chronoscape tests a hypothesis: adding memory to 3D reconstruction gives more contextual richness and spatial coherence than image-only or text-only models.",
     ],
-    role: [],
+    role: [
+      "I was the lead developer: I wrote the code and built the complete pipeline, from parsing residents' narratives to the prompts that drive image generation.",
+    ],
     pipeline: [
       { label: "Remember", nodes: [{ id: "form", title: "Memory questionnaire" }] },
-      { label: "Parse", nodes: [{ id: "parser", title: "Weighted, structured prompt" }] },
-      { label: "Locate", nodes: [{ id: "loc", title: "Location enhancer" }] },
-      { label: "Generate", nodes: [{ id: "gen", title: "Remembered home" }] },
-      { label: "Collect", nodes: [{ id: "collective", title: "Collective street" }] },
+      { label: "Parse", nodes: [{ id: "parser", title: "Weighted, structured prompt", mine: true }] },
+      { label: "Locate", nodes: [{ id: "loc", title: "Location enhancer", mine: true }] },
+      { label: "Generate", nodes: [{ id: "gen", title: "Remembered home", mine: true }] },
+      { label: "Collect", nodes: [{ id: "collective", title: "Collective street", mine: true }] },
     ],
     process: [
       "Residents answer questions about the place: the first image that comes to mind, its atmosphere, materials, routines and light.",
-      "A parser reads each memory for its spatial meaning and weights the prompt. A daily arrival sequence weighs more than decoration.",
-      "A location enhancer adds the real neighbourhood, so the model doesn't fall back on generic streets.",
-      "The structured prompt, residents' photos and architectural references generate the remembered home.",
+      "A Python parser extracts each resident's story and weights it; emotion analysis sets the light and atmosphere.",
+      "A location enhancer adds the real neighbourhood, with a web-search fallback, so the model doesn't invent generic streets.",
+      "Gemini (Nano Banana) renders street and drone views; a memory manager keeps each resident's images consistent.",
       "Many residents' stories converge into one collective streetscape of the rebuilt neighbourhood.",
     ],
     problems: [
@@ -420,6 +422,7 @@ export const projects: Project[] = [
       "Remembered homes generated from single residents' memories, and a collective streetscape of a rebuilt Pacific Palisades neighbourhood that carries many residents' stories.",
       "The dataset so far: 250 user-uploaded context images, 13 resident narratives and 82 architectural elements.",
     ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/CHRONOSCAPE" }],
     reflection: [
       "Memory-based reconstruction is not about geometric accuracy. It is about recovering the semantic and spatial information that cameras cannot capture.",
     ],

@@ -79,9 +79,36 @@ button:focus-visible {
   48%, 100% { transform: translateY(0); opacity: 0; }
 }
 
-/* Point cloud / heat raster: a few cells or points flicker */
-.thumb-twinkle { animation: thumb-twinkle 3s ease-in-out infinite; }
-@keyframes thumb-twinkle { 50% { opacity: 0.15; } }
+/* Chronoscape: the house vanishes and is rebuilt as Gaussian splats (10s loop).
+   Group-level opacity/transform only, so it stays light. Base state = the finished house. */
+.splat-points { animation: splat-points 10s ease-in-out infinite; }
+@keyframes splat-points {
+  0%, 14% { opacity: 1; transform: none; }
+  32% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
+  33%, 78% { opacity: 0; transform: none; }
+  90%, 100% { opacity: 1; transform: none; }
+}
+.splat-coarse { opacity: 0; animation: splat-coarse 10s ease-in-out infinite; }
+@keyframes splat-coarse {
+  0%, 38% { opacity: 0; }
+  46%, 58% { opacity: 1; }
+  68%, 100% { opacity: 0; }
+}
+.splat-fine { opacity: 0; animation: splat-fine 10s ease-in-out infinite; }
+@keyframes splat-fine {
+  0%, 48% { opacity: 0; }
+  60%, 78% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+.splat-candle { opacity: 0; animation: splat-candle 10s ease-in-out infinite; }
+@keyframes splat-candle {
+  0%, 20% { opacity: 0; }
+  27% { opacity: 1; }
+  31% { opacity: 0.6; }
+  35% { opacity: 1; }
+  48%, 100% { opacity: 0; }
+}
+
 
 /* Crease pattern: gently flexes, as if starting to fold */
 .thumb-crease { transform-origin: center; animation: thumb-crease 5s ease-in-out infinite; }
