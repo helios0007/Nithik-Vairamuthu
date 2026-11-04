@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { projects } from '../data/projects'
+import { projects, SHOW_SPREADS } from '../data/projects'
 import { siteUrl } from '../data/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/projects/${p.slug}`,
       changeFrequency: 'monthly' as const,
       priority: 0.9,
-      images: p.spreads.map((src) => `${siteUrl}${src}`),
+      images: SHOW_SPREADS ? p.spreads.map((src) => `${siteUrl}${src}`) : [],
     })),
   ]
 }

@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ArtefactThumb from "../../../components/ArtefactThumb";
+import DrawOnView from "../../../components/DrawOnView";
 import Gallery from "../../../components/Gallery";
 import Pipeline from "../../../components/Pipeline";
 import Placeholder from "../../../components/Placeholder";
-import { getProject, visibleProjects, type ModelCard } from "../../../data/projects";
+import { getProject, SHOW_SPREADS, visibleProjects, type ModelCard } from "../../../data/projects";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -159,7 +161,7 @@ export default async function ProjectPage({ params }: Props) {
 
   const index = visibleProjects.findIndex((p) => p.slug === project.slug);
   const nextProject = visibleProjects[(index + 1) % visibleProjects.length];
-  const cover = project.spreads[0];
+  const cover = SHOW_SPREADS ? project.spreads[0] : undefined;
 
   return (
     <main id="main">
@@ -207,6 +209,14 @@ export default async function ProjectPage({ params }: Props) {
           )}
         </header>
 
+        {/* Hero: the project's method drawing, large */}
+        {!cover && (
+          <DrawOnView className="hero-figure relative mb-6 aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2 sm:aspect-[16/9] md:aspect-[21/9]">
+            <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
+              <ArtefactThumb slug={project.slug} />
+            </div>
+          </DrawOnView>
+        )}
         {cover && (
           <div className="relative mb-6 aspect-[2/1] overflow-hidden rounded-xl bg-paper-2">
             <Image
@@ -323,7 +333,7 @@ export default async function ProjectPage({ params }: Props) {
         />
 
         {/* ── Gallery ── */}
-        {project.spreads.length > 0 && (
+        {SHOW_SPREADS && project.spreads.length > 0 && (
           <section className="border-t border-line py-12">
             <h2 className="mb-6 text-2xl font-bold tracking-tight">From the portfolio</h2>
             <Gallery images={project.spreads} title={project.title} />

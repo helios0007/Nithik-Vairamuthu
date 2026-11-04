@@ -68,6 +68,10 @@ export type ModelCard = {
   codeUrl?: string // GitHub repo
 }
 
+// Portfolio spreads (the PNG/WebP pages) are hidden on the site for now: no cover image, no gallery.
+// Set to true to bring them back; the files in public/projects stay untouched.
+export const SHOW_SPREADS = false
+
 export const projects: Project[] = [
   {
     slug: "retrograde",
