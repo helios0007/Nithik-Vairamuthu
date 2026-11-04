@@ -17,7 +17,8 @@ export default function DrawOnView({ children, className = '' }: { children: Rea
           io.disconnect()
         }
       },
-      { threshold: 0.35 }
+      // fire once the element's top is a fifth of the way up the screen (works for elements taller than the screen)
+      { rootMargin: '0px 0px -20% 0px' }
     )
     io.observe(el)
     return () => io.disconnect()

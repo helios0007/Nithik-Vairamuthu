@@ -7,6 +7,22 @@ export type ProblemDecision = {
   decision: string
 }
 
+// A flowchart of how the project works, shown above the Process text.
+// Stages read left → right; each node can point to nodes in later stages with `to`.
+export type PipelineNode = {
+  id: string
+  title: string
+  detail?: string // methods / tools, e.g. "SAM · SegFormer · CLIP"
+  output?: string // what it produces
+  mine?: boolean // the part Nithik built, highlighted
+  to?: string[] // ids of the nodes this one feeds
+}
+
+export type PipelineStage = {
+  label: string // e.g. "Input", "Step 1", "Output"
+  nodes: PipelineNode[]
+}
+
 export type ProjectLink = {
   label: string
   href: string
@@ -33,6 +49,7 @@ export type Project = {
   // ── Case study ──
   context?: string[] // the problem and why it matters (one string per paragraph)
   role?: string[] // exactly what Nithik built vs. the team
+  pipeline?: PipelineStage[] // flowchart shown at the top of Process
   process?: string[] // how it was made: sketches, iterations, one thing that failed
   problems?: ProblemDecision[] // 2–3 "I chose X over Y because…" decisions
   outcome?: string[] // results, what changed
@@ -66,7 +83,7 @@ export const projects: Project[] = [
     featured: true,
 
     team: "Tool developer · team of 4, IAAC Research Studio II",
-    duration: "",
+    duration: "8 weeks",
     keyResult: "A retrofit feasibility score out of 100 from one façade photo and a short questionnaire, in about 60 seconds",
     stack: ["SAM", "SegFormer", "CLIP", "Random Forest", "Open-Meteo", "Nominatim", "ReportLab"],
 
@@ -78,6 +95,65 @@ export const projects: Project[] = [
     role: [
       "I was a tool developer on a team of four. I built the image segmentation step, which reads a façade photo and turns it into the inputs the rest of the tool depends on: window-to-wall ratio, shading, vegetation and façade material. I also put together the presentation.",
       "Team: Nithik Vairamuthu, Rashi Desadla, Rim Choufani, Seid Burka. Faculty: Marita Georganta, with faculty assistants Akshay Madapura and Salvador Cantuarias.",
+    ],
+    pipeline: [
+      {
+        label: "Input",
+        nodes: [
+          { id: "photo", title: "Façade photo", to: ["seg"] },
+          { id: "info", title: "Building information & systems", detail: "4-step questionnaire", to: ["reg"] },
+          { id: "loc", title: "Location", to: ["climate"] },
+        ],
+      },
+      {
+        label: "Step 1 · Read the building",
+        nodes: [
+          {
+            id: "seg",
+            title: "Image segmentation",
+            detail: "SAM · SegFormer · CLIP",
+            output: "Window-to-wall ratio, shading, vegetation, material",
+            mine: true,
+            to: ["reg"],
+          },
+          {
+            id: "climate",
+            title: "Climate data",
+            detail: "Nominatim · Open-Meteo",
+            output: "Köppen class, HDD/CDD, solar, wind",
+            to: ["score"],
+          },
+        ],
+      },
+      {
+        label: "Step 2 · Predict",
+        nodes: [
+          {
+            id: "reg",
+            title: "Energy & carbon prediction",
+            detail: "Random forest · 40,000 EU building records",
+            output: "Energy use, carbon emissions",
+            to: ["score"],
+          },
+        ],
+      },
+      {
+        label: "Step 3 · Score",
+        nodes: [
+          { id: "weights", title: "User weights", detail: "5 categories, adjustable", to: ["score"] },
+          {
+            id: "score",
+            title: "Feasibility score",
+            detail: "135 rules · 5 weighted categories",
+            output: "Score / 100: above 50 retrofit, below 50 demolish",
+            to: ["report"],
+          },
+        ],
+      },
+      {
+        label: "Output",
+        nodes: [{ id: "report", title: "Feasibility report", detail: "7-section PDF in about 60 seconds" }],
+      },
     ],
     process: [
       "Step 1a, image processing: SAM extracts the building mask from the façade photo. SegFormer trained on the CMP façade dataset detects façade elements to calculate window-to-wall ratio and shading. SegFormer trained on ADE20K finds vegetation and its coverage. CLIP classifies materials and vegetation types.",

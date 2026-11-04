@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Gallery from "../../../components/Gallery";
+import Pipeline from "../../../components/Pipeline";
 import Placeholder from "../../../components/Placeholder";
 import { getProject, visibleProjects, type ModelCard } from "../../../data/projects";
 
@@ -231,11 +232,36 @@ export default async function ProjectPage({ params }: Props) {
           items={project.role}
           hint="exactly what you built yourself vs. what the team did. Name collaborators and tutors."
         />
-        <TextSection
-          title="Process"
-          items={project.process}
-          hint="how it was made — sketches, Grasshopper screenshots, iterations, and one thing you tried that didn't work."
-        />
+        {has(project.pipeline) ? (
+          <section className="border-t border-line py-12">
+            <h2 className="text-2xl font-bold tracking-tight">Process</h2>
+            <div className="mt-8">
+              <Pipeline stages={project.pipeline!} />
+            </div>
+            {has(project.process) && (
+              <div className="mt-12 grid gap-4 md:grid-cols-[1fr_2fr] md:gap-12">
+                <div />
+                <div className="space-y-5 text-lg leading-8">
+                  <Paragraphs items={project.process!} />
+                </div>
+              </div>
+            )}
+          </section>
+        ) : (
+          <>
+            {isDev && (
+              <Todo>
+                <strong>Pipeline flowchart</strong> — add <code>pipeline</code>: the stages from input to output, the
+                tools in each, and mark your part with <code>mine: true</code>.
+              </Todo>
+            )}
+            <TextSection
+              title="Process"
+              items={project.process}
+              hint="how it was made — sketches, Grasshopper screenshots, iterations, and one thing you tried that didn't work."
+            />
+          </>
+        )}
 
         {has(project.problems) ? (
           <Section title="Key decisions">
