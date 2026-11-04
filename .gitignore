@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# original screenshots (web versions live in public/projects/)
+data/OASIS_IMG/

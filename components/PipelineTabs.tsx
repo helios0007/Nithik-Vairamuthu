@@ -6,7 +6,7 @@
 
 import { useId, useState } from 'react'
 import type { PipelineLevel } from '../data/projects'
-import Image from 'next/image'
+import LayerGallery from './LayerGallery'
 import Pipeline from './Pipeline'
 import Placeholder from './Placeholder'
 
@@ -83,20 +83,8 @@ export default function PipelineTabs({ levels }: { levels: PipelineLevel[] }) {
         <Pipeline key={level.label} stages={level.stages} notes={level.notes} />
 
         {level.images && level.images.length > 0 ? (
-          <div className={`mt-10 grid gap-4 ${level.images.length > 1 ? 'sm:grid-cols-2' : ''}`}>
-            {level.images.map((img) => (
-              <figure key={img.src}>
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  width={img.width}
-                  height={img.height}
-                  sizes={level.images!.length > 1 ? '(min-width: 640px) 50vw, 100vw' : '100vw'}
-                  className="h-auto w-full rounded-lg border border-line bg-paper-2"
-                />
-                {img.caption && <figcaption className="mt-2 text-sm text-muted">{img.caption}</figcaption>}
-              </figure>
-            ))}
+          <div className="mt-12">
+            <LayerGallery key={level.label} images={level.images} label={level.label} />
           </div>
         ) : (
           <div className="mt-10">

@@ -29,9 +29,17 @@ export type PipelineLevel = {
   summary?: string // one line on what this layer does and who it is for
   stages: PipelineStage[]
   notes: string[] // one per stage
-  // 1–2 screenshots of this layer, shown under its pipeline. Put files in public/projects/<slug>/
-  // and use the path from public, e.g. "/projects/oasis/urban.webp". width/height = the image's pixel size.
-  images?: { src: string; alt: string; width: number; height: number; caption?: string }[]
+  // Screenshots of this layer, shown as a slideshow under its pipeline. Put files in
+  // public/projects/<slug>/ and use the path from public, e.g. "/projects/oasis/urban-draw.webp".
+  images?: LayerImage[]
+}
+
+export type LayerImage = {
+  src: string
+  alt: string
+  width: number // the image's pixel size
+  height: number
+  caption?: string
 }
 
 export type ProjectLink = {
@@ -135,6 +143,15 @@ export const projects: Project[] = [
           "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what-if scenarios.",
           "If a zone stays above 5.5 after the measures, its high-risk buildings pass to the building layer with their urban context.",
         ],
+        images: [
+          { src: "/projects/oasis/urban-draw.webp", width: 2000, height: 1144, alt: "OASIS map of Barcelona with a study zone drawn as a polygon", caption: "Draw a zone on the map. The live data sources are listed beside it." },
+          { src: "/projects/oasis/urban-hvi-map.webp", width: 2000, height: 1148, alt: "2D map of the zone with every building coloured by heat vulnerability", caption: "Every building scored from 0 to 10, with the risk distribution and the composite score formula." },
+          { src: "/projects/oasis/urban-3d.webp", width: 2000, height: 1150, alt: "3D view of the zone, buildings extruded and coloured by heat vulnerability", caption: "The same zone in 3D: 496 buildings, zone score 5.0, moderate vulnerability." },
+          { src: "/projects/oasis/urban-inspector.webp", width: 2000, height: 1147, alt: "Building inspector panel showing one building's exposure, social vulnerability and thermal context", caption: "Inspect one building: exposure, social vulnerability and thermal context behind its score." },
+          { src: "/projects/oasis/urban-drivers.webp", width: 2000, height: 1147, alt: "UTCI heatmap of the zone beside a list of vulnerability drivers", caption: "The heatmap and its drivers: thermal stress, poor ventilation and high building density." },
+          { src: "/projects/oasis/urban-interventions.webp", width: 2000, height: 1142, alt: "Intervention cards with estimated cost and heat vulnerability reduction beside the 3D zone", caption: "Interventions ranked by projected reduction, each with a cost range for the zone." },
+          { src: "/projects/oasis/urban-apartment-section.webp", width: 2000, height: 1146, alt: "Before and after section of a top-floor apartment, indoor temperature 38.2°C to 37.6°C", caption: "What the measures mean inside one home: a top-floor apartment before and after, −0.6°C indoors." },
+        ],
       },
       {
         label: "Building",
@@ -153,10 +170,14 @@ export const projects: Project[] = [
           "Each room gets a composite risk score, and rules keep only the strategies that fit it.",
           "An LLM writes a plain-language diagnosis and the top three retrofits per room, shown in 3D with before/after renders.",
         ],
+        images: [
+          { src: "/projects/oasis/building-input.webp", width: 2000, height: 1150, alt: "Building analysis form: IFC model, location, construction data and occupant profile", caption: "Upload the IFC model, then add construction data and the occupant profile." },
+          { src: "/projects/oasis/building-rooms.webp", width: 2000, height: 1132, alt: "3D building with one room highlighted, its diagnosis, risk breakdown and hourly temperatures", caption: "Room by room: diagnosis, risk breakdown and hourly temperatures, with strategies pinned in 3D." },
+        ],
       },
       {
         label: "Unit · panorama",
-        summary: "Layer 3 · planned, for residents: assess a single home from one panorama photo.",
+        summary: "Layer 3 · for residents: assess a single home from one panorama photo.",
         stages: [
           { label: "Upload", nodes: [{ id: "pano", title: "Panorama photo" }] },
           { label: "Read the room", nodes: [{ id: "room", title: "Layout & elements" }] },
@@ -170,6 +191,10 @@ export const projects: Project[] = [
           "Site data and the room's features build a risk context and a problem map.",
           "Retrofit strategies are generated from that evidence.",
           "A validation checkpoint and review loop produce the report, with interventions shown in 3D.",
+        ],
+        images: [
+          { src: "/projects/oasis/unit-brief.webp", width: 2000, height: 904, alt: "Chat agent collecting a room brief next to the reconstructed 3D room", caption: "A short chat collects the room brief; the room is rebuilt in 3D for the resident to check." },
+          { src: "/projects/oasis/unit-report.webp", width: 2000, height: 892, alt: "Effect report with before and after values beside the retrofitted 3D room", caption: "The effect report: peak operative temperature 33 → 28.1°C, overheating hours 698 → 209." },
         ],
       },
     ],
