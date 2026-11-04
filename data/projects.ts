@@ -431,6 +431,64 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "pressure-chamber",
+    title: "Pressure Chamber",
+    hook: "An interactive installation for Barcelona, World Capital of Architecture 2026, where visitors try to out-prompt an AI image generator and discover its biases first-hand.",
+    year: "2026",
+    status: "Exhibited",
+    tags: ["Installation", "Generative AI", "AI Bias"],
+    spreads: [],
+    featured: true,
+
+    team: "Coding & installation",
+    duration: "",
+    keyResult: "Visitors prompt Gemini to match a target image; CLIP scores the result and reveals the bias behind the gap",
+    stack: ["Python", "Flask", "Gemini API", "CLIP ViT-B/32", "React", "Three.js", "Raspberry Pi"],
+
+    context: [
+      "Generative AI quietly repeats the patterns in its training data: doctors appear as men, health as slim bodies, street food as Western.",
+      "Pressure Chamber lets visitors feel that bias for themselves in a short game, exhibited in Barcelona during World Capital of Architecture 2026.",
+    ],
+    role: [
+      "I worked on the coding of the app and on the physical installation at the exhibition.",
+    ],
+    pipeline: [
+      { label: "Choose", nodes: [{ id: "task", title: "Language & bias challenge" }] },
+      { label: "Prompt", nodes: [{ id: "prompt", title: "Visitor writes a prompt" }] },
+      { label: "Generate", nodes: [{ id: "gen", title: "AI image" }] },
+      { label: "Score", nodes: [{ id: "score", title: "Similarity to target" }] },
+      { label: "Reveal", nodes: [{ id: "reveal", title: "Bias & leaderboard" }] },
+    ],
+    process: [
+      "Visitors pick English, Spanish or Catalan and get a bias challenge with a target image.",
+      "They write a prompt that should recreate the target without falling into the bias.",
+      "Gemini generates the image; an offline fallback keeps the installation running without a connection.",
+      "CLIP (ViT-B/32) compares the result with the target and gives a similarity score from 0 to 100.",
+      "The bias behind the gap is explained, and the score goes on the leaderboard.",
+    ],
+    problems: [
+      {
+        title: "Bias you experience, not read about",
+        problem: "Explaining AI bias with text alone rarely sticks.",
+        decision: "Turn it into a game: visitors try to beat the model and watch the bias appear in their own results.",
+      },
+      {
+        title: "Always on, even offline",
+        problem: "An exhibition can't stop when the network or the API does.",
+        decision: "A mock image renderer and a fallback similarity scorer keep the full flow working without Gemini or CLIP.",
+      },
+      {
+        title: "Built for a kiosk",
+        problem: "The installation had to run unattended all day.",
+        decision: "It runs on a Raspberry Pi as a system service in kiosk mode, starting on boot with screen sleep disabled.",
+      },
+    ],
+    outcome: [
+      "Exhibited in Barcelona during World Capital of Architecture 2026, in three languages, with bias games such as The Dominant Hand and The Glass Ceiling. A web version also deploys to Vercel.",
+    ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/PRESSURE-CHAMBER" }],
+  },
+  {
     slug: "pawlytics",
     title: "Pawlytics",
     hook: "A pet health monitoring app that learns each pet's baseline, adds breed risk, and tells owners clearly when a change is worth a vet visit.",

@@ -7,6 +7,7 @@
 
 import EixampleHeat from './EixampleHeat'
 import PalisadesGather from './PalisadesGather'
+import ParticleGlobe from './ParticleGlobe'
 import RobotArm from './RobotArm'
 
 const ACCENT = 'var(--color-accent)'
@@ -331,50 +332,49 @@ function Topography() {
   )
 }
 
-// ── Pawlytics: a pet's 30-day health score against its own baseline; one dip gets flagged ──
-function HealthTrend() {
-  const X0 = 40
-  const X1 = 362
-  const Y = (v: number) => 236 - v * 1.7 // score 0–100 → y
-  const days = 30
-  const rand = rng(5)
-  const score = Array.from({ length: days }, (_, i) => {
-    const dip = i >= 19 && i <= 22 ? [0, 14, 22, 12][i - 19] : 0
-    return 78 + Math.sin(i * 0.7) * 3 + (rand() - 0.5) * 5 - dip
-  })
-  const pts = score.map((v, i) => [X0 + ((X1 - X0) * i) / (days - 1), Y(v)])
-  const flag = pts[21]
+// ── Pressure Chamber: the installation's turning particle globe ──
+function Globe() {
   return (
-    <>
-      {/* baseline band: the pet's own 30-day average ± normal range */}
-      <rect className="ink-fade" style={d(0.1)} x={X0} y={Y(85)} width={X1 - X0} height={Y(71) - Y(85)} fill={INK} fillOpacity="0.06" />
-      <line className="ink-draw" style={d(0.1)} pathLength={1} x1={X0} y1={Y(78)} x2={X1} y2={Y(78)} stroke={MUTED} strokeWidth="0.75" strokeDasharray="3 3" />
-      {/* score axis ticks */}
-      <g className="ink-fade" style={d(0.2)} fill={MUTED} fontSize="8" fontFamily={MONO}>
-        {[100, 50, 0].map((v) => (
-          <text key={v} x={X0 - 8} y={Y(v) + 3} textAnchor="end">
-            {v}
-          </text>
-        ))}
+    <g className="ink-fade" style={d(0.15)}>
+      <ParticleGlobe />
+    </g>
+  )
+}
+
+// ── Pawlytics: a minimal sitting dog in one line; the tail wags, the collar tag pulses ──
+function Dog() {
+  return (
+    <g fill="none" stroke={INK} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      {/* body outline: nose → head → back → haunch → paws → chest → jaw */}
+      <path
+        className="ink-draw"
+        style={d(0.15)}
+        pathLength={1}
+        d="M 262 110 C 262 104, 256 100, 248 100 L 236 100 C 232 88, 220 82, 208 86 C 200 89, 196 96, 197 104 C 198 112, 196 120, 190 130 C 178 146, 168 160, 166 180 C 164 196, 168 212, 180 222 C 176 226, 174 232, 182 232 L 210 232 M 222 232 L 240 232 C 244 232, 244 226, 238 226 L 238 160 C 240 148, 242 136, 240 128 C 238 122, 244 118, 252 118 C 258 118, 262 115, 262 110"
+      />
+      {/* front leg, haunch, ear */}
+      <path className="ink-draw" style={d(0.7)} pathLength={1} d="M 226 226 L 226 168" strokeOpacity="0.7" />
+      <path className="ink-draw" style={d(0.75)} pathLength={1} d="M 214 230 C 214 208, 204 192, 186 188" strokeOpacity="0.7" />
+      <path className="ink-draw" style={d(0.6)} pathLength={1} d="M 214 89 C 205 93, 203 105, 207 116 C 210 123, 219 120, 220 111" />
+      {/* tail */}
+      <g className="ink-fade" style={d(1.0)}>
+        <path className="thumb-wag" d="M 168 214 C 150 212, 140 198, 146 182" />
       </g>
-      <path className="ink-draw" style={d(0.3)} pathLength={1} d={toPath(pts)} fill="none" stroke={INK} strokeWidth="1.4" strokeLinejoin="round" />
-      <g className="ink-fade" style={d(0.9)}>
-        {pts.map(([x, y], i) => (
-          <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r={i >= 19 && i <= 22 ? 2.2 : 1.6} fill={i >= 19 && i <= 22 ? ACCENT : INK} />
-        ))}
+      {/* ground */}
+      <path className="ink-draw" style={d(0.9)} pathLength={1} d="M 130 234 H 290" stroke={MUTED} strokeOpacity="0.6" strokeDasharray="2 4" />
+      {/* eye, nose */}
+      <g className="ink-fade" style={d(1.1)} stroke="none">
+        <circle cx="240" cy="104" r="1.8" fill={INK} />
+        <circle cx="262" cy="108" r="2.8" fill={INK} />
       </g>
-      {/* the flagged dip */}
-      <g className="ink-fade" style={d(1.3)}>
+      {/* collar and health tag */}
+      <g className="ink-fade" style={d(1.2)}>
+        <path d="M 197 122 C 208 131, 228 131, 240 125" stroke={ACCENT} strokeWidth="2" />
         <g className="thumb-target">
-          <circle cx={flag[0]} cy={flag[1]} r="9" fill="none" stroke={ACCENT} strokeWidth="1" />
+          <circle cx="220" cy="135" r="3.4" stroke="none" fill={ACCENT} />
         </g>
-        <line x1={flag[0]} y1={flag[1] + 10} x2={flag[0]} y2={Y(14)} stroke={ACCENT} strokeWidth="0.75" strokeDasharray="2 2" />
-        <text x={flag[0]} y={Y(14) + 12} fill={ACCENT} fontSize="8" letterSpacing="1.2" fontFamily={MONO} textAnchor="middle">
-          VET SOON
-        </text>
       </g>
-      <Legend items={[{ label: 'HEALTH SCORE', line: 'ink' }, { label: 'OWN BASELINE', line: 'dashed' }]} />
-    </>
+    </g>
   )
 }
 
@@ -382,7 +382,8 @@ const artefacts: Record<string, () => React.ReactElement> = {
   retrograde: Segmentation,
   'crack-detection': Toolpaths,
   chronoscape: Palisades,
-  pawlytics: HealthTrend,
+  pawlytics: Dog,
+  'pressure-chamber': Globe,
   'lunar-habitations': CreasePattern,
   oasis: EixampleHeatArt,
   theia: Topography,

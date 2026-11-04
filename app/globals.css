@@ -79,6 +79,15 @@ button:focus-visible {
   48%, 100% { transform: translateY(0); opacity: 0; }
 }
 
+/* Pawlytics: the dog's tail wags, pivoting at its base (bottom-right of the tail) */
+.thumb-wag { transform-origin: 100% 100%; animation: thumb-wag 1.4s ease-in-out infinite; }
+@keyframes thumb-wag {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-14deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(-10deg); }
+}
+
 /* Crease pattern: gently flexes, as if starting to fold */
 .thumb-crease { transform-origin: center; animation: thumb-crease 5s ease-in-out infinite; }
 @keyframes thumb-crease { 50% { transform: scale(1.015, 0.94); } }
