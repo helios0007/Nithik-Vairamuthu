@@ -164,7 +164,7 @@ export default async function ProjectPage({ params }: Props) {
   const cover = SHOW_SPREADS ? project.spreads[0] : undefined;
 
   return (
-    <main id="main">
+    <main id="main" className="project-grid">
       <article className="mx-auto max-w-5xl px-4 sm:px-6">
         {/* ── Header ── */}
         <header className="pb-10 pt-10 md:pt-16">
