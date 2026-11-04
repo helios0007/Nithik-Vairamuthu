@@ -368,17 +368,61 @@ export const projects: Project[] = [
   {
     slug: "chronoscape",
     title: "Chronoscape",
-    hook: "Memory-informed 3D reconstruction for urban regeneration — adding memory as an input produces environments with more contextual richness and spatial coherence than image-only or text-only models.",
+    hook: "Rebuilding lost places from residents' memories: a pipeline that turns what people remember into weighted prompts for AI reconstruction, from one home to a whole street.",
     year: "2025",
     status: "Completed",
     tags: ["Image Generation", "Generative AI", "Urban Regeneration"],
     spreads: ["/projects/chronoscape/CHRONOSCAPE_SPREAD.webp"],
     featured: true,
-    context: [],
-    role: [],
+
+    team: "",
+    duration: "",
+    keyResult: "Residents' memories turned into weighted prompts that rebuild a lost home and a shared street",
     stack: [],
-    problems: [],
-    outcome: [],
+
+    context: [
+      "When a neighbourhood is lost, as in the Pacific Palisades fire, AI reconstruction fills the gaps with generic street patterns and idealised, Western-centric styles. Planners end up deciding on false geometry, and neighbourhoods lose their identity.",
+      "Chronoscape tests a hypothesis: adding memory to 3D reconstruction gives more contextual richness and spatial coherence than image-only or text-only models.",
+    ],
+    role: [],
+    pipeline: [
+      { label: "Remember", nodes: [{ id: "form", title: "Memory questionnaire" }] },
+      { label: "Parse", nodes: [{ id: "parser", title: "Weighted, structured prompt" }] },
+      { label: "Locate", nodes: [{ id: "loc", title: "Location enhancer" }] },
+      { label: "Generate", nodes: [{ id: "gen", title: "Remembered home" }] },
+      { label: "Collect", nodes: [{ id: "collective", title: "Collective street" }] },
+    ],
+    process: [
+      "Residents answer questions about the place: the first image that comes to mind, its atmosphere, materials, routines and light.",
+      "A parser reads each memory for its spatial meaning and weights the prompt. A daily arrival sequence weighs more than decoration.",
+      "A location enhancer adds the real neighbourhood, so the model doesn't fall back on generic streets.",
+      "The structured prompt, residents' photos and architectural references generate the remembered home.",
+      "Many residents' stories converge into one collective streetscape of the rebuilt neighbourhood.",
+    ],
+    problems: [
+      {
+        title: "Memory as structured data",
+        problem: "Memories are personal, vague and unstructured.",
+        decision: "A questionnaire built on six kinds of memory (sensory, spatial, emotional, collective, habit and architectural character) turns them into structured data.",
+      },
+      {
+        title: "Weighting what mattered most",
+        problem: "Not every remembered detail matters equally for rebuilding a place.",
+        decision: "The parser assigns weights. Thresholds, paths and the street context rank very high, small objects medium, decoration low.",
+      },
+      {
+        title: "Grounded in the real place",
+        problem: "Image models hallucinate missing parts from their training data.",
+        decision: "A location enhancer and architectural references anchor each generation in the actual neighbourhood. Results were compared against ChatGPT, Gemini, Grok, Perplexity, Stable Diffusion, SDXL and Flux.",
+      },
+    ],
+    outcome: [
+      "Remembered homes generated from single residents' memories, and a collective streetscape of a rebuilt Pacific Palisades neighbourhood that carries many residents' stories.",
+      "The dataset so far: 250 user-uploaded context images, 13 resident narratives and 82 architectural elements.",
+    ],
+    reflection: [
+      "Memory-based reconstruction is not about geometric accuracy. It is about recovering the semantic and spatial information that cameras cannot capture.",
+    ],
   },
   {
     slug: "lunar-habitations",
