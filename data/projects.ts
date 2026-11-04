@@ -7,19 +7,17 @@ export type ProblemDecision = {
   decision: string
 }
 
-// A flowchart of how the project works, shown above the Process text.
-// Stages read left → right; each node can point to nodes in later stages with `to`.
+// How the project works, shown as a straight line of blocks above the Process text.
+// One stage = one block; a stage can hold a few nodes (e.g. two parallel steps).
 export type PipelineNode = {
   id: string
   title: string
   detail?: string // methods / tools, e.g. "SAM · SegFormer · CLIP"
-  output?: string // what it produces
   mine?: boolean // the part Nithik built, highlighted
-  to?: string[] // ids of the nodes this one feeds
 }
 
 export type PipelineStage = {
-  label: string // e.g. "Input", "Step 1", "Output"
+  label: string // e.g. "Input", "Predict", "Output"
   nodes: PipelineNode[]
 }
 
@@ -100,59 +98,29 @@ export const projects: Project[] = [
       {
         label: "Input",
         nodes: [
-          { id: "photo", title: "Façade photo", to: ["seg"] },
-          { id: "info", title: "Building information & systems", detail: "4-step questionnaire", to: ["reg"] },
-          { id: "loc", title: "Location", to: ["climate"] },
+          { id: "photo", title: "Façade photo" },
+          { id: "info", title: "Building details", detail: "4-step questionnaire" },
+          { id: "loc", title: "Location" },
         ],
       },
       {
-        label: "Step 1 · Read the building",
+        label: "Analyse",
         nodes: [
-          {
-            id: "seg",
-            title: "Image segmentation",
-            detail: "SAM · SegFormer · CLIP",
-            output: "Window-to-wall ratio, shading, vegetation, material",
-            mine: true,
-            to: ["reg"],
-          },
-          {
-            id: "climate",
-            title: "Climate data",
-            detail: "Nominatim · Open-Meteo",
-            output: "Köppen class, HDD/CDD, solar, wind",
-            to: ["score"],
-          },
+          { id: "seg", title: "Image segmentation", detail: "SAM · SegFormer · CLIP", mine: true },
+          { id: "climate", title: "Climate data", detail: "Open-Meteo" },
         ],
       },
       {
-        label: "Step 2 · Predict",
-        nodes: [
-          {
-            id: "reg",
-            title: "Energy & carbon prediction",
-            detail: "Random forest · 40,000 EU building records",
-            output: "Energy use, carbon emissions",
-            to: ["score"],
-          },
-        ],
+        label: "Predict",
+        nodes: [{ id: "reg", title: "Energy & carbon", detail: "Random forest" }],
       },
       {
-        label: "Step 3 · Score",
-        nodes: [
-          { id: "weights", title: "User weights", detail: "5 categories, adjustable", to: ["score"] },
-          {
-            id: "score",
-            title: "Feasibility score",
-            detail: "135 rules · 5 weighted categories",
-            output: "Score / 100: above 50 retrofit, below 50 demolish",
-            to: ["report"],
-          },
-        ],
+        label: "Score",
+        nodes: [{ id: "score", title: "Feasibility / 100", detail: "135 rules · user weights" }],
       },
       {
         label: "Output",
-        nodes: [{ id: "report", title: "Feasibility report", detail: "7-section PDF in about 60 seconds" }],
+        nodes: [{ id: "report", title: "PDF report", detail: "In about 60 seconds" }],
       },
     ],
     process: [

@@ -1,163 +1,120 @@
 'use client'
 
-// Flowchart of a project's pipeline: stages left → right, nodes as boxes, connectors measured from
-// the boxes' real positions. On phones the stages stack and a single arrow sits between them.
-// Nodes marked `mine` (what Nithik built) are outlined in the accent colour.
+// A project's pipeline as one straight line of blocks, one per stage (left → right; top → bottom on phones).
+// A dot of "data" runs along the line and through each block, lighting it up as it passes.
+// The loop pauses off-screen; under reduced motion only the static line and blocks are shown.
 
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import type { PipelineStage } from '../data/projects'
-import DrawOnView from './DrawOnView'
 
-type Edge = { key: string; d: string; mine: boolean }
-
-const delay = (s: number) => ({ '--d': `${s.toFixed(2)}s` }) as React.CSSProperties
+const TRAVEL = 5.5 // seconds for the dot to cross the whole pipeline
+const PAUSE = 1.2 // seconds before it starts again
 
 export default function Pipeline({ stages }: { stages: PipelineStage[] }) {
   const wrap = useRef<HTMLDivElement>(null)
-  const boxes = useRef(new Map<string, HTMLElement>())
-  const [edges, setEdges] = useState<Edge[]>([])
-  const [size, setSize] = useState({ w: 0, h: 0 })
+  const dot = useRef<HTMLDivElement>(null)
+  const blocks = useRef<(HTMLLIElement | null)[]>([])
 
-  const nodes = stages.flatMap((s) => s.nodes)
-  const mine = new Set(nodes.filter((n) => n.mine).map((n) => n.id))
-
-  const measure = useCallback(() => {
+  useEffect(() => {
     const root = wrap.current
-    if (!root) return
-    const o = root.getBoundingClientRect()
-    const rect = (id: string) => boxes.current.get(id)?.getBoundingClientRect()
-    const links = nodes.flatMap((n) => (n.to ?? []).map((to) => ({ from: n.id, to })))
-    const sideBySide = (a: DOMRect, b: DOMRect) => b.left >= a.right - 1
+    const d = dot.current
+    if (!root || !d) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // Where several connectors leave or enter the same side of a box, spread them along that side
-    const port = (id: string, side: 'out' | 'in', other: string) => {
-      const peers = links
-        .filter((l) => (side === 'out' ? l.from === id : l.to === id))
-        .map((l) => (side === 'out' ? l.to : l.from))
-        .filter((pid) => {
-          const a = rect(side === 'out' ? id : pid)
-          const b = rect(side === 'out' ? pid : id)
-          return a && b && sideBySide(a, b)
-        })
-        .sort((x, y) => rect(x)!.top + rect(x)!.height / 2 - (rect(y)!.top + rect(y)!.height / 2))
-      const r = rect(id)!
-      const i = peers.indexOf(other)
-      const span = Math.min(r.height * 0.6, 18 * (peers.length - 1))
-      return r.top + r.height / 2 - span / 2 + (peers.length > 1 ? (span * i) / (peers.length - 1) : 0) - o.top
+    let raf = 0
+    let running = false
+    let clock = 0
+    let last = 0
+
+    const tick = (now: number) => {
+      clock = (clock + Math.min(0.05, (now - last) / 1000)) % (TRAVEL + PAUSE)
+      last = now
+      const o = root.getBoundingClientRect()
+      const rects = blocks.current.map((b) => b?.getBoundingClientRect())
+      const first = rects[0]
+      const second = rects[1]
+      const across = !!first && !!second && second.left >= first.right - 1 // row (desktop) or column (phone)
+      const length = across ? o.width : o.height
+      const pos = Math.min(1, clock / TRAVEL) * length
+      const visible = clock < TRAVEL
+
+      d.style.transform = across ? `translate(${pos}px, ${o.height / 2}px)` : `translate(${o.width / 2}px, ${pos}px)`
+      d.style.opacity = visible ? '1' : '0'
+
+      rects.forEach((r, i) => {
+        const el = blocks.current[i]
+        if (!r || !el) return
+        const start = across ? r.left - o.left : r.top - o.top
+        const end = across ? r.right - o.left : r.bottom - o.top
+        if (visible && pos >= start && pos <= end) el.dataset.active = ''
+        else delete el.dataset.active
+      })
+      raf = requestAnimationFrame(tick)
     }
 
-    const next: Edge[] = []
-    for (const { from, to } of links) {
-      const a = rect(from)
-      const b = rect(to)
-      if (!a || !b) continue
-      let d: string
-      if (sideBySide(a, b)) {
-        // side by side: right edge → left edge
-        const x1 = a.right - o.left
-        const y1 = port(from, 'out', to)
-        const x2 = b.left - o.left - 4
-        const y2 = port(to, 'in', from)
-        const c = (x2 - x1) / 2
-        d = `M ${x1} ${y1} C ${x1 + c} ${y1}, ${x2 - c} ${y2}, ${x2} ${y2}`
-      } else {
-        // stacked: bottom edge → top edge
-        const x1 = a.left + a.width / 2 - o.left
-        const y1 = a.bottom - o.top
-        const x2 = b.left + b.width / 2 - o.left
-        const y2 = b.top - o.top - 4
-        const c = (y2 - y1) / 2
-        d = `M ${x1} ${y1} C ${x1} ${y1 + c}, ${x2} ${y2 - c}, ${x2} ${y2}`
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !running) {
+        running = true
+        last = performance.now()
+        raf = requestAnimationFrame(tick)
+      } else if (!entry.isIntersecting && running) {
+        running = false
+        cancelAnimationFrame(raf)
       }
-      next.push({ key: `${from}-${to}`, d, mine: mine.has(from) || mine.has(to) })
+    })
+    io.observe(root)
+    return () => {
+      io.disconnect()
+      cancelAnimationFrame(raf)
     }
-    setEdges(next)
-    setSize({ w: o.width, h: o.height })
-    // nodes come from props and only change with them
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stages])
 
-  useLayoutEffect(() => {
-    measure()
-    const ro = new ResizeObserver(measure)
-    if (wrap.current) ro.observe(wrap.current)
-    return () => ro.disconnect()
-  }, [measure])
-
   return (
-    <DrawOnView>
-      <div ref={wrap} className="relative">
-        <svg
-          className="ink-fade pointer-events-none absolute inset-0 hidden overflow-visible md:block"
-          style={delay(0.5)}
-          width={size.w}
-          height={size.h}
-          aria-hidden
-        >
-          <defs>
-            {(['line', 'accent'] as const).map((c) => (
-              <marker key={c} id={`arrow-${c}`} viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                <path d="M 0 0.5 L 7 4 L 0 7.5" fill="none" stroke={c === 'accent' ? 'var(--color-accent)' : 'var(--color-muted)'} strokeWidth="1.2" />
-              </marker>
-            ))}
-          </defs>
-          {edges.map((e) => (
-            <path
-              key={e.key}
-              className="ink-draw"
-              style={delay(0.5)}
-              pathLength={1}
-              d={e.d}
-              fill="none"
-              stroke={e.mine ? 'var(--color-accent)' : 'var(--color-muted)'}
-              strokeOpacity={e.mine ? 0.9 : 0.55}
-              strokeWidth="1"
-              markerEnd={`url(#arrow-${e.mine ? 'accent' : 'line'})`}
-            />
-          ))}
-        </svg>
-
-        <ol className="relative grid grid-cols-1 gap-8 md:grid-flow-col md:auto-cols-[minmax(0,1fr)] md:grid-cols-none md:gap-10">
-          {stages.map((stage, si) => (
-            <li key={stage.label} className="ink-fade flex min-w-0 flex-col" style={delay(0.1 + si * 0.12)}>
-              {si > 0 && (
-                // phones: a simple arrow between stages instead of connectors
-                <span aria-hidden className="-mt-4 mb-3 text-center text-muted md:hidden">
-                  ↓
-                </span>
-              )}
-              <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-muted">{stage.label}</p>
-              <div
-                className={`grid flex-1 gap-3 md:flex md:flex-col md:justify-center md:gap-16 ${
-                  stage.nodes.length > 1 ? 'grid-cols-[repeat(2,minmax(0,1fr))]' : 'grid-cols-1'
-                }`}
-              >
-                {stage.nodes.map((n) => (
-                  <div
-                    key={n.id}
-                    ref={(el) => {
-                      if (el) boxes.current.set(n.id, el)
-                      else boxes.current.delete(n.id)
-                    }}
-                    className={`relative min-w-0 break-words rounded-lg border bg-paper-2 p-3 text-sm leading-5 ${
-                      n.mine ? 'border-accent' : 'border-line'
-                    }`}
-                  >
-                    {n.mine && (
-                      <p className="absolute -top-2 left-2.5 bg-paper px-1.5 font-mono text-[10px] leading-4 uppercase tracking-[0.14em] text-accent">
-                        My part
-                      </p>
-                    )}
-                    <p className="font-bold">{n.title}</p>
-                    {n.detail && <p className="mt-1 text-muted">{n.detail}</p>}
-                    {n.output && <p className="mt-2 border-t border-line pt-2 text-muted">→ {n.output}</p>}
-                  </div>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ol>
+    <div ref={wrap} className="relative">
+      {/* the line, through the centre of every block */}
+      <div
+        aria-hidden
+        className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-line md:inset-x-0 md:inset-y-auto md:top-1/2 md:left-0 md:h-px md:w-auto md:translate-x-0"
+      />
+      {/* the data dot, positioned by the loop above */}
+      <div ref={dot} aria-hidden className="absolute top-0 left-0 opacity-0" style={{ willChange: 'transform' }}>
+        <span className="block size-2 -translate-1/2 rounded-full bg-accent shadow-[0_0_12px_3px_var(--color-accent)]" />
       </div>
-    </DrawOnView>
+
+      <ol className="relative grid grid-cols-1 gap-12 md:grid-flow-col md:auto-cols-[minmax(0,1fr)] md:grid-cols-none md:gap-6">
+        {stages.map((stage, i) => {
+          const mine = stage.nodes.some((n) => n.mine)
+          const tools = stage.nodes.map((n) => n.detail).filter(Boolean)
+          return (
+            <li
+              key={stage.label}
+              ref={(el) => {
+                blocks.current[i] = el
+              }}
+              className={`group relative flex min-w-0 flex-col rounded-lg border bg-paper-2 p-4 transition-[border-color,box-shadow] duration-300 data-[active]:border-accent data-[active]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-accent)_15%,transparent)] ${
+                mine ? 'border-accent/50' : 'border-line'
+              }`}
+            >
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-data-[active]:text-accent">
+                {String(i + 1).padStart(2, '0')} · {stage.label}
+              </p>
+              <ul className="mt-2 space-y-1 text-sm font-bold leading-5">
+                {stage.nodes.map((n) => (
+                  <li key={n.id} className={n.mine ? 'text-accent' : undefined}>
+                    {n.title}
+                  </li>
+                ))}
+              </ul>
+              {tools.length > 0 && <p className="mt-2 text-xs leading-5 text-muted">{tools.join(' · ')}</p>}
+              {mine && (
+                <p className="absolute -bottom-6 left-4 font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
+                  ↑ My part
+                </p>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </div>
   )
 }
