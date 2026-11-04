@@ -96,7 +96,7 @@ export const projects: Project[] = [
     award: "Best Thesis Award",
 
     team: "Main tool developer · team of 4, IAAC MaAI",
-    duration: "",
+    duration: "8 weeks",
     keyResult: "Heat vulnerability scored for every building in a drawn zone, then traced down to room-level retrofits",
     stack: ["Infrared SDK", "UTCI", "Ollama · Qwen2.5", "IFC", "OpenStreetMap", "Gemini API"],
 
