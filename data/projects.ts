@@ -29,6 +29,9 @@ export type PipelineLevel = {
   summary?: string // one line on what this layer does and who it is for
   stages: PipelineStage[]
   notes: string[] // one per stage
+  // 1–2 screenshots of this layer, shown under its pipeline. Put files in public/projects/<slug>/
+  // and use the path from public, e.g. "/projects/oasis/urban.webp". width/height = the image's pixel size.
+  images?: { src: string; alt: string; width: number; height: number; caption?: string }[]
 }
 
 export type ProjectLink = {

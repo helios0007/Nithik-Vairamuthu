@@ -6,7 +6,9 @@
 
 import { useId, useState } from 'react'
 import type { PipelineLevel } from '../data/projects'
+import Image from 'next/image'
 import Pipeline from './Pipeline'
+import Placeholder from './Placeholder'
 
 export default function PipelineTabs({ levels }: { levels: PipelineLevel[] }) {
   const [active, setActive] = useState(0)
@@ -79,6 +81,31 @@ export default function PipelineTabs({ levels }: { levels: PipelineLevel[] }) {
         {level.summary && <p className="mb-8 max-w-2xl text-muted">{level.summary}</p>}
         {/* key resets the running dot when switching tabs */}
         <Pipeline key={level.label} stages={level.stages} notes={level.notes} />
+
+        {level.images && level.images.length > 0 ? (
+          <div className={`mt-10 grid gap-4 ${level.images.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+            {level.images.map((img) => (
+              <figure key={img.src}>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={img.width}
+                  height={img.height}
+                  sizes={level.images!.length > 1 ? '(min-width: 640px) 50vw, 100vw' : '100vw'}
+                  className="h-auto w-full rounded-lg border border-line bg-paper-2"
+                />
+                {img.caption && <figcaption className="mt-2 text-sm text-muted">{img.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10">
+            <Placeholder>
+              Add 1–2 screenshots of the {level.label} layer: put them in public/projects/&lt;slug&gt;/ and list them under
+              this level&apos;s <code>images</code> in data/projects.ts.
+            </Placeholder>
+          </div>
+        )}
       </div>
     </div>
   )
