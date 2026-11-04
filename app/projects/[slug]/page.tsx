@@ -222,11 +222,27 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {/* ── Case study ── */}
-        <TextSection
-          title="Context"
-          items={project.context}
-          hint="the problem and why it matters. Who has this problem, and what happens today?"
-        />
+        {has(project.contextStats) && has(project.context) ? (
+          <Section title="Context">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
+              {project.contextStats!.map((stat) => (
+                <div key={stat.value + stat.label}>
+                  <p className="text-3xl font-bold tracking-tight text-accent">{stat.value}</p>
+                  <p className="mt-1 text-sm leading-5 text-muted">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-5 pt-3">
+              <Paragraphs items={project.context!} />
+            </div>
+          </Section>
+        ) : (
+          <TextSection
+            title="Context"
+            items={project.context}
+            hint="the problem and why it matters, plus 2–4 key numbers in contextStats. Keep it to 2 short paragraphs."
+          />
+        )}
         <TextSection
           title="My role"
           items={project.role}

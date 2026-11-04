@@ -45,7 +45,8 @@ export type Project = {
   stack?: string[] // tools: Python, PyTorch, YOLOv8, Grasshopper…
 
   // ── Case study ──
-  context?: string[] // the problem and why it matters (one string per paragraph)
+  contextStats?: { value: string; label: string }[] // 2–4 key numbers, shown large above the context text
+  context?: string[] // the problem and why it matters (one string per paragraph, keep it short)
   role?: string[] // exactly what Nithik built vs. the team
   pipeline?: PipelineStage[] // flowchart shown at the top of Process
   process?: string[] // how it was made; with a pipeline, give one short line per stage and it sits under each block
@@ -85,10 +86,15 @@ export const projects: Project[] = [
     keyResult: "A retrofit feasibility score out of 100 from one façade photo and a short questionnaire, in about 60 seconds",
     stack: ["SAM", "SegFormer", "CLIP", "Random Forest", "Open-Meteo", "Nominatim", "ReportLab"],
 
+    contextStats: [
+      { value: "35M", label: "EU buildings to retrofit by 2030" },
+      { value: "1%", label: "renovated each year" },
+      { value: "4–12 wk", label: "for one feasibility study" },
+      { value: "€8–40k", label: "cost of that study" },
+    ],
     context: [
-      "Over 35 million buildings in Europe need to be retrofitted by 2030 to meet climate goals. But the EU renovates only about 1% of its building stock each year, so at the current pace most buildings would take nearly a century to upgrade.",
-      "Every retrofit starts with an early feasibility study, which typically takes 4–12 weeks and costs €8,000–40,000 (€2–10/m² of floor area). After all that time and money, the answer may simply be that the building has to be rebuilt.",
-      "RetroGrade answers that first question quickly: is this building worth retrofitting, or should it be demolished? It is built for municipalities, real estate developers and building owners.",
+      "At today's pace, Europe needs nearly a century to upgrade its buildings, and each one starts with a slow, costly feasibility study that may only conclude: rebuild.",
+      "RetroGrade gives that first answer, retrofit or demolish, in about a minute. It is built for municipalities, developers and building owners.",
     ],
     role: [
       "I was a tool developer on a team of four. I built the image segmentation step, which reads a façade photo and turns it into the inputs the rest of the tool depends on: window-to-wall ratio, shading, vegetation and façade material. I also put together the presentation.",
