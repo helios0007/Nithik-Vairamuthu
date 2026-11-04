@@ -3,8 +3,9 @@
 // and are hidden on the live site, so it is safe to fill them in gradually.
 
 export type ProblemDecision = {
-  problem: string
-  decision: string
+  title?: string // the decision in a few words, e.g. "Transparent rules over a black box"
+  problem: string // the challenge, one sentence
+  decision: string // what you did, one or two sentences
 }
 
 // How the project works, shown as a straight line of blocks above the Process text.
@@ -138,16 +139,19 @@ export const projects: Project[] = [
     ],
     problems: [
       {
-        problem: "No single model can read everything a feasibility check needs from a façade photo.",
-        decision: "Chain specialised models: SAM to isolate the building, SegFormer (CMP) for windows and shading, SegFormer (ADE20K) for vegetation, and CLIP for materials.",
+        title: "Specialised models, chained",
+        problem: "No single model can read every façade feature a feasibility check needs.",
+        decision: "SAM isolates the building, SegFormer finds windows, shading and vegetation, and CLIP classifies materials.",
       },
       {
-        problem: "Different users care about different things: an owner and a municipality will weigh energy, solar access or environmental impact differently.",
-        decision: "Make the score a weighted assessment across five categories: envelope & energy 30%, orientation & solar exposure 20%, renewable energy access 20%, passive design 15%, environmental impact 15%. Users can adjust the weights, and the defaults are set from research.",
+        title: "Weights the user controls",
+        problem: "Owners and municipalities prioritise different things.",
+        decision: "Five weighted categories with research-based defaults (envelope & energy 30%, orientation 20%, renewables 20%, passive design 15%, environmental impact 15%) that users can adjust.",
       },
       {
-        problem: "A score needs to be explainable, not just a number.",
-        decision: "Use transparent rules instead of a black-box model. For example, a building that already has PV panels scores high. A north-facing building in a cold climate with poor insulation or single glazing and over 15 m tall scores very low, because it performs poorly and is very hard to retrofit.",
+        title: "Transparent rules over a black box",
+        problem: "A feasibility score has to be explainable, not just a number.",
+        decision: "135 readable rules. Existing PV panels score high; a tall, north-facing, poorly insulated building in a cold climate scores very low.",
       },
     ],
     outcome: [

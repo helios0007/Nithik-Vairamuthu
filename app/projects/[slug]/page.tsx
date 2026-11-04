@@ -284,15 +284,19 @@ export default async function ProjectPage({ params }: Props) {
 
         {has(project.problems) ? (
           <Section title="Key decisions">
-            <ol className="space-y-8">
+            <ol className="divide-y divide-line">
               {project.problems!.map((item, i) => (
-                <li key={item.problem}>
-                  <p className="text-sm font-bold text-muted">Problem {i + 1}</p>
-                  <p className="mt-1 font-medium">{item.problem}</p>
-                  <p className="mt-3">
-                    <span className="font-bold text-accent">Decision → </span>
-                    {item.decision}
-                  </p>
+                <li key={item.problem} className="grid grid-cols-[2.5rem_1fr] gap-x-2 py-6 first:pt-0 last:pb-0">
+                  <span className="pt-1 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    {item.title && <h3 className="font-bold">{item.title}</h3>}
+                    <dl className="mt-3 grid gap-x-6 gap-y-2 text-base leading-7 sm:grid-cols-[6rem_1fr]">
+                      <dt className="pt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Challenge</dt>
+                      <dd className="text-muted">{item.problem}</dd>
+                      <dt className="pt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Approach</dt>
+                      <dd>{item.decision}</dd>
+                    </dl>
+                  </div>
                 </li>
               ))}
             </ol>
