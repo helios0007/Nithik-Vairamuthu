@@ -5,6 +5,7 @@
 //   .ink-draw / .ink-fade — draws itself once when scrolled into view (DrawOnView sets data-drawn; --d = delay)
 //   .thumb-*              — slow ambient loops afterwards
 
+import EixampleHeat from './EixampleHeat'
 import RobotArm from './RobotArm'
 
 const ACCENT = 'var(--color-accent)'
@@ -348,40 +349,14 @@ function CreasePattern() {
   )
 }
 
-// ── HVRA / OASIS (draft): a heat-vulnerability raster over a block ──
-function HeatRaster() {
-  const cell = 8
-  const cols = 30
-  const rows = 22
-  const x0 = 200 - (cols * cell) / 2
-  const y0 = 40
-  const heat = (x: number, y: number) =>
-    Math.exp(-(((x - 150) / 60) ** 2 + ((y - 120) / 45) ** 2)) * 0.9 + Math.exp(-(((x - 270) / 40) ** 2 + ((y - 190) / 35) ** 2)) * 0.6
+// ── OASIS: Barcelona's Eixample grid shaded by heat, climate shelters cooling block by block ──
+function EixampleHeatArt() {
   return (
     <>
-      {Array.from({ length: rows }, (_, r) => (
-        <g key={r} className="ink-fade" style={d(0.15 + r * 0.04)}>
-          {Array.from({ length: cols }, (_, c) => {
-            const x = x0 + c * cell + cell / 2
-            const y = y0 + r * cell + cell / 2
-            const v = Math.min(1, heat(x, y))
-            const hot = v > 0.75
-            return (
-              <rect
-                key={c}
-                x={x - cell / 2 + 0.5}
-                y={y - cell / 2 + 0.5}
-                width={cell - 1}
-                height={cell - 1}
-                fill={v > 0.3 ? ACCENT : INK}
-                fillOpacity={v > 0.3 ? 0.15 + v * 0.75 : 0.07}
-                className={hot && (r + c) % 3 === 0 ? 'thumb-twinkle' : undefined}
-              />
-            )
-          })}
-        </g>
-      ))}
-      <Legend items={[{ label: 'LOW', fill: INK }, { label: 'HIGH HEAT RISK', fill: ACCENT }]} />
+      <g className="ink-fade" style={d(0.15)}>
+        <EixampleHeat />
+      </g>
+      <Legend items={[{ label: 'HEAT', fill: INK }, { label: 'CLIMATE SHELTER', fill: ACCENT }]} />
     </>
   )
 }
@@ -431,7 +406,7 @@ const artefacts: Record<string, () => React.ReactElement> = {
   'crack-detection': Toolpaths,
   chronoscape: PointCloud,
   'lunar-habitations': CreasePattern,
-  oasis: HeatRaster,
+  oasis: EixampleHeatArt,
   theia: Topography,
 }
 
