@@ -7,6 +7,7 @@ import AwardBadge from "../../../components/AwardBadge";
 import DrawOnView from "../../../components/DrawOnView";
 import Gallery from "../../../components/Gallery";
 import Pipeline from "../../../components/Pipeline";
+import PipelineTabs from "../../../components/PipelineTabs";
 import Placeholder from "../../../components/Placeholder";
 import { getProject, SHOW_SPREADS, visibleProjects, type ModelCard } from "../../../data/projects";
 
@@ -260,7 +261,14 @@ export default async function ProjectPage({ params }: Props) {
           items={project.role}
           hint="exactly what you built yourself vs. what the team did. Name collaborators and tutors."
         />
-        {has(project.pipeline) ? (
+        {has(project.levels) ? (
+          <section className="border-t border-line py-12">
+            <h2 className="text-2xl font-bold tracking-tight">Process</h2>
+            <div className="mt-8">
+              <PipelineTabs levels={project.levels!} />
+            </div>
+          </section>
+        ) : has(project.pipeline) ? (
           <section className="border-t border-line py-12">
             <h2 className="text-2xl font-bold tracking-tight">Process</h2>
             <div className="mt-8">

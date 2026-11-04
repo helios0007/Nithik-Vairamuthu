@@ -22,6 +22,15 @@ export type PipelineStage = {
   nodes: PipelineNode[]
 }
 
+// For a tool with several layers (e.g. urban / building / unit): one tab per layer,
+// each with its own pipeline and one short line per stage.
+export type PipelineLevel = {
+  label: string // tab name, e.g. "Urban"
+  summary?: string // one line on what this layer does and who it is for
+  stages: PipelineStage[]
+  notes: string[] // one per stage
+}
+
 export type ProjectLink = {
   label: string
   href: string
@@ -51,6 +60,7 @@ export type Project = {
   context?: string[] // the problem and why it matters (one string per paragraph, keep it short)
   role?: string[] // exactly what Nithik built vs. the team
   pipeline?: PipelineStage[] // flowchart shown at the top of Process
+  levels?: PipelineLevel[] // several pipelines as tabs; used instead of pipeline/process
   process?: string[] // how it was made; with a pipeline, give one short line per stage and it sits under each block
   problems?: ProblemDecision[] // 2–3 "I chose X over Y because…" decisions
   outcome?: string[] // results, what changed
@@ -104,19 +114,61 @@ export const projects: Project[] = [
       "I did the major part of the tool development. I built the complete urban-scale tool, integrated my teammates' workflows into one system, and prepared the presentations.",
       "Team: Gaelle Habib, Chun-Chun Chang, Vimal TN, Nithik Vairamuthu. Tutor: Prof. Emanuele Naboni.",
     ],
-    pipeline: [
-      { label: "Zone", nodes: [{ id: "zone", title: "Draw the zone", mine: true }] },
-      { label: "Simulate", nodes: [{ id: "sim", title: "Site context & microclimate", mine: true }] },
-      { label: "Score", nodes: [{ id: "hvi", title: "Heat vulnerability per building", mine: true }] },
-      { label: "Intervene", nodes: [{ id: "urban", title: "Urban measures & what-ifs", mine: true }] },
-      { label: "Retrofit", nodes: [{ id: "room", title: "Room-level retrofit" }] },
-    ],
-    process: [
-      "Draw a polygon on the map of Barcelona, or search a location.",
-      "Buildings, vegetation, ground materials and weather are fetched, and a UTCI microclimate simulation runs. Satellite surface temperature is the fallback.",
-      "Every building gets a heat vulnerability index from 0 to 10, with its main drivers: heat island, missing vegetation, poor ventilation, density.",
-      "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what-if scenarios.",
-      "High-risk buildings pass to the building scale: upload an IFC model, see overheating risk per room, and get ranked passive retrofits in 3D.",
+    levels: [
+      {
+        label: "Urban",
+        summary: "Layer 1 · for municipalities and housing agencies: find where heat vulnerability is highest.",
+        stages: [
+          { label: "Zone", nodes: [{ id: "zone", title: "Draw the zone", mine: true }] },
+          { label: "Simulate", nodes: [{ id: "sim", title: "Site context & microclimate", mine: true }] },
+          { label: "Score", nodes: [{ id: "hvi", title: "Heat vulnerability per building", mine: true }] },
+          { label: "Intervene", nodes: [{ id: "urban", title: "Urban measures & what-ifs", mine: true }] },
+          { label: "Hand off", nodes: [{ id: "handoff", title: "High-risk buildings to Layer 2", mine: true }] },
+        ],
+        notes: [
+          "Draw a polygon on the map of Barcelona, or search a location.",
+          "Buildings, vegetation, ground materials and weather are fetched, and a UTCI microclimate simulation runs. Satellite surface temperature is the fallback.",
+          "Every building gets a heat vulnerability index from 0 to 10, with its main drivers: heat island, missing vegetation, poor ventilation, density.",
+          "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what-if scenarios.",
+          "If a zone stays above 5.5 after the measures, its high-risk buildings pass to the building layer with their urban context.",
+        ],
+      },
+      {
+        label: "Building",
+        summary: "Layer 2 · for retrofit agencies, architects and building administrators: diagnose overheating room by room.",
+        stages: [
+          { label: "Upload", nodes: [{ id: "ifc", title: "IFC model & occupants" }] },
+          { label: "Read", nodes: [{ id: "parse", title: "Rooms, façades & boundaries" }] },
+          { label: "Risk", nodes: [{ id: "kpi", title: "Health-weighted heat risk" }] },
+          { label: "Rank", nodes: [{ id: "rank", title: "Score rooms, filter strategies" }] },
+          { label: "Recommend", nodes: [{ id: "diag", title: "Diagnosis & retrofits in 3D" }] },
+        ],
+        notes: [
+          "An IFC model of the building, its location and who lives there.",
+          "The IFC is parsed into rooms, façades and space boundaries.",
+          "Solar gain with neighbour shadows, ventilation, envelope and heat-island correction over a heatwave week give four health KPIs.",
+          "Each room gets a composite risk score, and rules keep only the strategies that fit it.",
+          "An LLM writes a plain-language diagnosis and the top three retrofits per room, shown in 3D with before/after renders.",
+        ],
+      },
+      {
+        label: "Unit · panorama",
+        summary: "Layer 3 · planned, for residents: assess a single home from one panorama photo.",
+        stages: [
+          { label: "Upload", nodes: [{ id: "pano", title: "Panorama photo" }] },
+          { label: "Read the room", nodes: [{ id: "room", title: "Layout & elements" }] },
+          { label: "Risk", nodes: [{ id: "ctx", title: "Risk context & problem map" }] },
+          { label: "Generate", nodes: [{ id: "gen", title: "Retrofit strategies" }] },
+          { label: "Review", nodes: [{ id: "review", title: "Validate & report" }] },
+        ],
+        notes: [
+          "One panorama photo of the room, its location and who lives there.",
+          "LGTNet and SAM 3 reconstruct the room's layout and elements.",
+          "Site data and the room's features build a risk context and a problem map.",
+          "Retrofit strategies are generated from that evidence.",
+          "A validation checkpoint and review loop produce the report, with interventions shown in 3D.",
+        ],
+      },
     ],
     problems: [
       {
