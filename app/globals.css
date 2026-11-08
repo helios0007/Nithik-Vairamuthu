@@ -154,7 +154,3 @@ button:focus-visible {
   background-size: 100% 100%, 28px 28px;
   background-position: center, center;
 }
-
-/* Home portrait splash: hidden until its burst starts (JS); reduced motion shows it at once */
-.portrait-splash { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .portrait-splash { opacity: 1; } }

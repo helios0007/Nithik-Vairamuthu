@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PortraitSplash from "../components/PortraitSplash";
+import PortraitDissolve from "../components/PortraitDissolve";
 import ProjectCard from "../components/ProjectCard";
 import Contact from "../components/Contact";
 import Availability from "../components/Availability";
@@ -57,7 +57,7 @@ export default function Home() {
           </div>
         </div>
 
-        <PortraitSplash />
+        <PortraitDissolve />
       </section>
 
       {/* ── WHO IS THIS GUY ── */}
