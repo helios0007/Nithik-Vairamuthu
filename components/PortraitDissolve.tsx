@@ -15,28 +15,36 @@ function rng(seed: number) {
   }
 }
 
-const MASK = (() => {
+const DISSOLVE_TOP = 760
+
+// The dots of the dissolve, in portrait pixel space.
+const DISSOLVE_DOTS: { x: number; y: number; r: number }[] = (() => {
   const rand = rng(42)
-  const top = 760
   const step = 16
-  let circles = ''
-  for (let y = top; y < IMG.h + step; y += step) {
-    const t = (y - top) / (IMG.h - top)
+  const dots: { x: number; y: number; r: number }[] = []
+  for (let y = DISSOLVE_TOP; y < IMG.h + step; y += step) {
+    const t = (y - DISSOLVE_TOP) / (IMG.h - DISSOLVE_TOP)
     for (let x = 0; x < IMG.w + step; x += step) {
       const keep = 1 - t * 1.05 + (rand() - 0.5) * 0.5
       if (keep < 0.15) continue
       const r = 11.6 * Math.pow(Math.max(0, 1 - t * 0.85), 0.7) * (0.75 + rand() * 0.35)
-      circles += `<circle cx='${(x + (rand() - 0.5) * 3).toFixed(1)}' cy='${y}' r='${r.toFixed(1)}'/>`
+      dots.push({ x: +(x + (rand() - 0.5) * 3).toFixed(1), y, r: +r.toFixed(1) })
     }
   }
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${IMG.w} ${IMG.h}' preserveAspectRatio='none'><rect width='${IMG.w}' height='${top}'/>${circles}</svg>`
+  return dots
+})()
+
+const MASK = (() => {
+  const circles = DISSOLVE_DOTS.map((d) => `<circle cx='${d.x}' cy='${d.y}' r='${d.r}'/>`).join('')
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${IMG.w} ${IMG.h}' preserveAspectRatio='none'><rect width='${IMG.w}' height='${DISSOLVE_TOP}'/>${circles}</svg>`
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 })()
 
-export default function PortraitDissolve() {
+// `fill` = fill a positioned parent instead of sizing itself
+export default function PortraitDissolve({ fill = false }: { fill?: boolean }) {
   return (
     <div
-      className="relative mx-auto aspect-[1000/1117] w-full max-w-md"
+      className={fill ? 'absolute inset-0' : 'relative mx-auto aspect-[1000/1117] w-full max-w-md'}
       style={{ maskImage: MASK, WebkitMaskImage: MASK, maskSize: '100% 100%', WebkitMaskSize: '100% 100%' }}
     >
       <Image
@@ -44,7 +52,7 @@ export default function PortraitDissolve() {
         preload
         alt="Portrait of Nithik Vairamuthu"
         fill
-        sizes="(max-width: 768px) 90vw, 448px"
+        sizes="(max-width: 768px) 70vw, 400px"
         className="object-contain"
       />
     </div>
