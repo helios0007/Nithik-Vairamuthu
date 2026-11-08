@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import PortraitSplash from "../components/PortraitSplash";
 import ProjectCard from "../components/ProjectCard";
 import Contact from "../components/Contact";
 import Availability from "../components/Availability";
@@ -57,16 +57,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-[1000/1117] w-full max-w-md [mask-image:linear-gradient(to_bottom,black_80%,transparent)]">
-          <Image
-            src="/portrait-hero.webp"
-            preload
-            alt="Portrait of Nithik Vairamuthu"
-            fill
-            sizes="(max-width: 768px) 90vw, 448px"
-            className="object-contain"
-          />
-        </div>
+        <PortraitSplash />
       </section>
 
       {/* ── WHO IS THIS GUY ── */}

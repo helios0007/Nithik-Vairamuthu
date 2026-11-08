@@ -292,46 +292,6 @@ function EixampleHeatArt() {
   )
 }
 
-// ── THEIA (draft): topographic contours with a chosen site ──
-function Topography() {
-  const rand = rng(23)
-  const phases = [rand() * 6, rand() * 6, rand() * 6]
-  const contour = (k: number) => {
-    const pts: number[][] = []
-    for (let a = 0; a <= 64; a++) {
-      const t = (a / 64) * Math.PI * 2
-      const wobble = 1 + 0.12 * Math.sin(3 * t + phases[0]) + 0.07 * Math.sin(5 * t + phases[1]) + 0.04 * Math.sin(7 * t + phases[2])
-      const rx = (150 - k * 17) * wobble
-      const ry = (95 - k * 11) * wobble
-      pts.push([196 + k * 4 + rx * Math.cos(t), 140 + k * 2 + ry * Math.sin(t)])
-    }
-    return toPath(pts) + ' Z'
-  }
-  return (
-    <>
-      <g fill="none" stroke={INK} strokeWidth="0.75">
-        {Array.from({ length: 8 }, (_, k) => (
-          <path
-            key={k}
-            className="ink-draw"
-            style={d(0.15 + k * 0.12)}
-            pathLength={1}
-            d={contour(k)}
-            strokeOpacity={0.25 + k * 0.07}
-          />
-        ))}
-      </g>
-      <g className="ink-fade" style={d(1.4)}>
-        <g className="thumb-target" stroke={ACCENT} strokeWidth="1" fill="none">
-          <circle cx="246" cy="160" r="7" />
-          <path d="M 246 146 v -8 M 246 174 v 8 M 232 160 h -8 M 260 160 h 8" />
-        </g>
-      </g>
-      <Legend items={[{ label: 'CONTOURS · 10 M', line: 'ink' }, { label: 'CANDIDATE SITE', line: 'solid' }]} />
-    </>
-  )
-}
-
 // ── Pressure Chamber: the installation's turning particle globe ──
 function Globe() {
   return (
@@ -442,7 +402,6 @@ const artefacts: Record<string, () => React.ReactElement> = {
   'comparative-assembly': AssemblyTable,
   'lunar-habitations': CreasePattern,
   oasis: EixampleHeatArt,
-  theia: Topography,
 }
 
 export default function ArtefactThumb({ slug, index }: { slug: string; index?: number }) {

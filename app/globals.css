@@ -113,7 +113,7 @@ button:focus-visible {
 .thumb-crease { transform-origin: center; animation: thumb-crease 5s ease-in-out infinite; }
 @keyframes thumb-crease { 50% { transform: scale(1.015, 0.94); } }
 
-/* Topography: candidate site marker pulses */
+/* Pulsing marker (e.g. the Pawlytics collar tag) */
 .thumb-target { transform-origin: center; animation: thumb-target 2.8s ease-in-out infinite; }
 @keyframes thumb-target {
   0%, 100% { transform: scale(1); opacity: 0.7; }
@@ -154,3 +154,7 @@ button:focus-visible {
   background-size: 100% 100%, 28px 28px;
   background-position: center, center;
 }
+
+/* Home portrait splash: hidden until its burst starts (JS); reduced motion shows it at once */
+.portrait-splash { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .portrait-splash { opacity: 1; } }

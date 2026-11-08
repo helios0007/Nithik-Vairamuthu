@@ -666,18 +666,6 @@ export const projects: Project[] = [
       },
     ],
   },
-
-  // ── Drafts: hidden on the live site until they have content and images ──
-  {
-    slug: "theia",
-    title: "THEIA",
-    hook: "A lunar environment and site-intelligence platform.",
-    year: "2026",
-    status: "In progress",
-    tags: ["Lunar", "Site Intelligence"],
-    spreads: [],
-    draft: true,
-  },
 ]
 
 const isDev = process.env.NODE_ENV === "development"
