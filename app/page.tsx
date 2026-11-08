@@ -32,7 +32,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
       />
       {/* ── HERO ── */}
-      <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 pt-12 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:pt-20">
+      <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 pt-12 sm:px-6 md:grid-cols-2 md:pt-20">
         <div>
           <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl">
             Hi, I&apos;m <span className="text-accent">Nithik</span>.

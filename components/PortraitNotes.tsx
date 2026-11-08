@@ -9,14 +9,14 @@ import PortraitDissolve from './PortraitDissolve'
 const hand = Caveat({ subsets: ['latin'], weight: ['500'], display: 'swap' })
 
 const IMG = { w: 1000, h: 1117 }
-const VB = { x: -240, y: -40, w: 1580, h: 1180 }
+const VB = { x: -200, y: -40, w: 1440, h: 1180 }
 const pct = (v: number, of: number) => `${(v / of) * 100}%`
 
 // Edit the words here. tx/ty = where the label starts; d = arrow line; head = arrowhead strokes.
 const NOTES = [
   {
     text: 'architect, mostly',
-    tx: -225,
+    tx: -195,
     ty: 395,
     d: 'M -60 425 C 20 470, 110 560, 212 628',
     head: 'M 212 628 l -32 -2 M 212 628 l -10 -30',
@@ -30,7 +30,7 @@ const NOTES = [
   },
   {
     text: 'Barcelona, for now',
-    tx: 790,
+    tx: 780,
     ty: 1080,
     d: 'M 810 1020 C 770 1046, 708 1036, 664 994',
     head: 'M 664 994 l 31 3 M 664 994 l 2 30',
@@ -39,7 +39,7 @@ const NOTES = [
 
 export default function PortraitNotes() {
   return (
-    <div className="relative mx-auto w-full max-w-xl" style={{ aspectRatio: `${VB.w} / ${VB.h}` }}>
+    <div className="relative mx-auto w-full max-w-xl md:max-w-none xl:w-[118%]" style={{ aspectRatio: `${VB.w} / ${VB.h}` }}>
       <div
         className="absolute"
         style={{ left: pct(-VB.x, VB.w), top: pct(-VB.y, VB.h), width: pct(IMG.w, VB.w), height: pct(IMG.h, VB.h) }}
@@ -65,7 +65,7 @@ export default function PortraitNotes() {
             className={`sk-text ${hand.className}`}
             x={n.tx}
             y={n.ty}
-            fontSize="78"
+            fontSize="70"
             fill="var(--color-ink)"
             style={{ animationDelay: `${0.2 + i * 0.5}s` }}
           >
