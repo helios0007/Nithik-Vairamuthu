@@ -40,9 +40,9 @@ export default function Home() {
             I keep asking how we&apos;ll live tomorrow, on Earth and maybe beyond it. Then I build the tools to help
             find out.
           </p>
-          <p className="mt-4 text-muted">
-            Architect · Computational designer · AI for the built environment at IAAC Barcelona
-          </p>
+          <p className="mt-4 text-muted">Architect &amp; Computational Designer</p>
+          <p className="mt-1 font-medium text-accent">AI tools for buildings, cities and habitats</p>
+          <p className="mt-1 text-sm text-muted">Computer vision · Generative AI · Interactive systems · Hardware</p>
           <div className="mt-8 flex flex-wrap items-center gap-2">
             <a href="#work" className="rounded-full bg-ink px-4 py-2 font-hand text-3xl text-paper transition hover:bg-accent">
               See my work

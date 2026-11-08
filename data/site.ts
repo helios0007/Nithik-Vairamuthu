@@ -33,6 +33,12 @@ export type CvItem = {
 
 export const experience: CvItem[] = [
   {
+    label: 'Teaching',
+    title: 'Teaching Assistant',
+    detail: "IAAC, Barcelona — teaching assistant for computational design to first year Master's in AI students.",
+    // TODO(owner): add the dates.
+  },
+  {
     label: 'Architecture',
     title: 'Architectural Internship',
     detail: 'Iinfinity Architects, Chennai — commercial, residential, and project documentation workflows.',
@@ -40,14 +46,21 @@ export const experience: CvItem[] = [
     when: 'Dec 2022 – May 2026',
   },
   {
+    label: 'Tutor',
+    title: 'Computational Design Workshop',
+    detail: 'Mysore School of Architecture — conducted a 3 day computational design workshop.',
+  },
+  {
+    label: 'Workshop',
+    title: 'AI Workshop',
+    detail: 'VIT University, Vellore.',
+    when: 'Aug 2026',
+    // TODO(owner): say whether you led it.
+  },
+  {
     label: 'Workshop',
     title: 'VAP Parametric Workshop',
     detail: 'VIT University, Vellore — parametric modelling, fabrication, and furniture design.',
-  },
-  {
-    label: 'Tutor',
-    title: 'Parametric Workshop',
-    detail: 'Mysore School of Architecture — assisted in organising and conducting a 3-day parametric workshop.',
   },
 ]
 
@@ -55,7 +68,7 @@ export const education: CvItem[] = [
   {
     label: 'Oct 2025 – Jul 2027',
     title: 'Institute for Advanced Architecture of Catalonia (IAAC)',
-    detail: "Master's in AI for Architecture and the Built Environment",
+    detail: "Master's in AI for Architecture and the Built Environment · Merit scholarship, 2025",
   },
   {
     label: 'Oct 2025 – Present',
@@ -65,22 +78,26 @@ export const education: CvItem[] = [
   {
     label: 'Vellore',
     title: 'Vellore Institute of Technology',
-    detail: 'Bachelor of Architecture (B.Arch)',
+    detail: 'Bachelor of Architecture (B.Arch) · CGPA 8.80 / 10 · University rank holder, B.Arch',
   },
 ]
 
 export const skills: { group: string; items: string[] }[] = [
   {
-    group: 'AI / Vision',
-    items: ['Python', 'PyTorch', 'OpenCV', 'SAM', 'Image Segmentation', 'Regression Models', 'Stable Diffusion'],
+    group: 'AI & Vision',
+    items: ['Python', 'PyTorch', 'OpenCV', 'SAM', 'SegFormer', 'YOLOv8', 'CLIP', 'MediaPipe', 'Stable Diffusion', 'Regression Models'],
   },
   {
-    group: 'Design / Spatial',
-    items: ['Grasshopper', 'Rhino', 'Computational Design', 'Parametric Design', 'Architecture', 'Adaptive Environments'],
+    group: 'Computational Design',
+    items: ['Grasshopper', 'Rhino', 'TouchDesigner', 'Parametric Design', 'Adaptive Environments'],
   },
   {
-    group: 'Hardware / Systems',
-    items: ['Arduino', 'ESP32', 'Sensor Integration', 'Strategic Thinking', 'Systems Design'],
+    group: 'Software',
+    items: ['React', 'TypeScript', 'FastAPI', 'Flask', 'PostgreSQL', 'Three.js'],
+  },
+  {
+    group: 'Hardware & Robotics',
+    items: ['Arduino', 'ESP32', 'RFID', 'Sensor Integration', 'ROS 2', 'UR10', 'Raspberry Pi'],
   },
 ]
 

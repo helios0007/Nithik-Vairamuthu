@@ -90,8 +90,8 @@ export type Project = {
 
 // A short, honest summary of an AI model's results.
 export type ModelCard = {
-  data?: string // e.g. "2,400 façade photos from Barcelona, hand-labelled"
-  model?: string // e.g. "YOLOv8-seg, fine-tuned from COCO weights"
+  data?: string // e.g. "2,400 façade photos from Barcelona, hand labelled"
+  model?: string // e.g. "YOLOv8-seg, fine tuned from COCO weights"
   baseline?: string // what you compared against
   metrics?: { label: string; value: string }[] // e.g. { label: "mAP50", value: "0.78" }
   limitations?: string[] // where it fails
@@ -106,7 +106,7 @@ export const projects: Project[] = [
   {
     slug: "oasis",
     title: "OASIS",
-    hook: "An AI-assisted retrofit tool that maps heat vulnerability from city to apartment and ranks passive interventions using climate, building and health data, helping Barcelona adapt to extreme heat.",
+    hook: "An AI assisted retrofit tool that maps heat vulnerability from city to apartment and ranks passive interventions using climate, building and health data, helping Barcelona adapt to extreme heat.",
     year: "2026",
     status: "Completed",
     tags: ["Urban Heat", "Heat Vulnerability", "AI Retrofit"],
@@ -116,21 +116,21 @@ export const projects: Project[] = [
 
     team: "Main tool developer · team of 4, IAAC MaAI",
     duration: "8 weeks",
-    keyResult: "Heat vulnerability scored for every building in a drawn zone, then traced down to room-level retrofits",
+    keyResult: "Heat vulnerability scored for every building in a drawn zone, then traced down to room level retrofits",
     stack: ["Infrared SDK", "UTCI", "Ollama · Qwen2.5", "IFC", "OpenStreetMap", "Gemini API"],
 
     contextStats: [
-      { value: "546k", label: "heat-related deaths a year worldwide (2012–2021)" },
+      { value: "546k", label: "heat related deaths a year worldwide (2012–2021)" },
       { value: "50–85%", label: "of deaths in extreme heat linked to indoor exposure" },
       { value: "28%", label: "of Barcelona homes vulnerable to extreme heat" },
-      { value: "591,211", label: "Barcelona homes without enough cross-ventilation" },
+      { value: "591,211", label: "Barcelona homes without enough cross ventilation" },
     ],
     context: [
       "Barcelona faces longer heatwaves, made worse by dense streets, ageing housing and unequal access to cooling.",
-      "An architect, a public health officer and a housing operator each hold part of the picture, in separate tools. The 82-year-old sleeping at 32°C in apartment 4B stays invisible to all three.",
+      "An architect, a public health officer and a housing operator each hold part of the picture, in separate tools. The 82 year old sleeping at 32°C in apartment 4B stays invisible to all three.",
     ],
     role: [
-      "I did the major part of the tool development. I built the complete urban-scale tool, integrated my teammates' workflows into one system, and prepared the presentations.",
+      "I did the major part of the tool development. I built the complete urban scale tool, integrated my teammates' workflows into one system, and prepared the presentations.",
       "Team: Gaelle Habib, Chun-Chun Chang, Vimal TN, Nithik Vairamuthu. Tutor: Prof. Emanuele Naboni.",
     ],
     levels: [
@@ -141,15 +141,15 @@ export const projects: Project[] = [
           { label: "Zone", nodes: [{ id: "zone", title: "Draw the zone", mine: true }] },
           { label: "Simulate", nodes: [{ id: "sim", title: "Site context & microclimate", mine: true }] },
           { label: "Score", nodes: [{ id: "hvi", title: "Heat vulnerability per building", mine: true }] },
-          { label: "Intervene", nodes: [{ id: "urban", title: "Urban measures & what-ifs", mine: true }] },
-          { label: "Hand off", nodes: [{ id: "handoff", title: "High-risk buildings to Layer 2", mine: true }] },
+          { label: "Intervene", nodes: [{ id: "urban", title: "Urban measures & what ifs", mine: true }] },
+          { label: "Hand off", nodes: [{ id: "handoff", title: "High risk buildings to Layer 2", mine: true }] },
         ],
         notes: [
           "Draw a polygon on the map of Barcelona, or search a location.",
           "Buildings, vegetation, ground materials and weather are fetched, and a UTCI microclimate simulation runs. Satellite surface temperature is the fallback.",
           "Every building gets a heat vulnerability index from 0 to 10, with its main drivers: heat island, missing vegetation, poor ventilation, density.",
-          "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what-if scenarios.",
-          "If a zone stays above 5.5 after the measures, its high-risk buildings pass to the building layer with their urban context.",
+          "An LLM suggests urban measures such as trees, cool pavements, water and shade corridors, and the user tests what if scenarios.",
+          "If a zone stays above 5.5 after the measures, its high risk buildings pass to the building layer with their urban context.",
         ],
         images: [
           { src: "/projects/oasis/urban-draw.webp", width: 2000, height: 1144, alt: "OASIS map of Barcelona with a study zone drawn as a polygon", caption: "Draw a zone on the map. The live data sources are listed beside it." },
@@ -158,7 +158,7 @@ export const projects: Project[] = [
           { src: "/projects/oasis/urban-inspector.webp", width: 2000, height: 1147, alt: "Building inspector panel showing one building's exposure, social vulnerability and thermal context", caption: "Inspect one building: exposure, social vulnerability and thermal context behind its score." },
           { src: "/projects/oasis/urban-drivers.webp", width: 2000, height: 1147, alt: "UTCI heatmap of the zone beside a list of vulnerability drivers", caption: "The heatmap and its drivers: thermal stress, poor ventilation and high building density." },
           { src: "/projects/oasis/urban-interventions.webp", width: 2000, height: 1142, alt: "Intervention cards with estimated cost and heat vulnerability reduction beside the 3D zone", caption: "Interventions ranked by projected reduction, each with a cost range for the zone." },
-          { src: "/projects/oasis/urban-apartment-section.webp", width: 2000, height: 1146, alt: "Before and after section of a top-floor apartment, indoor temperature 38.2°C to 37.6°C", caption: "What the measures mean inside one home: a top-floor apartment before and after, −0.6°C indoors." },
+          { src: "/projects/oasis/urban-apartment-section.webp", width: 2000, height: 1146, alt: "Before and after section of a top floor apartment, indoor temperature 38.2°C to 37.6°C", caption: "What the measures mean inside one home: a top floor apartment before and after, −0.6°C indoors." },
         ],
       },
       {
@@ -167,16 +167,16 @@ export const projects: Project[] = [
         stages: [
           { label: "Upload", nodes: [{ id: "ifc", title: "IFC model & occupants" }] },
           { label: "Read", nodes: [{ id: "parse", title: "Rooms, façades & boundaries" }] },
-          { label: "Risk", nodes: [{ id: "kpi", title: "Health-weighted heat risk" }] },
+          { label: "Risk", nodes: [{ id: "kpi", title: "Health weighted heat risk" }] },
           { label: "Rank", nodes: [{ id: "rank", title: "Score rooms, filter strategies" }] },
           { label: "Recommend", nodes: [{ id: "diag", title: "Diagnosis & retrofits in 3D" }] },
         ],
         notes: [
           "An IFC model of the building, its location and who lives there.",
           "The IFC is parsed into rooms, façades and space boundaries.",
-          "Solar gain with neighbour shadows, ventilation, envelope and heat-island correction over a heatwave week give four health KPIs.",
+          "Solar gain with neighbour shadows, ventilation, envelope and heat island correction over a heatwave week give four health KPIs.",
           "Each room gets a composite risk score, and rules keep only the strategies that fit it.",
-          "An LLM writes a plain-language diagnosis and the top three retrofits per room, shown in 3D with before/after renders.",
+          "An LLM writes a plain language diagnosis and the top three retrofits per room, shown in 3D with before/after renders.",
         ],
         images: [
           { src: "/projects/oasis/building-input.webp", width: 2000, height: 1150, alt: "Building analysis form: IFC model, location, construction data and occupant profile", caption: "Upload the IFC model, then add construction data and the occupant profile." },
@@ -210,32 +210,32 @@ export const projects: Project[] = [
       {
         title: "One system across three scales",
         problem: "The data to protect vulnerable residents exists, but in different tools, for different professionals.",
-        decision: "Connect city, building and apartment in one tool. The urban layer finds high-risk buildings and hands their urban context to the building layer.",
+        decision: "Connect city, building and apartment in one tool. The urban layer finds high risk buildings and hands their urban context to the building layer.",
       },
       {
-        title: "Health-weighted metrics, not just temperature",
+        title: "Health weighted metrics, not just temperature",
         problem: "Air temperature alone doesn't show who is actually at risk.",
-        decision: "Four health-weighted KPIs: operative temperature, wet bulb globe temperature, nocturnal recovery and age-weighted overheating hours.",
+        decision: "Four health weighted KPIs: operative temperature, wet bulb globe temperature, nocturnal recovery and age weighted overheating hours.",
       },
       {
         title: "Rules first, then AI",
         problem: "An LLM on its own can recommend retrofits that don't fit the room.",
-        decision: "Rules filter out strategies that don't apply, then the LLM writes a plain-language diagnosis and the top three retrofits for each room.",
+        decision: "Rules filter out strategies that don't apply, then the LLM writes a plain language diagnosis and the top three retrofits for each room.",
       },
     ],
     outcome: [
-      "A working tool with urban and building layers, demonstrated on a real Barcelona scenario, plus a unit-scale layer planned for residents using a single panorama photo.",
+      "A working tool with urban and building layers, demonstrated on a real Barcelona scenario, plus a unit scale layer planned for residents using a single panorama photo.",
       "Built for municipalities, the Barcelona Housing Consortium, public health agencies, architects, retrofit agencies and residents. The project received the Best Thesis Award.",
     ],
     reflection: [
-      "Next: finish integrating the unit-scale layer, so residents' own homes feed real conditions back into the city's vulnerability model.",
+      "Next: finish integrating the unit scale layer, so residents' own homes feed real conditions back into the city's vulnerability model.",
     ],
     links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/HVRA" }],
   },
   {
     slug: "retrograde",
     title: "RetroGrade",
-    hook: "A tool that rapidly evaluates the early feasibility of sustainable building retrofits, enabling informed retrofit-or-rebuild decisions before significant time and resources are invested.",
+    hook: "A tool that rapidly evaluates the early feasibility of sustainable building retrofits, enabling informed retrofit or rebuild decisions before significant time and resources are invested.",
     year: "2026",
     status: "Completed",
     tags: ["Image Segmentation", "Regression Model", "Feasibility Analysis"],
@@ -261,7 +261,7 @@ export const projects: Project[] = [
       "RetroGrade gives that first answer, retrofit or demolish, in about a minute. It is built for municipalities, developers and building owners.",
     ],
     role: [
-      "I was a tool developer on a team of four. I built the image segmentation step, which reads a façade photo and turns it into the inputs the rest of the tool depends on: window-to-wall ratio, shading, vegetation and façade material. I also put together the presentation.",
+      "I was a tool developer on a team of four. I built the image segmentation step, which reads a façade photo and turns it into the inputs the rest of the tool depends on: window to wall ratio, shading, vegetation and façade material. I also put together the presentation.",
       "Team: Nithik Vairamuthu, Rashi Desadla, Rim Choufani, Seid Burka. Faculty: Marita Georganta, with faculty assistants Akshay Madapura and Salvador Cantuarias.",
     ],
     pipeline: [
@@ -269,7 +269,7 @@ export const projects: Project[] = [
         label: "Input",
         nodes: [
           { id: "photo", title: "Façade photo" },
-          { id: "info", title: "Building details", detail: "4-step questionnaire" },
+          { id: "info", title: "Building details", detail: "4 step questionnaire" },
           { id: "loc", title: "Location" },
         ],
       },
@@ -298,17 +298,17 @@ export const projects: Project[] = [
       "SAM, SegFormer and CLIP read windows, shading, vegetation and materials. Open-Meteo adds the climate.",
       "A random forest trained on 40,000 European buildings predicts energy use and carbon emissions.",
       "135 rules in 5 weighted categories give a score out of 100: above 50, retrofit; below, demolish.",
-      "A 7-section PDF report, in about 60 seconds.",
+      "A 7 section PDF report, in about 60 seconds.",
     ],
     screens: [
-      { src: "/projects/retrograde/landing.webp", width: 2000, height: 1096, alt: "RetroGrade landing page asking whether your building is ready to retrofit, with the five-step how-it-works row", caption: "The landing page: an early feasibility assessment in five steps, from building data and a façade photo to a PDF report." },
+      { src: "/projects/retrograde/landing.webp", width: 2000, height: 1096, alt: "RetroGrade landing page asking whether your building is ready to retrofit, with the five step how it works row", caption: "The landing page: an early feasibility assessment in five steps, from building data and a façade photo to a PDF report." },
       { src: "/projects/retrograde/step1-building.webp", width: 2000, height: 1118, alt: "Questionnaire step 1, choosing the building function: residential, commercial, industrial or institutional", caption: "Step 1 of 4, Building: the user picks the building function." },
-      { src: "/projects/retrograde/step1-address-year.webp", width: 2000, height: 1100, alt: "Questionnaire step 1 continued, with the building address, a year-built slider and an optional height field", caption: "Step 1 continued: the address (which sets the climate), the year built and an optional height." },
+      { src: "/projects/retrograde/step1-address-year.webp", width: 2000, height: 1100, alt: "Questionnaire step 1 continued, with the building address, a year built slider and an optional height field", caption: "Step 1 continued: the address (which sets the climate), the year built and an optional height." },
       { src: "/projects/retrograde/step2-energy.webp", width: 2000, height: 1104, alt: "Questionnaire step 2 with options for façade orientation, glazing, insulation and HVAC type", caption: "Step 2, Energy: façade orientation, glazing, insulation and HVAC type." },
       { src: "/projects/retrograde/step3-green-features.webp", width: 2000, height: 1104, alt: "Questionnaire step 3 with toggles for solar panels, smart building systems and rainwater harvesting", caption: "Step 3, Façade: toggles for the green systems the building already has." },
       { src: "/projects/retrograde/step4-photo-weights.webp", width: 2000, height: 1089, alt: "Questionnaire step 4 with an uploaded façade photo and five adjustable category weight sliders totalling 100", caption: "Step 4, Review: the façade photo goes in here, and the five category weights can be adjusted before running the analysis." },
       { src: "/projects/retrograde/result-score.webp", width: 2000, height: 1098, alt: "Analysis result showing a retrofit viability score of 62.0, a category breakdown and the façade segmentation overlay", caption: "The result: a retrofit viability score of 62.0 with a breakdown by category, and the segmentation overlay beside the input photo." },
-      { src: "/projects/retrograde/result-details.webp", width: 2000, height: 1100, alt: "Key results: window-to-wall ratio, façade material, climate, predicted energy and carbon, with location and building inputs", caption: "Key results: window-to-wall ratio, façade material, climate zone, and predicted energy and carbon, with the inputs listed below and the PDF report ready to download." },
+      { src: "/projects/retrograde/result-details.webp", width: 2000, height: 1100, alt: "Key results: window to wall ratio, façade material, climate, predicted energy and carbon, with location and building inputs", caption: "Key results: window to wall ratio, façade material, climate zone, and predicted energy and carbon, with the inputs listed below and the PDF report ready to download." },
       { src: "/projects/retrograde/pdf-report.webp", width: 2000, height: 1100, alt: "Page of the generated PDF report on energy consumption and carbon emission", caption: "The PDF report: predicted energy and carbon against the EU thresholds, with the key feature inputs and an interpretation." },
     ],
     problems: [
@@ -320,17 +320,17 @@ export const projects: Project[] = [
       {
         title: "Weights the user controls",
         problem: "Owners and municipalities prioritise different things.",
-        decision: "Five weighted categories with research-based defaults (envelope & energy 30%, orientation 20%, renewables 20%, passive design 15%, environmental impact 15%) that users can adjust.",
+        decision: "Five weighted categories with research based defaults (envelope & energy 30%, orientation 20%, renewables 20%, passive design 15%, environmental impact 15%) that users can adjust.",
       },
       {
         title: "Transparent rules over a black box",
         problem: "A feasibility score has to be explainable, not just a number.",
-        decision: "135 readable rules. Existing PV panels score high; a tall, north-facing, poorly insulated building in a cold climate scores very low.",
+        decision: "135 readable rules. Existing PV panels score high; a tall, north facing, poorly insulated building in a cold climate scores very low.",
       },
     ],
     outcome: [
-      "A working web tool. The user fills in a 4-step questionnaire with a façade photo and their chosen weights, waits about 60 seconds, and downloads a 7-section feasibility report.",
-      "Every building analysed is logged to a shared dataset. Over time this builds a record that can support neighbourhood- and city-scale analysis of retrofit and demolition needs, for urban planning and policy.",
+      "A working web tool. The user fills in a 4 step questionnaire with a façade photo and their chosen weights, waits about 60 seconds, and downloads a 7 section feasibility report.",
+      "Every building analysed is logged to a shared dataset. Over time this builds a record that can support neighbourhood- and city scale analysis of retrofit and demolition needs, for urban planning and policy.",
     ],
     modelCard: {
       codeUrl: "https://github.com/RashiD2801/RetroGrade",
@@ -341,7 +341,7 @@ export const projects: Project[] = [
         { label: "Carbon emission MAE", value: "6.90" },
       ],
       limitations: [
-        "Window-to-wall ratio depends on the photo's perspective: the same façade measured 45% WWR and 17.5% shading in one image, and 39.7% and 18.8% in another.",
+        "Window to wall ratio depends on the photo's perspective: the same façade measured 45% WWR and 17.5% shading in one image, and 39.7% and 18.8% in another.",
         "Limited to European buildings, and to residential, commercial, industrial and institutional typologies.",
         "Uses only the façade and general building data; internal layouts and building depth are not considered.",
         "Segmentation and regression models can introduce minor prediction errors.",
@@ -355,7 +355,7 @@ export const projects: Project[] = [
   {
     slug: "crack-detection",
     title: "RE:PAIR",
-    hook: "A perception-driven, closed-loop robotic system that detects cracks, repairs them with robotic 3D printing, and verifies the result.",
+    hook: "A perception driven, closed loop robotic system that detects cracks, repairs them with robotic 3D printing, and verifies the result.",
     year: "2026",
     status: "Completed",
     tags: ["Computer Vision", "Segmentation", "Robotics"],
@@ -380,11 +380,11 @@ export const projects: Project[] = [
       { label: "Detect", nodes: [{ id: "seg", title: "Crack segmentation", mine: true }] },
       { label: "Extract", nodes: [{ id: "line", title: "Centreline & points", mine: true }] },
       { label: "Repair", nodes: [{ id: "print", title: "Robotic 3D printing" }] },
-      { label: "Verify", nodes: [{ id: "check", title: "Re-scan & check" }] },
+      { label: "Verify", nodes: [{ id: "check", title: "Re scan & check" }] },
     ],
     process: [
       "A camera captures the cracked timber surface.",
-      "A custom-trained YOLO segmentation model masks each crack.",
+      "A custom trained YOLO segmentation model masks each crack.",
       "Each mask is reduced to a centreline, then to target points for the toolpath.",
       "ROS 2 drives a UR10 that fills the crack by robotic 3D printing.",
       "The robot checks the repair, closing the loop.",
@@ -402,7 +402,7 @@ export const projects: Project[] = [
       {
         title: "A Flask bridge to Grasshopper",
         problem: "The detection model had to work in the design tools too, not only inside ROS 2.",
-        decision: "A small Flask server exposes the YOLO model over HTTP, so Grasshopper can request crack masks and turn their centrelines into targets for the Robots plug-in.",
+        decision: "A small Flask server exposes the YOLO model over HTTP, so Grasshopper can request crack masks and turn their centrelines into targets for the Robots plug in.",
       },
       {
         title: "A synthetic fallback for testing",
@@ -411,12 +411,12 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      "Repairman Stack v1.0: a decision-visible robotic repair system, tested in RViz simulation and on a real UR10.",
+      "Repairman Stack v1.0: a decision visible robotic repair system, tested in RViz simulation and on a real UR10.",
       "The same crack detection also runs in Rhino/Grasshopper through the Flask bridge.",
     ],
     modelCard: {},
     reflection: [
-      "Integration is a system discipline. Code can be correct and the motion still wrong: a 180° base-yaw mismatch broke IK alignment, simulated arm kinematics differ from the real UR10, and corner calibration was mandatory before trusting the workspace.",
+      "Integration is a system discipline. Code can be correct and the motion still wrong: a 180° base yaw mismatch broke IK alignment, simulated arm kinematics differ from the real UR10, and corner calibration was mandatory before trusting the workspace.",
     ],
   },
   {
@@ -435,8 +435,8 @@ export const projects: Project[] = [
     stack: ["Python", "Custom parser", "pypdf", "Emotion analysis", "Location enhancer", "Gemini (Nano Banana)"],
 
     context: [
-      "When a neighbourhood is lost, as in the Pacific Palisades fire, AI reconstruction fills the gaps with generic street patterns and idealised, Western-centric styles. Planners end up deciding on false geometry, and neighbourhoods lose their identity.",
-      "Chronoscape tests a hypothesis: adding memory to 3D reconstruction gives more contextual richness and spatial coherence than image-only or text-only models.",
+      "When a neighbourhood is lost, as in the Pacific Palisades fire, AI reconstruction fills the gaps with generic street patterns and idealised, Western centric styles. Planners end up deciding on false geometry, and neighbourhoods lose their identity.",
+      "Chronoscape tests a hypothesis: adding memory to 3D reconstruction gives more contextual richness and spatial coherence than image only or text only models.",
     ],
     role: [
       "I was the lead developer: I wrote the code and built the complete pipeline, from parsing residents' narratives to the prompts that drive image generation.",
@@ -451,16 +451,16 @@ export const projects: Project[] = [
     process: [
       "Residents answer questions about the place: the first image that comes to mind, its atmosphere, materials, routines and light.",
       "A Python parser extracts each resident's story and weights it; emotion analysis sets the light and atmosphere.",
-      "A location enhancer adds the real neighbourhood, with a web-search fallback, so the model doesn't invent generic streets.",
+      "A location enhancer adds the real neighbourhood, with a web search fallback, so the model doesn't invent generic streets.",
       "Gemini (Nano Banana) renders street and drone views; a memory manager keeps each resident's images consistent.",
       "Many residents' stories converge into one collective streetscape of the rebuilt neighbourhood.",
     ],
     screens: [
       { src: "/projects/chronoscape/memory-layer.webp", width: 2000, height: 935, alt: "An iceberg above and below a waterline: visible geometry above, the memory layer below", caption: "The idea: above the waterline, incomplete visible geometry, occluded areas and basic streets. Below it, the memory layer: cultural identity, social life, emotional and social nodes." },
       { src: "/projects/chronoscape/evolution.webp", width: 2000, height: 952, alt: "Sequence of generated images from first exterior parameters to a collective neighbourhood view", caption: "How the output evolved: exterior parameters, a collective memory layer, weighted prompt keywords from the parser, the location enhancer, architectural component references, and then neighbourhood views." },
-      { src: "/projects/chronoscape/scales.webp", width: 2000, height: 950, alt: "Diagram from user input through the location enhancer to single-unit and neighbourhood scales", caption: "The system: a user's questionnaire and reference image pass through the location enhancer, then scale from one person and one home to many residents and a neighbourhood." },
+      { src: "/projects/chronoscape/scales.webp", width: 2000, height: 950, alt: "Diagram from user input through the location enhancer to single unit and neighbourhood scales", caption: "The system: a user's questionnaire and reference image pass through the location enhancer, then scale from one person and one home to many residents and a neighbourhood." },
       { src: "/projects/chronoscape/remembered-home.webp", width: 2000, height: 944, alt: "Two generated views of a remembered home on a hillside street at dusk", caption: "A remembered home, generated from a resident's memory: a raised timber house above a winding hillside street." },
-      { src: "/projects/chronoscape/comparison.webp", width: 2000, height: 964, alt: "The same scene generated by Grok, Perplexity, ChatGPT and Chronoscape side by side", caption: "The same place generated by Grok, Perplexity, ChatGPT and Chronoscape. The other three place the house on a clifftop above the sea; Chronoscape places it on a built-up hillside street." },
+      { src: "/projects/chronoscape/comparison.webp", width: 2000, height: 964, alt: "The same scene generated by Grok, Perplexity, ChatGPT and Chronoscape side by side", caption: "The same place generated by Grok, Perplexity, ChatGPT and Chronoscape. The other three place the house on a clifftop above the sea; Chronoscape places it on a built up hillside street." },
     ],
     problems: [
       {
@@ -481,17 +481,17 @@ export const projects: Project[] = [
     ],
     outcome: [
       "Remembered homes generated from single residents' memories, and a collective streetscape of a rebuilt Pacific Palisades neighbourhood that carries many residents' stories.",
-      "The dataset so far: 250 user-uploaded context images, 13 resident narratives and 82 architectural elements.",
+      "The dataset so far: 250 user uploaded context images, 13 resident narratives and 82 architectural elements.",
     ],
     links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/CHRONOSCAPE" }],
     reflection: [
-      "Memory-based reconstruction is not about geometric accuracy. It is about recovering the semantic and spatial information that cameras cannot capture.",
+      "Memory based reconstruction is not about geometric accuracy. It is about recovering the semantic and spatial information that cameras cannot capture.",
     ],
   },
   {
     slug: "pressure-chamber",
     title: "Pressure Chamber",
-    hook: "An interactive installation for Barcelona, World Capital of Architecture 2026, where visitors try to out-prompt an AI image generator and discover its biases first-hand.",
+    hook: "An interactive installation for Barcelona, World Capital of Architecture 2026, where visitors try to out prompt an AI image generator and discover its biases first hand.",
     year: "2026",
     status: "Exhibited",
     tags: ["Installation", "Generative AI", "AI Bias"],
@@ -530,8 +530,8 @@ export const projects: Project[] = [
       { src: "/projects/pressure-chamber/challenge-loop.webp", width: 960, height: 540, alt: "Slide: prompt, generate, compare, reveal, with four steps from target image to result and report", caption: "The challenge loop: the visitor sees a target image, describes it in a prompt, the AI generates its interpretation, and the system compares, scores and explains the bias." },
       { src: "/projects/pressure-chamber/six-challenges.webp", width: 960, height: 540, alt: "Slide listing the six bias challenges", caption: "Six challenges, each aimed at a different bias: The Awkward Reach, Who's the Boss, Tunnel Vision, The Invisible Spectrum, No Complexity Zone and The Missing Brother." },
       { src: "/projects/pressure-chamber/system-framework.webp", width: 960, height: 540, alt: "Slide with the system as five blocks from user input to report", caption: "How the system works: user input, prompt engine, image model, vision score and report." },
-      { src: "/projects/pressure-chamber/visitor-journey.webp", width: 960, height: 540, alt: "Slide showing the visitor journey from intro video to the takeaway", caption: "The visitor journey: intro video, language select, name entry, instruction video, a six-card task hub, three tasks completed, then the takeaway. The system then resets for the next visitor." },
-      { src: "/projects/pressure-chamber/installation.webp", width: 960, height: 540, alt: "Slide with a front elevation of the kiosk-style booth", caption: "The physical installation: the web app runs in a kiosk-like booth where the screen, console, input device and lighting make the playground feel physical." },
+      { src: "/projects/pressure-chamber/visitor-journey.webp", width: 960, height: 540, alt: "Slide showing the visitor journey from intro video to the takeaway", caption: "The visitor journey: intro video, language select, name entry, instruction video, a six card task hub, three tasks completed, then the takeaway. The system then resets for the next visitor." },
+      { src: "/projects/pressure-chamber/installation.webp", width: 960, height: 540, alt: "Slide with a front elevation of the kiosk style booth", caption: "The physical installation: the web app runs in a kiosk like booth where the screen, console, input device and lighting make the playground feel physical." },
       { src: "/projects/pressure-chamber/ergonomics.webp", width: 960, height: 540, alt: "Slide with an isometric drawing of a person using the kiosk table", caption: "Ergonomics and scale: a 1500 mm wide table, about 750 mm high, with an angled console, recessed screen, keyboard and mouse, and RGB LEDs." },
     ],
     problems: [
@@ -559,7 +559,7 @@ export const projects: Project[] = [
   {
     slug: "comparative-assembly",
     title: "Guided Comparative Assembly",
-    hook: "An interactive tabletop installation: visitors build a small building scenario on a marker-tracked table and see its carbon, labour, time and cost projected back onto the surface.",
+    hook: "An interactive tabletop installation: visitors build a small building scenario on a marker tracked table and see its carbon, labour, time and cost projected back onto the surface.",
     year: "2026",
     status: "Completed",
     tags: ["Installation", "Human-in-the-loop", "Construction LCA"],
@@ -572,15 +572,15 @@ export const projects: Project[] = [
     stack: ["TouchDesigner", "Python", "OpenCV ArUco", "MediaPipe", "ESP32 + RC522 RFID", "OSC", "Projection mapping", "Rhino + Grasshopper"],
 
     contextStats: [
-      { value: "37%", label: "of global energy-related CO₂ comes from buildings (UNEP, 2022)" },
+      { value: "37%", label: "of global energy related CO₂ comes from buildings (UNEP, 2022)" },
       { value: "80%", label: "of a project's lifecycle impact is locked in during early design (McKinsey, 2023)" },
       { value: "282%", label: "most the carbon figure for one material changes by switching database" },
       { value: "47", label: "cited data sources behind the numbers" },
     ],
     context: [
-      "Material, construction method, footprint and height are decided early in a project, often before any environmental or economic data is consulted. For non-experts that data is inaccessible; for experts it is contested, because methodological assumptions vary and single-figure comparisons mislead. The same building's result can move by around 200% just by changing the calculation method.",
+      "Material, construction method, footprint and height are decided early in a project, often before any environmental or economic data is consulted. For non experts that data is inaccessible; for experts it is contested, because methodological assumptions vary and single figure comparisons mislead. The same building's result can move by around 200% just by changing the calculation method.",
       "This installation makes the consequences legible in the moment of choosing: a physical table that reads the building you configure and projects what it costs in carbon, labour, time and money. The data is shown as honest ranges with their sources, not as falsely precise single figures.",
-      "Two tangible tables taught the loop: Urp (MIT, 1999), where a building model's shadow follows a simulated sun, and the reacTable (UPF, 2007), where pucks read by a camera become the controls. The project borrows their cycle of project, place, confirm, advance, and adds guided assembly and life-cycle comparison to it.",
+      "Two tangible tables taught the loop: Urp (MIT, 1999), where a building model's shadow follows a simulated sun, and the reacTable (UPF, 2007), where pucks read by a camera become the controls. The project borrows their cycle of project, place, confirm, advance, and adds guided assembly and life cycle comparison to it.",
     ],
     role: [
       "I worked on data gathering, the projected UI, the presentation, and the workflows that connect the system.",
@@ -609,7 +609,7 @@ export const projects: Project[] = [
       },
       {
         label: "Project",
-        nodes: [{ id: "ui", title: "Nine-panel UI", detail: "TouchDesigner · short-throw projector", mine: true }],
+        nodes: [{ id: "ui", title: "Nine panel UI", detail: "TouchDesigner · short throw projector", mine: true }],
       },
       {
         label: "Compare",
@@ -617,27 +617,27 @@ export const projects: Project[] = [
       },
     ],
     process: [
-      "The visitor places a 3D-printed model of masonry, 3D-printed or prefab construction on an RFID pedestal. Each model holds a MIFARE tag, read by an RC522 reader on an ESP32.",
+      "The visitor places a 3D printed model of masonry, 3D printed or prefab construction on an RFID pedestal. Each model holds a MIFARE tag, read by an RC522 reader on an ESP32.",
       "Four ArUco markers at the table corners fix the working plane. A red puck held still for three seconds places each footprint point, ten in all, and the area comes from the shoelace formula. A slide potentiometer sets the number of floors, and an ArUco marker the material.",
-      "Python and OpenCV send puck positions to TouchDesigner over OSC; the ESP32 sends the RFID and slider values over serial. Sourced per-m² ranges are scaled by area, floors and a plan-shape factor.",
-      "One TouchDesigner script lays out nine named panels, 1280 × 720, for the short-throw projector: selection, plan, phase navigation, part and total impact, assembly sequence, method, state and a status bar that names the next action.",
+      "Python and OpenCV send puck positions to TouchDesigner over OSC; the ESP32 sends the RFID and slider values over serial. Sourced per m² ranges are scaled by area, floors and a plan shape factor.",
+      "One TouchDesigner script lays out nine named panels, 1280 × 720, for the short throw projector: selection, plan, phase navigation, part and total impact, assembly sequence, method, state and a status bar that names the next action.",
       "Each method steps through the phases it really has, projecting each one's carbon, energy, labour, time and cost: five for masonry, three for 3D printing, four for prefab. Then a comparison view sets the methods side by side.",
     ],
     problems: [
       {
         title: "Honest ranges, not single numbers",
         problem: "Construction data varies widely between sources and contexts, and a single figure hides that.",
-        decision: "Every metric is a low–high range with its source, a tier (peer-reviewed or EPD, institutional, vendor claim) and a confidence level, drawn from EPDs, the BEDEC Catalonia cost database and peer-reviewed studies. A missing value stays visibly missing, so the table shows a data gap instead of faking precision.",
+        decision: "Every metric is a low–high range with its source, a tier (peer reviewed or EPD, institutional, vendor claim) and a confidence level, drawn from EPDs, the BEDEC Catalonia cost database and peer reviewed studies. A missing value stays visibly missing, so the table shows a data gap instead of faking precision.",
       },
       {
         title: "Hands on the table, not a screen",
-        problem: "Non-experts rarely engage with life-cycle spreadsheets.",
-        decision: "Visitors configure the building with their hands, using method models, a tracked puck and a height slider, and the feedback is projected straight onto the table. It is a live sandbox, not a scripted tour: any change re-projects every metric at once, and hand gestures cover the rest (undo, add a window, extrude the walls into 3D, reset).",
+        problem: "Non experts rarely engage with life cycle spreadsheets.",
+        decision: "Visitors configure the building with their hands, using method models, a tracked puck and a height slider, and the feedback is projected straight onto the table. It is a live sandbox, not a scripted tour: any change re projects every metric at once, and hand gestures cover the rest (undo, add a window, extrude the walls into 3D, reset).",
       },
       {
         title: "A slider for height, not a marker",
         problem: "Height began as an ArUco dial, but a rotating marker is unreliable under projector light and a dial is a weak way to ask how many floors.",
-        decision: "A linear slide potentiometer on the ESP32 now sets the floors as one continuous physical action. Median and moving-average smoothing with hysteresis at floor boundaries keep it stable, the slider-to-projection delay stays under 100 ms, and each method has its own floor cap (3D-printed earth is limited to one).",
+        decision: "A linear slide potentiometer on the ESP32 now sets the floors as one continuous physical action. Median and moving average smoothing with hysteresis at floor boundaries keep it stable, the slider to projection delay stays under 100 ms, and each method has its own floor cap (3D printed earth is limited to one).",
       },
       {
         title: "Honest phases for each method",
@@ -646,18 +646,18 @@ export const projects: Project[] = [
       },
       {
         title: "Tracking that survives projector light",
-        problem: "Under a top-down projector the corner markers can drop out and the homography returns nothing, which was the most common failure.",
-        decision: "A marker-free red-puck tracker, with a dwell timer, became the resilient path for placing points, and a hand-gesture layer reads secondary actions. Both vision pipelines stay in the repository.",
+        problem: "Under a top down projector the corner markers can drop out and the homography returns nothing, which was the most common failure.",
+        decision: "A marker free red puck tracker, with a dwell timer, became the resilient path for placing points, and a hand gesture layer reads secondary actions. Both vision pipelines stay in the repository.",
       },
       {
         title: "Logic in Python, rendering in TouchDesigner",
         problem: "The first runtime, Grasshopper with Anemone, stalled once it had to hold a live state machine, a camera and a projection at once.",
-        decision: "The runtime moved to TouchDesigner and Rhino was demoted to geometry generation. The state engine and metrics sit in testable, version-controlled Python, TouchDesigner only renders, and everything runs on one laptop over USB and serial, so the installation needs no network or IT support.",
+        decision: "The runtime moved to TouchDesigner and Rhino was demoted to geometry generation. The state engine and metrics sit in testable, version controlled Python, TouchDesigner only renders, and everything runs on one laptop over USB and serial, so the installation needs no network or IT support.",
       },
       {
         title: "A state model that survives a live room",
         problem: "An installation can break in many ways: a lost camera, a misplaced puck, an operator reset.",
-        decision: "A layered state machine separates the eight visitor-facing states from a wrapper of calibration, error, reset and manual-override states, and from the colour-coded projection feedback. Puck data goes stale after ten frames without a heartbeat and raises the error state.",
+        decision: "A layered state machine separates the eight visitor facing states from a wrapper of calibration, error, reset and manual override states, and from the colour coded projection feedback. Puck data goes stale after ten frames without a heartbeat and raises the error state.",
       },
     ],
     videos: [
@@ -666,28 +666,28 @@ export const projects: Project[] = [
       { src: "/projects/comparative-assembly/touchdesigner-response.mp4", title: "TouchDesigner response", caption: "the projection answering in real time" },
     ],
     screens: [
-      { src: "/projects/comparative-assembly/concept-setup.webp", width: 2000, height: 1116, alt: "Concept illustration of the installation: an overhead projector and camera over a table with a projected interface, a red puck and building models", caption: "The setup, as a concept illustration: an overhead short-throw projector and camera above a table with building models, a red puck and the projected interface." },
+      { src: "/projects/comparative-assembly/concept-setup.webp", width: 2000, height: 1116, alt: "Concept illustration of the installation: an overhead projector and camera over a table with a projected interface, a red puck and building models", caption: "The setup, as a concept illustration: an overhead short throw projector and camera above a table with building models, a red puck and the projected interface." },
       { src: "/projects/comparative-assembly/step-1-method.webp", width: 2000, height: 1131, alt: "Concept illustration of a hand placing a white building model onto a glowing pedestal", caption: "Move 1, method (concept illustration): place a printed model of the construction method on the RFID pedestal." },
       { src: "/projects/comparative-assembly/step-2-footprint.webp", width: 2000, height: 1131, alt: "Concept illustration of a glowing green building footprint projected onto a dark table", caption: "Move 2, footprint (concept illustration): dwell a red puck to drop each corner point of the plan." },
-      { src: "/projects/comparative-assembly/step-3-height.webp", width: 2000, height: 1131, alt: "Concept illustration of a hand moving a slider beside a glowing multi-storey building", caption: "Move 3, height (concept illustration): push the slider to set the number of floors." },
+      { src: "/projects/comparative-assembly/step-3-height.webp", width: 2000, height: 1131, alt: "Concept illustration of a hand moving a slider beside a glowing multi storey building", caption: "Move 3, height (concept illustration): push the slider to set the number of floors." },
       { src: "/projects/comparative-assembly/step-4-validate.webp", width: 2000, height: 1131, alt: "Concept illustration of a footprint outline on a table between four corner markers with a red puck", caption: "Move 4, validate (concept illustration): four corner markers fix the plane and the footprint is checked before the phases begin." },
-      { src: "/projects/comparative-assembly/step-5-compare.webp", width: 2000, height: 1131, alt: "Concept illustration of three building models, brick, 3D-printed and timber, each with bars for carbon, cost and time", caption: "Move 5, compare (concept illustration): walk the phases, then end with the methods side by side." },
+      { src: "/projects/comparative-assembly/step-5-compare.webp", width: 2000, height: 1131, alt: "Concept illustration of three building models, brick, 3D printed and timber, each with bars for carbon, cost and time", caption: "Move 5, compare (concept illustration): walk the phases, then end with the methods side by side." },
       { src: "/projects/comparative-assembly/physical-layer.webp", width: 2000, height: 1125, alt: "Three photos: the RFID pedestal with its reader, the red puck, and a board with method models and two sliders", caption: "The objects a visitor touches: the RFID pedestal with its reader, the red puck, and the board with the printed method models and the height sliders." },
       { src: "/projects/comparative-assembly/phases-masonry.webp", width: 2000, height: 1125, alt: "Four renders of a masonry building: foundation, structure, roof and openings", caption: "The projected build phases for masonry: foundation, structure, roof, openings (finishing shown on the last model)." },
-      { src: "/projects/comparative-assembly/phases-3d-printed.webp", width: 2000, height: 1125, alt: "Three renders of a 3D-printed building: foundation slab, printed walls, and finished with roof", caption: "The projected phases for 3D printing: foundation, print, finishing. There is no separate roof phase." },
-      { src: "/projects/comparative-assembly/projection-ui.webp", width: 2000, height: 1110, alt: "Capture of the nine-panel projection with selection, phase chips, part and total impact and a status bar", caption: "A live capture of the nine-panel projection, with TouchDesigner's network visible: selection on the left, lifecycle stages along the top, impacts on the right and the status bar below." },
-      { src: "/projects/comparative-assembly/vision-capture.webp", width: 2000, height: 1172, alt: "The vision pipeline running: four corner markers around a working plane and a puck with a dwell ring", caption: "The vision pipeline running: four corner markers fix the working plane, and the puck fills a three-second dwell ring before it places a point." },
+      { src: "/projects/comparative-assembly/phases-3d-printed.webp", width: 2000, height: 1125, alt: "Three renders of a 3D printed building: foundation slab, printed walls, and finished with roof", caption: "The projected phases for 3D printing: foundation, print, finishing. There is no separate roof phase." },
+      { src: "/projects/comparative-assembly/projection-ui.webp", width: 2000, height: 1110, alt: "Capture of the nine panel projection with selection, phase chips, part and total impact and a status bar", caption: "A live capture of the nine panel projection, with TouchDesigner's network visible: selection on the left, lifecycle stages along the top, impacts on the right and the status bar below." },
+      { src: "/projects/comparative-assembly/vision-capture.webp", width: 2000, height: 1172, alt: "The vision pipeline running: four corner markers around a working plane and a puck with a dwell ring", caption: "The vision pipeline running: four corner markers fix the working plane, and the puck fills a three second dwell ring before it places a point." },
     ],
     outcome: [
-      "Presented at the IAAC final critique on 22 May 2026, comparing masonry, 3D-printed and prefab construction in a Catalan context. Jury members could play with it directly instead of watching a scripted tour: swap a method model, move the puck, slide the floors, and every metric updates at once.",
-      "The numbers behind the table, per m² of floor area. Masonry: 205–490 kgCO2e, 22–34 labour hours, 14–20 weeks, €950–1,350, from Catalan tier-1 sources. 3D-printed: 58–147 kgCO2e, 8–16 hours, 6–10 weeks, €1,000–1,500. Prefab: 130–350 kgCO2e, 12–20 hours, 8–12 weeks, €1,100–1,600, with the range spanning biogenic-carbon accounting methods.",
+      "Presented at the IAAC final critique on 22 May 2026, comparing masonry, 3D printed and prefab construction in a Catalan context. Jury members could play with it directly instead of watching a scripted tour: swap a method model, move the puck, slide the floors, and every metric updates at once.",
+      "The numbers behind the table, per m² of floor area. Masonry: 205–490 kgCO2e, 22–34 labour hours, 14–20 weeks, €950–1,350, from Catalan tier 1 sources. 3D printed: 58–147 kgCO2e, 8–16 hours, 6–10 weeks, €1,000–1,500. Prefab: 130–350 kgCO2e, 12–20 hours, 8–12 weeks, €1,100–1,600, with the range spanning biogenic carbon accounting methods.",
       "Developed in the open as a repository of about 200 commits with the state spec, interface contract and run books.",
     ],
     reflection: [
-      "The data has honest gaps. There is no peer-reviewed Catalan life-cycle study for 3D-printed construction, so those figures come from Qatar, Australia and the US, and there is no Spanish primary dataset for prefab. CLT is sourced from Austria and Sweden; its 1,800–2,200 km of transport adds 25–60 kgCO2e/m² that most studies leave out.",
+      "The data has honest gaps. There is no peer reviewed Catalan life cycle study for 3D printed construction, so those figures come from Qatar, Australia and the US, and there is no Spanish primary dataset for prefab. CLT is sourced from Austria and Sweden; its 1,800–2,200 km of transport adds 25–60 kgCO2e/m² that most studies leave out.",
       "Three gaps were still open at the final presentation, each with a next step. The RFID reader was not yet detecting the tags, so the method was switched by hand while the DumpInfo diagnostic isolated hardware from code. Camera calibration came from physical measurements, the real spacing of the corner markers and the camera height, and still had to be checked at the frame edges. And prefab's lifecycle stages did not yet share an axis with the build phases of the other methods.",
       "The hardest part was coordination, not code. Six people's work diverged across branches that never merged, and a run of automatic snapshots looked like progress but was checkpointing, not integration. The team declared one branch the source of truth and did a single convergence pass.",
-      "Next: a sound layer with a soundscape per method, re-calibration under exhibition lighting, a proximity zoom, projected phase animations once the numbers are locked, more methods, and a museum deployment. The longer-term picture is a table at the client meeting that shows the plan and each phase's cost, carbon and time, so client and consultant decide together.",
+      "Next: a sound layer with a soundscape per method, re calibration under exhibition lighting, a proximity zoom, projected phase animations once the numbers are locked, more methods, and a museum deployment. The longer term picture is a table at the client meeting that shows the plan and each phase's cost, carbon and time, so client and consultant decide together.",
     ],
     links: [{ label: "Code on GitHub", href: "https://github.com/Leonardboeker/Hardware_III" }],
   },
@@ -697,7 +697,7 @@ export const projects: Project[] = [
     hook: "A pet health monitoring app that learns each pet's baseline, adds breed risk, and tells owners clearly when a change is worth a vet visit.",
     year: "2026",
     status: "MVP",
-    tags: ["Full-stack App", "Health Monitoring", "3D Web"],
+    tags: ["Full stack App", "Health Monitoring", "3D Web"],
     spreads: [],
     featured: true,
 
@@ -707,7 +707,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite", "Tailwind", "Three.js", "Recharts", "FastAPI", "SQLAlchemy", "PostgreSQL", "JWT auth", "OpenStreetMap"],
 
     contextStats: [
-      { value: "6", label: "subsystems in the health engine, all rules-based" },
+      { value: "6", label: "subsystems in the health engine, all rules based" },
       { value: "30", label: "days of a pet's own history make up its baseline" },
       { value: "10", label: "breed profiles with prevalence data" },
       { value: "3", label: "urgency levels: Monitor, Vet soon, Urgent" },
@@ -717,28 +717,28 @@ export const projects: Project[] = [
       "Pawlytics is built for monitoring, not diagnosis: it compares each pet with its own baseline and gives clear, explainable guidance on when to act.",
     ],
     role: [
-      "I did the complete development: the FastAPI backend and PostgreSQL data model, the rules-based health engine, and the React front end with its 3D pet avatar.",
-      "The repository starts from a product requirements document that lays out an eight-layer architecture, from input sources through ingestion, storage, processing and the intelligence layer to output and a feedback loop. The app implements the path through that stack that an MVP needs.",
+      "I did the complete development: the FastAPI backend and PostgreSQL data model, the rules based health engine, and the React front end with its 3D pet avatar.",
+      "The repository starts from a product requirements document that lays out an eight layer architecture, from input sources through ingestion, storage, processing and the intelligence layer to output and a feedback loop. The app implements the path through that stack that an MVP needs.",
     ],
     pipeline: [
       { label: "Log", nodes: [{ id: "log", title: "Daily health log", detail: "energy · appetite · sleep · walks · symptoms", mine: true }] },
-      { label: "Baseline", nodes: [{ id: "base", title: "Compare with own average", detail: "30-day baseline", mine: true }] },
+      { label: "Baseline", nodes: [{ id: "base", title: "Compare with own average", detail: "30 day baseline", mine: true }] },
       { label: "Breed risk", nodes: [{ id: "breed", title: "Known breed conditions", detail: "VetCompass · OFA", mine: true }] },
       { label: "Triage", nodes: [{ id: "triage", title: "Score & urgency", detail: "rule tree · 0–100", mine: true }] },
-      { label: "Explain", nodes: [{ id: "explain", title: "Plain-language guidance", detail: "templates · 3D avatar", mine: true }] },
+      { label: "Explain", nodes: [{ id: "explain", title: "Plain language guidance", detail: "templates · 3D avatar", mine: true }] },
     ],
     process: [
       "Owners log energy (1–5), appetite, mood, sleep, walks, play, weight and symptoms each day, in a short structured form.",
       "Today is compared with the pet's own last 30 days. Activity counts for 40% of the baseline match, sleep for 25%, energy for 20% and appetite for 15%. An activity drop of more than 30%, a weight change of more than 5% or an energy crash is flagged as an anomaly.",
-      "Prevalence data for ten breed profiles, derived from VetCompass and OFA statistics, adds context. For dogs of ten or older, age-linked conditions such as arthritis and cancer are weighted up by half.",
+      "Prevalence data for ten breed profiles, derived from VetCompass and OFA statistics, adds context. For dogs of ten or older, age linked conditions such as arthritis and cancer are weighted up by half.",
       "A rule tree sorts symptoms into Monitor, Vet soon or Urgent: difficulty breathing, a seizure, a collapse or suspected poisoning is urgent on its own, and so is vomiting with diarrhoea. Baseline deviation (up to 40 points), triage (10, 30 or 60), breed risk (up to 20) and anomalies add up to a risk score, and the health score is 100 minus it, nudged by up to 5 points by the recent trend.",
-      "A plain-language explanation built from templates, a 30-day trend, and a 3D avatar whose colour and movement follow the score. The tail only wags above 70.",
+      "A plain language explanation built from templates, a 30 day trend, and a 3D avatar whose colour and movement follow the score. The tail only wags above 70.",
     ],
     screens: [
       { src: "/projects/pawlytics/onboarding.webp", width: 1280, height: 720, alt: "Four phone screens: splash, welcome with a dog photo, create an account, and sign in", caption: "Onboarding: splash, welcome (\"Make pet care easy, fun and rewarding\"), create an account and sign in." },
       { src: "/projects/pawlytics/pet-profile-home.webp", width: 1280, height: 720, alt: "Four phone screens: pet profile form, home with today's actions, daily question and weekly tips, and the health dashboard with a score of 75", caption: "Setting up a pet (name, species, breed, age, weight), then the home screen with today's actions, a daily question and weekly tips, and the health dashboard showing a daily summary score of 75/100." },
       { src: "/projects/pawlytics/health-log-explore.webp", width: 1280, height: 720, alt: "Four phone screens: the daily health log with energy, appetite and mood, the symptom picker, and the Explore tab listing vets in Barcelona", caption: "The daily health log (energy, appetite, mood, sleep, walks, symptoms and notes), and an Explore tab that lists vets in Barcelona from OpenStreetMap data." },
-      { src: "/projects/pawlytics/profile-assistant.webp", width: 1280, height: 720, alt: "Four phone screens: the pet profile with weight, next vet visit and age, and a chat with the health assistant Fetch", caption: "The pet profile with weight, next vet visit and age, and Fetch, the chat assistant in the product design, asking follow-up questions about the pet's health." },
+      { src: "/projects/pawlytics/profile-assistant.webp", width: 1280, height: 720, alt: "Four phone screens: the pet profile with weight, next vet visit and age, and a chat with the health assistant Fetch", caption: "The pet profile with weight, next vet visit and age, and Fetch, the chat assistant in the product design, asking follow up questions about the pet's health." },
     ],
     problems: [
       {
@@ -749,7 +749,7 @@ export const projects: Project[] = [
       {
         title: "Rules before machine learning",
         problem: "There is no training data at launch, and owners need to see why a warning appears.",
-        decision: "A transparent rules engine with template-based explanations first; lightweight ML once enough logs exist.",
+        decision: "A transparent rules engine with template based explanations first; lightweight ML once enough logs exist.",
       },
       {
         title: "Explainable by construction",
@@ -773,8 +773,8 @@ export const projects: Project[] = [
       },
     ],
     outcome: [
-      "A working full-stack MVP: accounts with hashed passwords and token sign-in, a 3-step pet onboarding, daily logging, health score and triage, a breed-risk panel and 30-day trends, behind a documented REST API.",
-      "Ten endpoints cover sign-up, sign-in, pets, breed risks, logs and the health summary. Saving a log runs the engine and stores its result, and each owner can only reach their own pets and logs.",
+      "A working full stack MVP: accounts with hashed passwords and token sign in, a 3 step pet onboarding, daily logging, health score and triage, a breed risk panel and 30 day trends, behind a documented REST API.",
+      "Ten endpoints cover sign up, sign in, pets, breed risks, logs and the health summary. Saving a log runs the engine and stores its result, and each owner can only reach their own pets and logs.",
       "The Explore tab lists live vets, groomers, parks, training and hotels around Barcelona from OpenStreetMap.",
     ],
     links: [{ label: "Code on GitHub", href: "https://github.com/helios0007/PAWLYTICS" }],
@@ -787,7 +787,7 @@ export const projects: Project[] = [
   {
     slug: "lunar-habitations",
     title: "Origami Lunar Habitations",
-    hook: "A computational study of origami-inspired geometries applied to lunar habitat design.",
+    hook: "A computational study of origami inspired geometries applied to lunar habitat design.",
     year: "2025",
     status: "Published",
     tags: ["Computational Geometry", "Lunar Architecture"],
