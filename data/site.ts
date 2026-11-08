@@ -89,7 +89,7 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: 'Computational Design',
-    items: ['Grasshopper', 'Rhino', 'TouchDesigner', 'Parametric Design', 'Adaptive Environments'],
+    items: ['Grasshopper', 'Rhino', 'Speckle', 'TouchDesigner', 'Parametric Design', 'Adaptive Environments'],
   },
   {
     group: 'Software',

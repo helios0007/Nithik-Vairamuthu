@@ -48,6 +48,13 @@ export type ProjectVideo = {
   caption?: string
 }
 
+// A free form thesis page: chapters of full slides instead of the case study template.
+export type ThesisChapter = {
+  title: string
+  text?: string
+  slides: LayerImage[]
+}
+
 export type ProjectLink = {
   label: string
   href: string
@@ -86,6 +93,9 @@ export type Project = {
   modelCard?: ModelCard // for AI / ML projects
   reflection?: string[] // what you'd do differently / next
   links?: ProjectLink[]
+
+  // When set, the project page shows this story instead of the case study sections.
+  thesis?: { facts: { label: string; value: string }[]; chapters: ThesisChapter[] }
 }
 
 // A short, honest summary of an AI model's results.
@@ -786,20 +796,14 @@ export const projects: Project[] = [
   },
   {
     slug: "lunar-habitations",
-    title: "Origami Lunar Habitations",
-    hook: "A computational study of origami inspired geometries applied to lunar habitat design.",
-    year: "2025",
-    status: "Published",
-    tags: ["Computational Geometry", "Lunar Architecture"],
-    spreads: ["/projects/lunar/lunar.webp"],
+    title: "LUNA: The Moon Base",
+    hook: "Architecture as a hypothesis: a single project drawn as a five stage protocol for sustained human presence at the lunar south pole.",
+    year: "2024",
+    status: "Undergraduate thesis",
+    tags: ["Lunar Architecture", "Origami Geometry", "Computational Design"],
+    spreads: [],
     featured: true,
-    context: [],
-    role: [],
     stack: ["Grasshopper", "Rhino"],
-    problems: [],
-    outcome: [
-      "Presented at the ZMECH Conference, VIT Vellore (November 2025).",
-    ],
     links: [
       {
         label: "Download paper",
@@ -807,6 +811,69 @@ export const projects: Project[] = [
         download: true,
       },
     ],
+    thesis: {
+      facts: [
+        { label: "Site", value: "Lunar south pole" },
+        { label: "Programme", value: "B.Arch thesis, VIT Vellore" },
+        { label: "Published", value: "ZMECH Conference, November 2025" },
+      ],
+      chapters: [
+        {
+          title: "The premise",
+          text: "Humanity's next frontier is a question of survival, routine and civic life. The thesis asks whether one architectural protocol can hold all three at the lunar south pole, where sunlight reaches the rim and water ice waits in permanent shadow.",
+          slides: [
+            { src: "/projects/lunar/luna-03.webp", alt: "Premise and the four traits that govern the site", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-05.webp", alt: "A floor of permanent shadow, surface zoning and associative logic", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-07.webp", alt: "Light on the rim, ice in the shadow", width: 3000, height: 1500 }
+          ],
+        },
+        {
+          title: "A protocol in five stages",
+          text: "The settlement grows one step at a time: landing, first link, cluster, public floor, network. Each stage adds a single system and makes the next one possible, so dependence on Earth shrinks as the base grows.",
+          slides: [
+            { src: "/projects/lunar/luna-02.webp", alt: "Five stages, one settlement", width: 3000, height: 1500 }
+          ],
+        },
+        {
+          title: "Finding the form",
+          text: "Global and local studies tested how the settlement could grow and what a single habitat could be. Origami gave the answer: a module that travels folded and opens on site, following Miura tessellation.",
+          slides: [
+            { src: "/projects/lunar/luna-08.webp", alt: "Global response and local response studies", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-09.webp", alt: "Form iterations in Grasshopper", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-10.webp", alt: "Miura logic, unfolded", width: 3000, height: 1500 }
+          ],
+        },
+        {
+          title: "The habitat",
+          text: "A pre assembled module is transported in contracted form and unfolded on arrival. Floor structure, panel layers and elevations show how the folded skin becomes a tiered home.",
+          slides: [
+            { src: "/projects/lunar/luna-11.webp", alt: "The unfolded habitat on the lunar surface", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-12.webp", alt: "Floor structure and panel details", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-13.webp", alt: "Elevations of the habitat", width: 3000, height: 1500 }
+          ],
+        },
+        {
+          title: "The settlement thinks in tubes",
+          text: "Air tubes link the habitats to a public floor, anchored on an inflatable shell. Robots print regolith shells around laboratories, and support systems sit quietly beneath the floor plates.",
+          slides: [
+            { src: "/projects/lunar/luna-14.webp", alt: "A public floor on lunar soil", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-15.webp", alt: "Regolith printed laboratories", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-16.webp", alt: "The settlement on the rim", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-17.webp", alt: "Plans and sections of the network", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-18.webp", alt: "Support systems", width: 3000, height: 1500 }
+          ],
+        },
+        {
+          title: "A closed loop",
+          text: "Every litre of water and every breath of air is used again. Ice from the shadowed crater floor is melted, split, breathed and reclaimed, until the settlement begins to need less of Earth.",
+          slides: [
+            { src: "/projects/lunar/luna-19.webp", alt: "A closed loop", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-20.webp", alt: "Self sustaining settlement", width: 3000, height: 1500 },
+            { src: "/projects/lunar/luna-21.webp", alt: "The finished settlement", width: 3000, height: 1500 }
+          ],
+        },
+      ],
+    },
   },
 ]
 

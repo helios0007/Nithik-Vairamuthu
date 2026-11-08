@@ -9,6 +9,7 @@ import Gallery from "../../../components/Gallery";
 import LayerGallery from "../../../components/LayerGallery";
 import Pipeline from "../../../components/Pipeline";
 import PipelineTabs from "../../../components/PipelineTabs";
+import ThesisSlides from "../../../components/ThesisSlides";
 import ProjectVideos from "../../../components/ProjectVideos";
 import Placeholder from "../../../components/Placeholder";
 import { getProject, SHOW_SPREADS, visibleProjects, type ModelCard } from "../../../data/projects";
@@ -166,6 +167,79 @@ export default async function ProjectPage({ params }: Props) {
   const index = visibleProjects.findIndex((p) => p.slug === project.slug);
   const nextProject = visibleProjects[(index + 1) % visibleProjects.length];
   const cover = SHOW_SPREADS ? project.spreads[0] : undefined;
+
+  if (project.thesis) {
+    const { facts, chapters } = project.thesis;
+    return (
+      <main id="main">
+        <article className="mx-auto max-w-6xl px-4 sm:px-6">
+          <header className="pb-10 pt-10 md:pt-16">
+            <Link href="/#work" className="text-muted transition hover:text-ink">
+              All work
+            </Link>
+            <p className="mt-10 text-muted">
+              {project.year} · {project.status}
+            </p>
+            <h1 className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl">{project.title}</h1>
+            <p className="mt-6 max-w-3xl text-xl leading-9 sm:text-2xl sm:leading-10">{project.hook}</p>
+            <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+              {facts.map((f) => (
+                <div key={f.label}>
+                  <dt className="text-sm font-bold">{f.label}</dt>
+                  <dd className="mt-1 text-muted">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {has(project.links) && (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {project.links!.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    {...(link.download ? { download: true } : { target: "_blank", rel: "noopener noreferrer" })}
+                    className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </header>
+
+          <ThesisSlides
+            priority
+            slides={[
+              {
+                src: "/projects/lunar/luna-01.webp",
+                alt: "LUNA, the moon base: architecture as a hypothesis",
+                width: 3000,
+                height: 1500,
+              },
+            ]}
+          />
+
+          {chapters.map((c) => (
+            <section key={c.title} className="pt-20">
+              <div className="mb-8 grid gap-4 md:grid-cols-[1fr_2fr] md:gap-12">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{c.title}</h2>
+                {c.text && <p className="text-lg leading-8 text-muted">{c.text}</p>}
+              </div>
+              <ThesisSlides slides={c.slides} />
+            </section>
+          ))}
+
+          {nextProject && nextProject.slug !== project.slug && (
+            <Link href={`/projects/${nextProject.slug}`} className="group block py-20">
+              <p className="text-muted">Next project</p>
+              <p className="mt-2 text-4xl font-bold tracking-tight transition group-hover:text-accent sm:text-5xl">
+                {nextProject.title}
+              </p>
+            </Link>
+          )}
+        </article>
+      </main>
+    );
+  }
 
   return (
     <main id="main">
