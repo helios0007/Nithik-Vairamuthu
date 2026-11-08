@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-line">
+    <section>
       <div className="mx-auto grid max-w-5xl gap-6 px-4 py-16 sm:px-6 md:grid-cols-[1fr_2fr] md:gap-12">
         <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
         <div>{children}</div>

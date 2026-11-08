@@ -1,9 +1,8 @@
 import { links } from '../data/site'
-import Availability from './Availability'
 
 export default function Contact() {
   return (
-    <section id="contact" className="scroll-mt-20 border-t border-line">
+    <section id="contact" className="scroll-mt-20">
       <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-28">
         <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">To infinity and beyond.</h2>
         <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
@@ -25,9 +24,6 @@ export default function Contact() {
           <a href={links.resume} download className="rounded-full border border-line px-5 py-2.5 transition hover:border-ink">
             Download CV
           </a>
-        </div>
-        <div className="mt-10 max-w-xl">
-          <Availability />
         </div>
       </div>
     </section>

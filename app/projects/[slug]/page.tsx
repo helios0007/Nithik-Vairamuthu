@@ -38,7 +38,7 @@ const isDev = process.env.NODE_ENV === "development";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="grid gap-4 border-t border-line py-12 md:grid-cols-[1fr_2fr] md:gap-12">
+    <section className="grid gap-4 py-12 md:grid-cols-[1fr_2fr] md:gap-12">
       <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
       <div className="space-y-5 text-lg leading-8">{children}</div>
     </section>
@@ -264,14 +264,14 @@ export default async function ProjectPage({ params }: Props) {
           hint="exactly what you built yourself vs. what the team did. Name collaborators and tutors."
         />
         {has(project.levels) ? (
-          <section className="border-t border-line py-12">
+          <section className="py-12">
             <h2 className="text-2xl font-bold tracking-tight">Process</h2>
             <div className="mt-8">
               <PipelineTabs levels={project.levels!} />
             </div>
           </section>
         ) : has(project.pipeline) ? (
-          <section className="border-t border-line py-12">
+          <section className="py-12">
             <h2 className="text-2xl font-bold tracking-tight">Process</h2>
             <div className="mt-8">
               <Pipeline
@@ -305,14 +305,14 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {has(project.videos) && (
-          <section className="border-t border-line py-12">
+          <section className="py-12">
             <h2 className="mb-6 text-2xl font-bold tracking-tight">In action</h2>
             <ProjectVideos videos={project.videos!} />
           </section>
         )}
 
         {has(project.screens) && (
-          <section className="border-t border-line py-12">
+          <section className="py-12">
             <h2 className="mb-6 text-2xl font-bold tracking-tight">The tool</h2>
             <LayerGallery images={project.screens!} label={project.title} />
           </section>
@@ -360,7 +360,7 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* ── Gallery ── */}
         {SHOW_SPREADS && project.spreads.length > 0 && (
-          <section className="border-t border-line py-12">
+          <section className="py-12">
             <h2 className="mb-6 text-2xl font-bold tracking-tight">From the portfolio</h2>
             <Gallery images={project.spreads} title={project.title} />
           </section>
@@ -368,7 +368,7 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* ── Next project ── */}
         {nextProject && nextProject.slug !== project.slug && (
-          <Link href={`/projects/${nextProject.slug}`} className="group block border-t border-line py-16">
+          <Link href={`/projects/${nextProject.slug}`} className="group block py-16">
             <p className="text-muted">Next project</p>
             <p className="mt-2 text-4xl font-bold tracking-tight transition group-hover:text-accent sm:text-5xl">
               {nextProject.title}

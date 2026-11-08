@@ -2,7 +2,6 @@ import Link from "next/link";
 import PortraitNotes from "../components/PortraitNotes";
 import ProjectCard from "../components/ProjectCard";
 import Contact from "../components/Contact";
-import Availability from "../components/Availability";
 import { featuredProjects } from "../data/projects";
 import { links, publications, siteUrl } from "../data/site";
 
@@ -60,16 +59,13 @@ export default function Home() {
               Portfolio
             </a>
           </div>
-          <div className="mt-8 max-w-xl">
-            <Availability />
-          </div>
         </div>
 
         <PortraitNotes />
       </section>
 
       {/* ── WHO IS THIS GUY ── */}
-      <section id="about" className="border-t border-line">
+      <section id="about">
         <div className="mx-auto grid max-w-5xl gap-6 px-4 py-20 sm:px-6 sm:py-24 md:grid-cols-[1fr_1.4fr] md:gap-12">
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Who is this guy?</h2>
           <div className="space-y-5 text-lg leading-8 text-muted">
@@ -89,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* ── WORK ── */}
-      <section id="work" className="scroll-mt-20 border-t border-line">
+      <section id="work" className="scroll-mt-20">
         <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
           <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
             I ask questions
@@ -107,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* ── PUBLICATION ── */}
-      <section className="border-t border-line">
+      <section>
         <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Published</h2>
           {publications.map((pub) => (
