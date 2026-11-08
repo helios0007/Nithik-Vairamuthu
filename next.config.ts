@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     return [
       // Short links to put on the CV, PDF portfolio and LinkedIn
       { source: '/cv', destination: '/Nithik-Resume.pdf', permanent: false },
-      { source: '/portfolio', destination: 'https://heyzine.com/flip-book/0bcd06bf33.html', permanent: false },
+      { source: '/portfolio', destination: 'https://heyzine.com/flip-book/51770bf3b0.html', permanent: false },
     ]
   },
 }
