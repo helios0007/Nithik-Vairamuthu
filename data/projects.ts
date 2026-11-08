@@ -42,6 +42,12 @@ export type LayerImage = {
   caption?: string
 }
 
+export type ProjectVideo = {
+  src: string // e.g. "/projects/crack-detection/crack-detection.mp4" (MP4 in public/projects/<slug>/)
+  title: string
+  caption?: string
+}
+
 export type ProjectLink = {
   label: string
   href: string
@@ -73,6 +79,8 @@ export type Project = {
   pipeline?: PipelineStage[] // flowchart shown at the top of Process
   levels?: PipelineLevel[] // several pipelines as tabs; used instead of pipeline/process
   process?: string[] // how it was made; with a pipeline, give one short line per stage and it sits under each block
+  screens?: LayerImage[] // screenshots of the finished tool, shown as a slideshow under Process
+  videos?: ProjectVideo[] // short demo videos, shown under Process
   problems?: ProblemDecision[] // 2–3 "I chose X over Y because…" decisions
   outcome?: string[] // results, what changed
   modelCard?: ModelCard // for AI / ML projects
@@ -292,6 +300,17 @@ export const projects: Project[] = [
       "135 rules in 5 weighted categories give a score out of 100: above 50, retrofit; below, demolish.",
       "A 7-section PDF report, in about 60 seconds.",
     ],
+    screens: [
+      { src: "/projects/retrograde/landing.webp", width: 2000, height: 1096, alt: "RetroGrade landing page asking whether your building is ready to retrofit, with the five-step how-it-works row", caption: "The landing page: an early feasibility assessment in five steps, from building data and a façade photo to a PDF report." },
+      { src: "/projects/retrograde/step1-building.webp", width: 2000, height: 1118, alt: "Questionnaire step 1, choosing the building function: residential, commercial, industrial or institutional", caption: "Step 1 of 4, Building: the user picks the building function." },
+      { src: "/projects/retrograde/step1-address-year.webp", width: 2000, height: 1100, alt: "Questionnaire step 1 continued, with the building address, a year-built slider and an optional height field", caption: "Step 1 continued: the address (which sets the climate), the year built and an optional height." },
+      { src: "/projects/retrograde/step2-energy.webp", width: 2000, height: 1104, alt: "Questionnaire step 2 with options for façade orientation, glazing, insulation and HVAC type", caption: "Step 2, Energy: façade orientation, glazing, insulation and HVAC type." },
+      { src: "/projects/retrograde/step3-green-features.webp", width: 2000, height: 1104, alt: "Questionnaire step 3 with toggles for solar panels, smart building systems and rainwater harvesting", caption: "Step 3, Façade: toggles for the green systems the building already has." },
+      { src: "/projects/retrograde/step4-photo-weights.webp", width: 2000, height: 1089, alt: "Questionnaire step 4 with an uploaded façade photo and five adjustable category weight sliders totalling 100", caption: "Step 4, Review: the façade photo goes in here, and the five category weights can be adjusted before running the analysis." },
+      { src: "/projects/retrograde/result-score.webp", width: 2000, height: 1098, alt: "Analysis result showing a retrofit viability score of 62.0, a category breakdown and the façade segmentation overlay", caption: "The result: a retrofit viability score of 62.0 with a breakdown by category, and the segmentation overlay beside the input photo." },
+      { src: "/projects/retrograde/result-details.webp", width: 2000, height: 1100, alt: "Key results: window-to-wall ratio, façade material, climate, predicted energy and carbon, with location and building inputs", caption: "Key results: window-to-wall ratio, façade material, climate zone, and predicted energy and carbon, with the inputs listed below and the PDF report ready to download." },
+      { src: "/projects/retrograde/pdf-report.webp", width: 2000, height: 1100, alt: "Page of the generated PDF report on energy consumption and carbon emission", caption: "The PDF report: predicted energy and carbon against the EU thresholds, with the key feature inputs and an interpretation." },
+    ],
     problems: [
       {
         title: "Specialised models, chained",
@@ -370,6 +389,10 @@ export const projects: Project[] = [
       "ROS 2 drives a UR10 that fills the crack by robotic 3D printing.",
       "The robot checks the repair, closing the loop.",
     ],
+    videos: [
+      { src: "/projects/crack-detection/crack-detection.mp4", title: "Crack detection" },
+      { src: "/projects/crack-detection/ros2-simulation.mp4", title: "ROS 2 simulation" },
+    ],
     problems: [
       {
         title: "Decisions the operator can see",
@@ -432,6 +455,13 @@ export const projects: Project[] = [
       "Gemini (Nano Banana) renders street and drone views; a memory manager keeps each resident's images consistent.",
       "Many residents' stories converge into one collective streetscape of the rebuilt neighbourhood.",
     ],
+    screens: [
+      { src: "/projects/chronoscape/memory-layer.webp", width: 2000, height: 935, alt: "An iceberg above and below a waterline: visible geometry above, the memory layer below", caption: "The idea: above the waterline, incomplete visible geometry, occluded areas and basic streets. Below it, the memory layer: cultural identity, social life, emotional and social nodes." },
+      { src: "/projects/chronoscape/evolution.webp", width: 2000, height: 952, alt: "Sequence of generated images from first exterior parameters to a collective neighbourhood view", caption: "How the output evolved: exterior parameters, a collective memory layer, weighted prompt keywords from the parser, the location enhancer, architectural component references, and then neighbourhood views." },
+      { src: "/projects/chronoscape/scales.webp", width: 2000, height: 950, alt: "Diagram from user input through the location enhancer to single-unit and neighbourhood scales", caption: "The system: a user's questionnaire and reference image pass through the location enhancer, then scale from one person and one home to many residents and a neighbourhood." },
+      { src: "/projects/chronoscape/remembered-home.webp", width: 2000, height: 944, alt: "Two generated views of a remembered home on a hillside street at dusk", caption: "A remembered home, generated from a resident's memory: a raised timber house above a winding hillside street." },
+      { src: "/projects/chronoscape/comparison.webp", width: 2000, height: 964, alt: "The same scene generated by Grok, Perplexity, ChatGPT and Chronoscape side by side", caption: "The same place generated by Grok, Perplexity, ChatGPT and Chronoscape. The other three place the house on a clifftop above the sea; Chronoscape places it on a built-up hillside street." },
+    ],
     problems: [
       {
         title: "Memory as structured data",
@@ -493,6 +523,16 @@ export const projects: Project[] = [
       "Gemini generates the image; an offline fallback keeps the installation running without a connection.",
       "CLIP (ViT-B/32) compares the result with the target and gives a similarity score from 0 to 100.",
       "The bias behind the gap is explained, and the score goes on the leaderboard.",
+    ],
+    screens: [
+      { src: "/projects/pressure-chamber/expo-night.webp", width: 2000, height: 1125, alt: "The installation in a dark exhibition space, lit by its blue screen and small lamps", caption: "The installation in the dark exhibition space, lit by its own screen and small lamps." },
+      { src: "/projects/pressure-chamber/expo-visitors.webp", width: 2000, height: 1125, alt: "Two visitors standing at the installation in front of a wall drawing", caption: "Visitors at the installation during the exhibition." },
+      { src: "/projects/pressure-chamber/challenge-loop.webp", width: 960, height: 540, alt: "Slide: prompt, generate, compare, reveal, with four steps from target image to result and report", caption: "The challenge loop: the visitor sees a target image, describes it in a prompt, the AI generates its interpretation, and the system compares, scores and explains the bias." },
+      { src: "/projects/pressure-chamber/six-challenges.webp", width: 960, height: 540, alt: "Slide listing the six bias challenges", caption: "Six challenges, each aimed at a different bias: The Awkward Reach, Who's the Boss, Tunnel Vision, The Invisible Spectrum, No Complexity Zone and The Missing Brother." },
+      { src: "/projects/pressure-chamber/system-framework.webp", width: 960, height: 540, alt: "Slide with the system as five blocks from user input to report", caption: "How the system works: user input, prompt engine, image model, vision score and report." },
+      { src: "/projects/pressure-chamber/visitor-journey.webp", width: 960, height: 540, alt: "Slide showing the visitor journey from intro video to the takeaway", caption: "The visitor journey: intro video, language select, name entry, instruction video, a six-card task hub, three tasks completed, then the takeaway. The system then resets for the next visitor." },
+      { src: "/projects/pressure-chamber/installation.webp", width: 960, height: 540, alt: "Slide with a front elevation of the kiosk-style booth", caption: "The physical installation: the web app runs in a kiosk-like booth where the screen, console, input device and lighting make the playground feel physical." },
+      { src: "/projects/pressure-chamber/ergonomics.webp", width: 960, height: 540, alt: "Slide with an isometric drawing of a person using the kiosk table", caption: "Ergonomics and scale: a 1500 mm wide table, about 750 mm high, with an angled console, recessed screen, keyboard and mouse, and RGB LEDs." },
     ],
     problems: [
       {

@@ -6,8 +6,10 @@ import ArtefactThumb from "../../../components/ArtefactThumb";
 import AwardBadge from "../../../components/AwardBadge";
 import DrawOnView from "../../../components/DrawOnView";
 import Gallery from "../../../components/Gallery";
+import LayerGallery from "../../../components/LayerGallery";
 import Pipeline from "../../../components/Pipeline";
 import PipelineTabs from "../../../components/PipelineTabs";
+import ProjectVideos from "../../../components/ProjectVideos";
 import Placeholder from "../../../components/Placeholder";
 import { getProject, SHOW_SPREADS, visibleProjects, type ModelCard } from "../../../data/projects";
 
@@ -148,7 +150,7 @@ function ModelCardBox({ card }: { card: ModelCard }) {
             rel="noopener noreferrer"
             className="mt-6 inline-block font-medium text-accent hover:underline hover:underline-offset-4"
           >
-            View the code on GitHub ↗
+            View the code on GitHub
           </a>
         )}
       </div>
@@ -166,12 +168,12 @@ export default async function ProjectPage({ params }: Props) {
   const cover = SHOW_SPREADS ? project.spreads[0] : undefined;
 
   return (
-    <main id="main" className="project-grid">
+    <main id="main">
       <article className="mx-auto max-w-5xl px-4 sm:px-6">
         {/* ── Header ── */}
         <header className="pb-10 pt-10 md:pt-16">
           <Link href="/#work" className="text-muted transition hover:text-ink">
-            ← All work
+            All work
           </Link>
           <p className="mt-10 flex flex-wrap items-center gap-3 text-muted">
             {project.year} · {project.status}
@@ -205,7 +207,7 @@ export default async function ProjectPage({ params }: Props) {
                   {...(link.download ? { download: true } : { target: "_blank", rel: "noopener noreferrer" })}
                   className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent"
                 >
-                  {link.label} {link.download ? "↓" : "↗"}
+                  {link.label}
                 </a>
               ))}
             </div>
@@ -302,6 +304,20 @@ export default async function ProjectPage({ params }: Props) {
           </>
         )}
 
+        {has(project.videos) && (
+          <section className="border-t border-line py-12">
+            <h2 className="mb-6 text-2xl font-bold tracking-tight">In action</h2>
+            <ProjectVideos videos={project.videos!} />
+          </section>
+        )}
+
+        {has(project.screens) && (
+          <section className="border-t border-line py-12">
+            <h2 className="mb-6 text-2xl font-bold tracking-tight">The tool</h2>
+            <LayerGallery images={project.screens!} label={project.title} />
+          </section>
+        )}
+
         {has(project.problems) ? (
           <Section title="Key decisions">
             <ol className="divide-y divide-line">
@@ -355,7 +371,7 @@ export default async function ProjectPage({ params }: Props) {
           <Link href={`/projects/${nextProject.slug}`} className="group block border-t border-line py-16">
             <p className="text-muted">Next project</p>
             <p className="mt-2 text-4xl font-bold tracking-tight transition group-hover:text-accent sm:text-5xl">
-              {nextProject.title} →
+              {nextProject.title}
             </p>
           </Link>
         )}

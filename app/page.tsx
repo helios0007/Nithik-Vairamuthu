@@ -44,12 +44,20 @@ export default function Home() {
           <p className="mt-4 text-muted">
             Architect · Computational designer · AI for the built environment at IAAC Barcelona
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#work" className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent">
+          <div className="mt-8 flex flex-wrap items-center gap-2">
+            <a href="#work" className="rounded-full bg-ink px-4 py-2 font-hand text-3xl text-paper transition hover:bg-accent">
               See my work
             </a>
-            <a href={links.resume} download className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
-              Download CV ↓
+            <a href={links.resume} download className="rounded-full border border-line px-4 py-2 font-hand text-3xl transition hover:border-ink">
+              Download CV
+            </a>
+            <a
+              href={links.flipbook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-2 py-2 font-hand text-3xl text-accent transition hover:underline hover:underline-offset-4"
+            >
+              Portfolio
             </a>
           </div>
           <div className="mt-8 max-w-xl">
@@ -74,7 +82,7 @@ export default function Home() {
               Environment.
             </p>
             <Link href="/about" className="inline-block font-medium text-accent hover:underline hover:underline-offset-4">
-              The longer story →
+              The longer story
             </Link>
           </div>
         </div>
@@ -109,10 +117,10 @@ export default function Home() {
               <p className="mt-2 text-muted">{pub.venue}</p>
               <div className="mt-5 flex flex-wrap gap-6 font-medium text-accent">
                 <a href={pub.href} download className="hover:underline hover:underline-offset-4">
-                  Read the paper ↓
+                  Read the paper
                 </a>
                 <Link href={`/projects/${pub.projectSlug}`} className="hover:underline hover:underline-offset-4">
-                  The project →
+                  The project
                 </Link>
               </div>
             </div>

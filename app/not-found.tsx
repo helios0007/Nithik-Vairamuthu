@@ -83,7 +83,7 @@ export default function NotFound() {
                 className="group flex items-baseline justify-between gap-6 py-4 transition hover:text-accent"
               >
                 <span className="text-lg font-medium">{p.title}</span>
-                <span className="shrink-0 text-sm text-muted group-hover:text-accent">{p.year} →</span>
+                <span className="shrink-0 text-sm text-muted group-hover:text-accent">{p.year}</span>
               </Link>
             </li>
           ))}

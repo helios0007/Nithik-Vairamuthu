@@ -25,16 +25,16 @@ export default function Navbar() {
             href={links.flipbook}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden py-1 text-muted transition hover:text-ink md:inline"
+            className="hidden py-1 text-accent transition hover:underline hover:underline-offset-4 md:inline"
           >
-            Portfolio PDF ↗
+            Portfolio
           </a>
           <a
             href={links.resume}
             download
             className="hidden rounded-full bg-ink px-4 py-1.5 text-sm font-medium text-paper transition hover:bg-accent sm:inline-block"
           >
-            CV ↓
+            CV
           </a>
         </div>
       </nav>

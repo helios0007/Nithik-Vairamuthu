@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -10,6 +10,13 @@ import { siteUrl } from "../data/site";
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
+});
+
+// Handwritten face used for the sketch notes and the hero buttons
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-caveat",
 });
 
 const description =
@@ -44,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={dmSans.variable} suppressHydrationWarning>
+    <html lang="en" className={`${dmSans.variable} ${caveat.variable}`} suppressHydrationWarning>
       <head>
         {/* lets CSS know JS is on, so draw-in animations can start hidden without hiding them for no-JS visitors */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

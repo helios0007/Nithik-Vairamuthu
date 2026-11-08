@@ -50,10 +50,10 @@ export default function AboutPage() {
           </div>
           <div className="mt-10 flex flex-wrap gap-3">
             <a href={links.resume} download className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent">
-              Download CV ↓
+              Download CV
             </a>
             <a href={links.flipbook} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
-              Full portfolio ↗
+              Full portfolio
             </a>
           </div>
         </div>

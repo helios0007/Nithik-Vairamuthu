@@ -21,7 +21,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
       </h3>
       <p className="mt-2 leading-7 text-muted">{project.hook}</p>
       <span className="mt-3 inline-block font-medium text-accent group-hover:underline group-hover:underline-offset-4">
-        Read more →
+        Read more
       </span>
     </Link>
   )
