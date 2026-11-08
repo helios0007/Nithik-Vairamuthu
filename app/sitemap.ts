@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl, changeFrequency: 'monthly', priority: 1, images: [`${siteUrl}/PP.webp`] },
     { url: `${siteUrl}/about`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${siteUrl}/portfolio`, changeFrequency: 'monthly', priority: 0.7 },
     ...published.map((p) => ({
       url: `${siteUrl}/projects/${p.slug}`,
       changeFrequency: 'monthly' as const,

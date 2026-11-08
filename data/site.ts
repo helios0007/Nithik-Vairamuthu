@@ -8,7 +8,7 @@ export const links = {
   linkedin: 'https://www.linkedin.com/in/nithik-vairamuthu-ba019543',
   github: 'https://github.com/helios0007',
   resume: '/Nithik-Resume.pdf', // also reachable at the short link /cv
-  flipbook: 'https://heyzine.com/flip-book/51770bf3b0.html', // also at /portfolio
+  flipbook: 'https://heyzine.com/flip-book/51770bf3b0.html', // embedded at /portfolio
 }
 
 // Shown in the hero and the contact section. Leave a field empty ('') to hide it;

@@ -52,7 +52,7 @@ export default function AboutPage() {
             <a href={links.resume} download className="rounded-full bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent">
               Download CV
             </a>
-            <a href={links.flipbook} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
+            <a href="/portfolio" className="rounded-full border border-line px-6 py-3 font-medium transition hover:border-ink">
               Full portfolio
             </a>
           </div>

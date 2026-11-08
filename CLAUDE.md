@@ -52,6 +52,6 @@ Next.js App Router portfolio site, being redesigned per `../website-redesign-bri
 **SEO, sharing, analytics**
 - `app/sitemap.ts`, `app/robots.ts`, `app/opengraph-image.tsx` + `app/projects/[slug]/opengraph-image.tsx` (shared look in `lib/og.tsx`); Person JSON-LD on the home page; canonical URLs per page. `siteUrl` lives in `data/site.ts`.
 - Vercel Web Analytics + Speed Insights in `app/layout.tsx` (cookieless).
-- Short links in `next.config.ts`: `/cv` → resume PDF, `/portfolio` → flipbook.
+- Short links in `next.config.ts`: `/cv` → resume PDF, `/portfolio` is a page that embeds the flipbook.
 - Images are WebP in `public/` (converted from PNG, max 3000px wide); spreads render at `quality={90}` (allowed in `images.qualities`). Use `preload` (not the deprecated `priority`) for above-the-fold images.
 - Availability block (`components/Availability.tsx`) reads `availability` in `data/site.ts`.

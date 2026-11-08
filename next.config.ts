@@ -8,9 +8,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Short links to put on the CV, PDF portfolio and LinkedIn
+      // Short link to put on the CV and LinkedIn (/portfolio is a page)
       { source: '/cv', destination: '/Nithik-Resume.pdf', permanent: false },
-      { source: '/portfolio', destination: 'https://heyzine.com/flip-book/51770bf3b0.html', permanent: false },
     ]
   },
 }

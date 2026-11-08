@@ -22,9 +22,7 @@ export default function Navbar() {
             </Link>
           ))}
           <a
-            href={links.flipbook}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/portfolio"
             className="hidden py-1 text-accent transition hover:underline hover:underline-offset-4 md:inline"
           >
             Portfolio

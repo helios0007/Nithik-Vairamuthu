@@ -51,9 +51,7 @@ export default function Home() {
               Download CV
             </a>
             <a
-              href={links.flipbook}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/portfolio"
               className="px-2 py-2 font-hand text-3xl text-accent transition hover:underline hover:underline-offset-4"
             >
               Portfolio
