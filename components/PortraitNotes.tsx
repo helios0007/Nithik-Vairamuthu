@@ -15,7 +15,7 @@ const pct = (v: number, of: number) => `${(v / of) * 100}%`
 // Edit the words here. tx/ty = where the label starts; d = arrow line; head = arrowhead strokes.
 const NOTES = [
   {
-    text: 'architect, mostly',
+    text: 'architect',
     tx: -195,
     ty: 395,
     d: 'M -60 425 C 20 470, 110 560, 212 628',
