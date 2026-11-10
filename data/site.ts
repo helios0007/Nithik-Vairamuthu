@@ -42,8 +42,7 @@ export const experience: CvItem[] = [
     label: 'Architecture',
     title: 'Architectural Internship',
     detail: 'Iinfinity Architects, Chennai — commercial, residential, and project documentation workflows.',
-    // TODO(owner): confirm these dates — they overlap with IAAC.
-    when: 'Dec 2022 – May 2026',
+    when: 'Dec 2022 – Apr 2023',
   },
   {
     label: 'Tutor',

@@ -711,7 +711,7 @@ export const projects: Project[] = [
     spreads: [],
     featured: true,
 
-    team: "Solo developer · personal project",
+    team: "Developer · group project",
     duration: "",
     keyResult: "Daily logs turned into a 0–100 health score with clear Monitor / Vet soon / Urgent guidance",
     stack: ["React", "TypeScript", "Vite", "Tailwind", "Three.js", "Recharts", "FastAPI", "SQLAlchemy", "PostgreSQL", "JWT auth", "OpenStreetMap"],
@@ -727,7 +727,7 @@ export const projects: Project[] = [
       "Pawlytics is built for monitoring, not diagnosis: it compares each pet with its own baseline and gives clear, explainable guidance on when to act.",
     ],
     role: [
-      "I did the complete development: the FastAPI backend and PostgreSQL data model, the rules based health engine, and the React front end with its 3D pet avatar.",
+      "This was a group project. I worked on the development: the FastAPI backend and PostgreSQL data model, the rules based health engine, and the React front end with its 3D pet avatar.",
       "The repository starts from a product requirements document that lays out an eight layer architecture, from input sources through ingestion, storage, processing and the intelligence layer to output and a feedback loop. The app implements the path through that stack that an MVP needs.",
     ],
     pipeline: [
